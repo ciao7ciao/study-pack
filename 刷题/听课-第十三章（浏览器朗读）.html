@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第十三章 · 通听版 · 安全考证陪学</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #2b3440; padding-bottom: 110px; }
+header { position: sticky; top: 0; background: #ffffffdd; backdrop-filter: blur(8px); border-bottom: 1px solid #e3e8ee; padding: 14px 22px 10px; z-index: 5; }
+header h1 { font-size: 18px; color: #1d2733; }
+header p { font-size: 13px; color: #7a8694; margin-top: 3px; }
+main { max-width: 720px; margin: 0 auto; padding: 20px 22px; }
+.tag { color: #1a66d6; font-weight: 700; font-size: 14px; margin: 30px 0 8px; }
+.line { font-size: 20px; line-height: 1.75; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #5a6572; transition: all .15s; }
+.line:hover { background: #e9eef4; }
+.line.now { color: #0d1b2a; font-size: 26px; font-weight: 700; background: #ffffff; box-shadow: 0 1px 6px #00000014; }
+.line.done { color: #a8b2bd; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffffee; border-top: 1px solid #e3e8ee; padding: 12px 20px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; z-index: 5; }
+button { background: #eef2f6; border: 1px solid #d9e1e9; border-radius: 9px; font-size: 15px; padding: 10px 18px; cursor: pointer; font-family: inherit; color: #2b3440; }
+button:hover { background: #e2e9f0; }
+button.play { background: #1a66d6; border-color: #1a66d6; color: #fff; padding: 10px 30px; }
+label.speed, label.mem { font-size: 14px; color: #5a6572; display: flex; align-items: center; gap: 5px; }
+#status { font-size: 13px; color: #7a8694; }
+</style>
+</head>
+<body>
+<header><h1>第十三章 · 通听版</h1><p>点 ▶ 播放，念到哪字幕到哪；点任意一句可从那里听。需用电脑自带中文语音（Mac=婷婷，Windows=晓晓/辉辉）。</p></header>
+<main id="list"></main>
+<footer>
+  <button id="prev">⏮ 上一题</button>
+  <button id="toggle" class="play">▶ 播放</button>
+  <button id="next">下一题 ⏭</button>
+  <label class="speed">语速
+    <select id="rate"><option value="0.85">慢 0.85</option><option value="1" selected>正常 1.0</option><option value="1.15">快 1.15</option><option value="1.3">更快 1.3</option></select>
+  </label>
+  <label class="mem"><input type="checkbox" id="mem" checked> 每题两遍</label>
+  <span id="status"></span>
+</footer>
+<script>
+const SEGS = [{"tag": "第1题", "text": "第1题，判断题。通信管道施工前,项目部需要对沿线地理、环境等情况进行综合调查,将管道路由走向所遇到的河流、铁路、公路、电力线及其他情况进行详细记录。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第2题", "text": "第2题，单选题。通信管道工程施工阶段堆放机具、材料需要选择不妨碍交通、行人少、地面平整的地方;堆积高度一般不超过 （　）米。 选项：A，.0；B，1.2；C，1.5；D，2.0。"}, {"tag": null, "text": "正确答案：C，1.5。"}, {"tag": "第4题", "text": "第4题，多选题。施工中,如遇有毒、有害气体或液体管道泄漏,施工人员应（　） 选项：A，立即撤至安全地点；B，及时报有关单位修复；C，立即进行抢修；D，设置围栏警示标志；E，向建设单位打停工报告。"}, {"tag": null, "text": "正确答案：A、B、D。"}, {"tag": "第5题", "text": "第5题，单选题。在管道路由测量移动大标旗或指挥旗时,遇到（　）应将大标旗或指挥旗平放倒或收起。 选项：A，行驶的汽车；B，行驶的火车；C，结婚车队；D，放学的学生。"}, {"tag": null, "text": "正确答案：B，行驶的火车。"}, {"tag": "第6题", "text": "第6题，单选题。开挖土石方作业时,挖出的土、石,不得堆在 （　）上。 选项：A，在用光缆路由；B，消防栓井；C，绿化草坪；D，盲道。"}, {"tag": null, "text": "正确答案：B，消防栓井。"}, {"tag": "第8题", "text": "第8题，单选题。土方开挖时,挖出的土、石应堆放在距离沟、坑边沿（　）以外,使土、石不致回落于沟内。 选项：A，0cm；B，40cm；C，50cm；D，60cm。"}, {"tag": null, "text": "正确答案：D，60cm。"}, {"tag": "第9题", "text": "第9题，单选题。开挖土石方如遇有地下不明物品或古墓、文物,应立即 （　） 选项：A，回填复原；B，取出文物上交；C，掩埋文物；D，报告上级处理。"}, {"tag": null, "text": "正确答案：D，报告上级处理。"}, {"tag": "第10题", "text": "第10题，单选题。管道沟开挖时,当流沙、疏松土质的沟深超过（　） 时,应当安装挡土板。 选项：A，米；B，1.2 米；C，1.5 米；D，1.8 米。"}, {"tag": null, "text": "正确答案：A，米。"}, {"tag": "第11题", "text": "第11题，多选题。不得使用机械开挖沟、槽、洞、坑的地段包括 （　） 选项：A，稻田地；B，地下有电力线缆；C，地下有自来水管；D，地下有污水管；E，大树旁。"}, {"tag": null, "text": "正确答案：B、C、D。"}, {"tag": "第12题", "text": "第12题，单选题。不得使用机械挖沟,并应指定有经验的工人人工轻挖开挖的地段是（　） 选项：A，施工图上标有地下物的高程；B，施工图上未标地下物的高程；C，高压电力输电线路正下方；D，长途输气管道交叉点。"}, {"tag": null, "text": "正确答案：B，施工图上未标地下物的高程。"}, {"tag": "第13题", "text": "第13题，单选题。使用电动打夯机夯实回填土时,手柄上应装按钮开关,并做绝缘处理;操作人员应（　）。 选项：A，戴绝缘手套；B，穿防滑鞋；C，背向打夯机牵引；D，戴护目镜。"}, {"tag": null, "text": "正确答案：A，戴绝缘手套。"}, {"tag": "第14题", "text": "第14题，单选题。在隧道内回填土时,正确的操作是 （　） 选项：A，一次拆除所有的护土板和撑木架；B，回填后一次性夯实；C，无法夯实时用砖、石填实；D，全部采用混凝土浇筑。"}, {"tag": null, "text": "正确答案：C，无法夯实时用砖、石填实。"}, {"tag": "第15题", "text": "第15题，单选题。钢筋冷拉作业时,拉筋速度宜慢不宜快,操作人员要位于安全地带在钢筋两侧（　）米以内及拉筋两端不得有人。 选项：A，.5；B，2.0；C，2.5；D，3.0。"}, {"tag": null, "text": "正确答案：D，3.0。"}, {"tag": "第16题", "text": "第16题，单选题。拆除挡土板时,如有塌方危险,应（　） 选项：A，先部分回填夯实再拆；B，先完成回填作业再拆；C，更换危险处的挡土板；D，等塌方后再处理再拆。"}, {"tag": null, "text": "正确答案：A，先部分回填夯实再拆。"}, {"tag": "第17题", "text": "第17题，单选题。在沟内捣实混凝土时,拍浆人员要穿(戴) （　） 选项：A，绝缘手套；B，防护背心；C，防护鞋；D，安全带。"}, {"tag": null, "text": "正确答案：C，防护鞋。"}, {"tag": "第18题", "text": "第18题，多选题。定向钻钻孔过程中,操作人员应仔细观察钻机的（　）的读数,发现钻机出现异常等情况时,应立即停机检查。 选项：A，回转油压表；B，泥浆压力表；C，蓄水箱水位；D，发动机水温表；E，给进油压表。"}, {"tag": null, "text": "正确答案：A、B、E。"}, {"tag": "第19题", "text": "第19题，单选题。定向钻作业完成后,拆除作业在断开任何管路之前,应先 （　） 选项：A，保持额定压力；B，关闭阀门；C，检查泄露点；D，释放压力。"}, {"tag": null, "text": "正确答案：D，释放压力。"}, {"tag": "第20题", "text": "第20题，单选题。砌筑作业中,脚手架上堆砖高度不得超过 （　） 选项：A，层平砖；B，3 层平砖；C，2 层侧砖；D，3 层侧砖。"}, {"tag": null, "text": "正确答案：D，3 层侧砖。"}, {"tag": "第21题", "text": "第21题，多选题。关于人井砌筑作业的说法,正确的有 （　）。 选项：A，不得在新砌的人孔墙壁顶部行走；B，在进行人孔底部抹灰作业时,人孔上方不得有人；C，起吊和安装人孔上覆时,人孔内不得有人；D，抬运人孔回圈至少要有两人；E，砌筑作业面下方不得有人。"}, {"tag": null, "text": "正确答案：A、C、E。"}, {"tag": "第22题", "text": "第22题，单选题。管道试通作业时,大孔管道试通,应 （　） 试通。 选项：A，用穿管器带试通棒；B，使用试通线；C，使用试通管；D，使用穿管器支架。"}, {"tag": null, "text": "正确答案：C，使用试通管。"}, {"tag": "第23题", "text": "第23题，单选题。线路测试或检修时,应先断开外揽与设备的连接,以免（　） 选项：A，损害设备；B，损害仪表；C，伤及人眼；D，影响测试精度。"}, {"tag": null, "text": "正确答案：A，损害设备。"}, {"tag": "第24题", "text": "第24题，单选题。在（　） 测量时,严禁使用金属标杆、塔尺 选项：A，地下输电线路的地面；B，城市繁华地段；C，高速公路红线内；D，一级光缆干线旁。"}, {"tag": null, "text": "正确答案：A，地下输电线路的地面。"}, {"tag": "第25题", "text": "第25题，单选题。人工立杆时,在杆梢下方的适当位置应当系好牵引绳,拉动牵引绳的人员应（　）,拉绳时用力均匀,控制好电杆的立起方向。 选项：A，面对电杆；B，背对电杆；C，侧对电杆；D，面对电立起方向。"}, {"tag": null, "text": "正确答案：A，面对电杆。"}, {"tag": "第26题", "text": "第26题，单选题。使用吊车立杆时,钢丝吊绳应牢固地拴在（　） 的适当位置 选项：A，偏向杆根；B，偏向杆梢；C，杆身中间；D，杆重心点。"}, {"tag": null, "text": "正确答案：B，偏向杆梢。"}, {"tag": "第27题", "text": "第27题，单选题。终端拉线用的钢绞线应比吊线（　） 级,并保证拉距。 选项：A，小一；B，同一；C，大一；D，大两。"}, {"tag": null, "text": "正确答案：C，大一。"}, {"tag": "第28题", "text": "第28题，单选题。架设吊线选择紧线器时,要求（　） 选项：A，不得以大代小；B，可以以小代大；C，可以以大代小；D，不得没有余量。"}, {"tag": null, "text": "正确答案：A，不得以大代小。"}, {"tag": "第29题", "text": "第29题，单选题。关于吊线架设的说法正确的是（　） 选项：A，在已有旧吊线的杆路上新增吊线,跨越公路时可用临时辅助吊线挂高吊线；B，在新建杆路上架设吊线,跨越铁路时可用吊线滑轮的办法升高吊线；C，若吊线在低压电力线下方交叉通过,布放时必须设专人用绝终棒托住钢绞线；D，在树枝间穿越时,不得使树枝挡压或撑托钢绞线。"}, {"tag": null, "text": "正确答案：D，在树枝间穿越时,不得使树枝挡压或撑托钢绞线。"}, {"tag": "第30题", "text": "第30题，单选题。收紧拉线或吊线时,扳动紧线器以两人为限,操作时作业人员应在紧线器的 （　）B 左后侧或右后侧 选项：A，左前侧或右前侧；B，左后侧或右前侧；C，左前侧或右后侧。"}, {"tag": null, "text": "正确答案：B，左后侧或右前侧。"}, {"tag": "第31题", "text": "第31题，单选题。如紧线时遇到导、地线有卡、挂现象,处理时操作人员应站在卡线处的 （　） 侧。 选项：A，内；B，外；C，后；D，前。"}, {"tag": null, "text": "正确答案：C，后。"}, {"tag": "第32题", "text": "第32题，单选题。使用手扳葫芦收紧电缆布线时,应（　） 选项：A，将手扳葫芦放置平稳；B，将安全带固定牢固；C，指挥杆上人作业；D，让杆上人独立作业。"}, {"tag": null, "text": "正确答案：A，将手扳葫芦放置平稳。"}, {"tag": "第33题", "text": "第33题，单选题。在旧杆位更换电杆的做法正确的是 （　） 选项：A，旧电杆拔出腾位立新杆；B，紧靠旧电杆先立新杆；C，立新杆不得利用旧杆；D，拆旧杆不得利用新杆。"}, {"tag": null, "text": "正确答案：B，紧靠旧电杆先立新杆。"}, {"tag": "第36题", "text": "第36题，单选题。使用吊板挂放光缆,坐吊板过吊线接头时,应使用 （　） 选项：A，另一吊板；B，安全绳；C，梯子；D，脚扣。"}, {"tag": null, "text": "正确答案：C，梯子。"}, {"tag": "第37题", "text": "第37题，单选题。架空光缆布放不得使用吊板作业的情况是 （　） 选项：A，在电力线 1M 处的吊线上；B，在 7/2.7 规格的吊线上；C，在电杆与墙壁之间的吊线上；D，在跨越水田的杆档。"}, {"tag": null, "text": "正确答案：C，在电杆与墙壁之间的吊线上。"}, {"tag": "第40题", "text": "第40题，判断题。吹缆作业中,闻到汽油异味较浓时,可先用手直接触摸检查燃料是否溢出和泄漏,必要时应停机。（　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第41题", "text": "第41题，单选题。防止排流线端头脱落反弹伤人,布放排流线应（　）进行作业。 选项：A，使用放线车；B，盘 8 字方式；C，边放边埋方式；D，预应力拉直方式。"}, {"tag": null, "text": "正确答案：A，使用放线车。"}, {"tag": "第42题", "text": "第42题，单选题。在供电线路或电力设施附近作业时,作业人员必须 （　）、戴绝缘手套,穿绝终鞋和使用绝缘工具。 选项：A，戴安全帽；B，穿防护服装；C，使用绝缘棒；D，系安全。"}, {"tag": null, "text": "正确答案：A，戴安全帽。"}, {"tag": "第43题", "text": "第43题，单选题。在供电线路或电力设施附近作业时,上杆作业可以不用佩戴的物品包括 （　）。 选项：A，安全帽；B，绝终手套；C，防护眼镜；D，安全带。"}, {"tag": null, "text": "正确答案：C，防护眼镜。"}, {"tag": "第44题", "text": "第44题，单选题。规范要求,在 10KV 的高压线附近架空作业时,作业人员离开高压线最小距离必须保证 （　） M。 选项：A，.0；B，2.5；C，3.0D4.0。"}, {"tag": null, "text": "正确答案：B，2.5。"}, {"tag": "第46题", "text": "第46题，单选题。当施工人员在 10KV 的高压线附近进行作业时其身体 (含超出身体以外的金属工具或物件) 离开高压线最小间距应保证 （　） 选项：A，.5 米；B，2.5C4 米；C，D8 米。"}, {"tag": null, "text": "正确答案：B，2.5C4 米。"}, {"tag": "第48题", "text": "第48题，单选题。当电信电缆与电力线合杆时,电力线与电信电缆间净距不应小于（　）,且电信电缆应架设在电力线路的下部。 选项：A，.5m；B，2m；C，2.5m；D，3m。"}, {"tag": null, "text": "正确答案：C，2.5m。"}, {"tag": "第49题", "text": "第49题，单选题。光缆与低压电力线垂直或交叉跨越时必须做绝缘光缆保护,绝缘长度应超过电力线交叉跨越两端跨度（　）以上。 选项：A，米；B，1.5 米；C，2 米；D，2.5 米。"}, {"tag": null, "text": "正确答案：B，1.5 米。"}, {"tag": "第50题", "text": "第50题，多选题。通信线路施工中,当发现通信线与电力线接触或电力线落在地面上时,施工人员正确的做法有 （　）。 选项：A，停止一切作业；B，保护现场.；C，立即报告项目负责人；D，换到别处施工；E，用手背验证是否有电。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第52题", "text": "第52题，多选题。在运行的电源分支柜中操作时,应采取的必要措施包括 （　） 选项：A，由专业人员操作；B，金属工具绝终保护；C，操作人员穿戴静电防护服；D，操作人员佩戴触电报警安全帽；E，采取防止螺丝材料掉落措施。"}, {"tag": null, "text": "正确答案：A、B、E。"}, {"tag": "第54题", "text": "第54题，多选题。对铁件钻孔时,符合规范的操作有 （　） 选项：A，应用力均匀；B，铁件应夹紧；C，铁件不得摆动；D，及时加注机油；E，若卡住钻头应摆动钻头。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第55题", "text": "第55题，多选题。铁件去锈和喷刷漆时,作业人员应戴（　）的防护工序。 选项：A，口罩；B，手套；C，安全帽；D，安全带；E，绝缘鞋。"}, {"tag": null, "text": "正确答案：A、B。"}, {"tag": "第57题", "text": "第57题，单选题。交流配电屏的中性线应与机架 （　） 选项：A，连通；B，绝缘；C，通过电缆复接；D，通过开关隔断。"}, {"tag": null, "text": "正确答案：B，绝缘。"}, {"tag": "第58题", "text": "第58题，多选题。设备安装工程中,关于线缆布放的说法符合规范的有 （　） 选项：A，交流线、直流线、信号线应分开布放；B，电源线中间严禁有接头,；C，非同一级电力电缆不得穿放在同一管孔内；D，开口式线鼻子制作端头应用专用压接工具压接；E，6mm2 的单股铜芯电源线终端应加装线鼻子。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第59题", "text": "第59题，单选题。铜汇流排在过墙体或楼层孔洞时,应采用 （　） 连接 选项：A，软铜母线；B，硬铜母线；C，铜芯电缆；D，铝芯电缆。"}, {"tag": null, "text": "正确答案：A，软铜母线。"}, {"tag": "第60题", "text": "第60题，单选题。汇流排在过墙体或楼层孔洞时,洞口处两端接头应处于墙体或松板洞孔外,并在墙体外的两侧用 （　）与墙体固定。 选项：A，镀锡接头排；B，镀锌钢支撑；C，不锈钢支撑；D，绝缘子支撑。"}, {"tag": null, "text": "正确答案：D，绝缘子支撑。"}, {"tag": "第61题", "text": "第61题，单选题。多片汇流排在同一路由安装时,接头点应 （　） 选项：A，上下对齐；B，前后错开；C，左右对齐；D，前后对齐。"}, {"tag": null, "text": "正确答案：B，前后错开。"}, {"tag": "第62题", "text": "第62题，单选题。汇流排制作完毕,应喷刷绝缘漆,正极喷 （　） 色。 选项：A，黄；B，绿；C，红；D，蓝。"}, {"tag": null, "text": "正确答案：C，红。"}, {"tag": "第65题", "text": "第65题，单选题。为防止静电损伤通信设备,在机房测试设备需要插拔机盘时,应佩戴（　） 选项：A，专用钥匙；B，防静电手环；C，绝缘手套；D，防静电服。"}, {"tag": null, "text": "正确答案：B，防静电手环。"}, {"tag": "第67题", "text": "第67题，单选题。铁塔安装工程施工,在塔上有作业人员工作期间,（　）不得离开现场,应密切观察塔上作业人员的作业情况,发现违章行为,应及时制止。 选项：A，指挥人员；B，安全负责人；C，技术负责人；D，项目经理。"}, {"tag": null, "text": "正确答案：A，指挥人员。"}, {"tag": "第68题", "text": "第68题，单选题。塔上作业时,应以塔基为圆心, （　）为半径,设置施工区,非作业人员不得入内。 选项：A，塔高的 20%；B，塔高的 50%；C，塔高；D，塔高的 1.05 倍。"}, {"tag": null, "text": "正确答案：D，塔高的 1.05 倍。"}, {"tag": "第71题", "text": "第71题，单选题。上下塔作业时,两人同时上塔,两人之间距离应保持在 （　）以上。 选项：A，米；B，2.5 米；C，3 米；D，4 米。"}, {"tag": null, "text": "正确答案：C，3 米。"}, {"tag": "第72题", "text": "第72题，单选题。在塔上安装天馈线作业中,下列做法正确的是 （　） 选项：A，四方塔应从塔角攀登；B，上塔时人间距保持 1.5 米D 上塔累了坐在护栏上休息会；C，上塔累了坐在护栏上休息会 C 行动速度宜慢不宜快。"}, {"tag": null, "text": "正确答案：C，上塔累了坐在护栏上休息会 C 行动速度宜慢不宜快。"}, {"tag": "第73题", "text": "第73题，单选题。需要向塔上吊运物体时,在物体稍离地面时对 （　） 再作一次详细的安全生产检查,若有问题及时处理。 选项：A，钢丝绳；B，物体；C，卷扬机；D，尾绳。"}, {"tag": null, "text": "正确答案：A，钢丝绳。"}, {"tag": "第74题", "text": "第74题，单选题。铁塔上天线支架若需另加镀锌角钢固定时,不得在（　） 上钻孔或电焊。 选项：A，角钢；B，扁钢；C，抱杆；D，护栏。"}, {"tag": null, "text": "正确答案：A，角钢。"}, {"tag": "第82题", "text": "第82题，单选题。根据电信设施接地要求,下列不得连通的设备或构件是 （　） 选项：A，金属坚井之间；B，金属槽道之间；C，走线架与列走线架之间；D，室内走线架与室外走线架间。"}, {"tag": null, "text": "正确答案：D，室内走线架与室外走线架间。"}, {"tag": "第83题", "text": "第83题，多选题。通信铁塔上安装的天馈线,其金属外护层应按设计要求在（　）分别就近接地。 选项：A，塔顶；B，离塔处；C，机房内侧；D，转弯处；E，机房外侧。"}, {"tag": null, "text": "正确答案：A、B、E。"}, {"tag": "第84题", "text": "第84题，单选题。移动通信铁塔天馈线安装时,其室外馈线防雷接地一般要求进行（　）接地方。 选项：A，单点；B，二点；C，三点；D，四点。"}, {"tag": null, "text": "正确答案：C，三点。"}, {"tag": "第85题", "text": "第85题，单选题。规范规定当铁塔高于 （　） 米时,天馈线的金属外护层应在塔身中部需增加接地点。 选项：A，0 米；B，50 米；C，60 米；D，70 米。"}, {"tag": null, "text": "正确答案：C，60 米。"}, {"tag": "第89题", "text": "第89题，单选题。在建设单位委托有监理的通信设施拆除工程中,（　）负责全面监督各项安全技术措施的实施。 选项：A，项目经理；B，监理工程师；C，安全员；D，技术负责人。"}, {"tag": null, "text": "正确答案：B，监理工程师。"}, {"tag": "第92题", "text": "第92题，单选题。局站通信设施拆除施工顺序应遵循下列原则,正确的是 （　） 选项：A，先拆除主用电路,后拆除备用电路；B，先拆除群路,后拆除支路；C，先拆除线缆,后拆除设备；D，先拆除走线架,后拆除设备。"}, {"tag": null, "text": "正确答案：C，先拆除线缆,后拆除设备。"}, {"tag": "第95题", "text": "第95题，判断题。拆除接地线时,应先拆除接地端,再拆除导体端。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第98题", "text": "第98题，单选题。在通信设施拆除施工安全用电中,下面做法正确的是 （　） 选项：A，施工现场中的配电线路采用铝芯阻燃电力电缆；B，施工现场中的配电线路室外电缆在专用电线杆上架空敷设；C，拆除使用的手持式电动工具,绝缘性能达标时,其金属外壳可不接地保护；D，负荷线采用耐气候型的橡皮护套铜芯软电缆,中间接头不得超过 2 处。"}, {"tag": null, "text": "正确答案：B，施工现场中的配电线路室外电缆在专用电线杆上架空敷设。"}];
+const synth = window.speechSynthesis;
+let cur = -1, playing = false, pass = 1, voice = null;
+const starts = SEGS.map((s, i) => s.tag ? i : -1).filter(i => i >= 0);
+const list = document.getElementById('list');
+
+SEGS.forEach((s, i) => {
+  if (s.tag) { const t = document.createElement('div'); t.className = 'tag'; t.textContent = s.tag; list.appendChild(t); }
+  const d = document.createElement('div'); d.className = 'line'; d.textContent = s.text;
+  d.onclick = () => { pass = 1; start(i); }; list.appendChild(d); s.el = d;
+});
+
+function pickVoice() {
+  const vs = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
+  voice = vs.find(v => /婷婷|Tingting|晓晓|Xiaoxiao|辉辉|Huihui|Yaoyao/.test(v.name)) || vs[0] || null;
+}
+pickVoice();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice;
+
+function qStart(i) { let r = 0; for (const s of starts) { if (s <= i) r = s; else break; } return r; }
+function qEnd(i) { for (const s of starts) { if (s > i) return s - 1; } return SEGS.length - 1; }
+
+function start(i) {
+  synth.cancel();
+  if (i >= SEGS.length) { done(); return; }
+  if (i < 0) i = 0;
+  cur = i;
+  document.querySelectorAll('.line').forEach((el, k) => {
+    el.classList.toggle('now', k === cur);
+    el.classList.toggle('done', k < cur);
+  });
+  SEGS[cur].el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  document.getElementById('status').textContent = (pass === 2 ? '第2遍 · ' : '') + `第 ${cur + 1}/${SEGS.length} 句`;
+  const u = new SpeechSynthesisUtterance(SEGS[cur].text);
+  u.lang = 'zh-CN';
+  if (voice) u.voice = voice;
+  u.rate = parseFloat(document.getElementById('rate').value);
+  u.onend = () => {
+    if (!playing) return;
+    if (cur < qEnd(cur)) { pass = pass; start(cur + 1); }
+    else if (document.getElementById('mem').checked && pass === 1) { pass = 2; start(qStart(cur)); }
+    else { pass = 1; const n = qEnd(cur) + 1; if (n < SEGS.length) start(n); else done(); }
+  };
+  synth.speak(u);
+  playing = true; setBtn();
+}
+function done() { playing = false; setBtn(); document.getElementById('status').textContent = '✅ 讲完啦'; }
+function setBtn() { document.getElementById('toggle').textContent = playing ? '⏸ 暂停' : '▶ 播放'; }
+document.getElementById('toggle').onclick = () => {
+  if (cur === -1) { start(0); return; }
+  if (playing) { synth.pause(); playing = false; setBtn(); }
+  else if (synth.paused && synth.speaking) { synth.resume(); playing = true; setBtn(); }
+  else { playing = true; start(cur); }
+};
+document.getElementById('prev').onclick = () => { pass = 1; const p = qStart(Math.max(cur - 1, 0)); start(p === cur ? 0 : p); };
+document.getElementById('next').onclick = () => { pass = 1; const n = starts.find(s => s > cur); start(n === undefined ? SEGS.length : n); };
+document.getElementById('rate').onchange = () => { if (cur >= 0) { const c = cur; start(c); } };
+</script>
+</body>
+</html>

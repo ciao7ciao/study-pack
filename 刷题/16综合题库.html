@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>综合题库</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; display: flex; justify-content: center; padding: 30px 16px; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 2px 14px #00000012; max-width: 640px; width: 100%; padding: 26px 28px; }
+.progress { font-size: 13px; color: #8a95a1; margin-bottom: 14px; }
+.progress b { color: #1a66d6; }
+.badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #e3edfb; color: #1a66d6; margin-bottom: 12px; }
+.stem { font-size: 19px; line-height: 1.65; font-weight: 600; margin-bottom: 18px; }
+.opt { display: block; width: 100%; text-align: left; font-size: 16px; line-height: 1.5; padding: 13px 16px; margin: 8px 0; border: 1.5px solid #dbe3ea; border-radius: 11px; background: #fbfcfe; cursor: pointer; font-family: inherit; color: #22303e; }
+.opt:hover { border-color: #9ec2ee; background: #f2f7fd; }
+.opt.sel { border-color: #1a66d6; background: #e8f1fd; }
+.opt.right { border-color: #2e9e5b; background: #e9f7ef; }
+.opt.wrong { border-color: #d64545; background: #fdecec; }
+.opt:disabled { cursor: default; }
+.tf { display: flex; gap: 14px; } .tf .opt { text-align: center; font-size: 18px; font-weight: 600; }
+.confirm { margin-top: 14px; width: 100%; padding: 13px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.confirm:disabled { background: #b9c6d4; cursor: default; }
+.why { margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; line-height: 1.6; background: #fff8e6; color: #6b5416; }
+.verdict { font-weight: 800; margin-bottom: 4px; }
+.verdict.ok { color: #2e9e5b; } .verdict.no { color: #d64545; }
+.nav { display: flex; justify-content: space-between; margin-top: 20px; }
+.nav button { padding: 10px 22px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 9px; background: #fff; cursor: pointer; font-family: inherit; }
+.nav button:disabled { opacity: .35; cursor: default; }
+.result { text-align: center; }
+.score { font-size: 46px; font-weight: 800; margin: 10px 0; }
+.score small { font-size: 18px; color: #8a95a1; font-weight: 600; }
+.wronglist { text-align: left; font-size: 14.5px; line-height: 1.7; background: #f7f9fb; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+.copy { width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.redo { margin-top: 10px; width: 100%; padding: 12px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 11px; background: #fff; cursor: pointer; font-family: inherit; }
+.mini { font-size: 12px; padding: 4px 10px; border: 1px solid #d3dce4; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; color: #4a5560; }
+.mini:hover { background: #eef2f6; }
+.groupbar { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: #e8f1fd; border: 1px solid #bcd6f5; font-size: 14.5px; color: #17427e; line-height: 1.8; }
+.groupbar .gbtn { font-size: 14px; padding: 8px 14px; background: #1a66d6; color: #fff; border: none; border-radius: 9px; cursor: pointer; font-family: inherit; font-weight: 700; }
+.groupbar .ghint { color: #5a7ba6; font-size: 13px; margin-left: 8px; }
+textarea { width: 100%; height: 64px; margin-top: 12px; font-size: 14px; padding: 10px; border: 1px solid #d3dce4; border-radius: 9px; font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script>
+const QUIZ = {"title":"综合题库","questions":[{"type":"单选","stem":"根据《企工与工事故分类》,本起事故类别（　）","options":["中毒","火灾","机械伤害","其他伤害"],"answer":"B","why":""},{"type":"单选","stem":"该起事故的直接原因是 （　）","options":["开工前未进行安全技术交底 C 切割现场未设火灾防护设施","切割现场未设火灾防护设施B 作业前未办理审批手续","缺乏监督检查"],"answer":"C","why":""},{"type":"单选","stem":"该事故定性为责任事故,以下属于安全责任事故的是（　）","options":["为达到既定目的故意制造的事故","由于不可抗力事件所引发的事故","由于人的过失造成的事故","由于科技条件限制而造成的无法预料的事故"],"answer":"C","why":""},{"type":"单选","stem":"施工现场应当制定的消防安全管理制度不包括（　）等。","options":["社区联防制度","用火用电作业及使用易燃易爆危险物品的管理制度","消防设施维护保养制度","消防安全检查制度"],"answer":"A","why":"施工现场消防安全制度围绕现场火灾风险制定：用火用电管理、消防设施维护保养、消防安全检查都是必建制度；社区联防属于社区治安范畴，与施工现场消防无关。答案A。案例三是梯子折断坠亡事故，与本小题配套。"},{"type":"单选","stem":"使用人字梯是两梯夹角宜为（　）。","options":["30°","40°","50°","60°"],"answer":"B","why":""},{"type":"单选","stem":"使用直梯时,作业人员应站在距离梯顶不少于（　）梯蹬上。","options":["0.5m","0.8m","1m","1.2m"],"answer":"C","why":""},{"type":"单选","stem":"梯子放置的斜度要适当,梯子与地面的夹角不符合规范要求的是（　）。","options":["60°","65°","70°","80°"],"answer":"D","why":""},{"type":"单选","stem":"以下原因中,属于导致沈某死亡事故的间接原因是（　）。","options":["沈某某不带安全帽","梯子折断","水泥路面突出","无人扶梯监护"],"answer":"D","why":""},{"type":"单选","stem":"可能造成高处坠落事故的非管理因素有（　）。","options":["监督管理不到位","安全交底不落实","未向作业人员提供安全帽","梯子质量差"],"answer":"D","why":""},{"type":"单选","stem":"易引发高处坠落事故的主观原 因有（　）。","options":["风力超过 5 级的天气","作业时接听手机","地面不平","寒冷天气作业"],"answer":"B","why":""},{"type":"单选","stem":"按照高处作业分级,沈某本次作业（　）。","options":["一级","二级","三级","四级"],"answer":"C","why":""},{"type":"单选","stem":"低温或高温环境下进行高处作 业,应采取保暖和防暑降温措施,作业时间（　）过长。","options":["禁止","严禁","不宜","不得"],"answer":"C","why":""},{"type":"单选","stem":"高处作业,在选择安全带挂点时应当（　）,注意防止摆动碰撞。","options":["高挂低用","低挂高用","低挂低用","高挂高用"],"answer":"A","why":"安全带使用原则「高挂低用」：挂点高于人的腰部以上，坠落时冲击距离短、冲击力小；低挂高用会成倍加大坠落冲击距离和伤害。答案A。"},{"type":"单选","stem":"安全帽的帽衬、衬带的顶部和 帽壳内顶之间应保持（　）mm 的空间。","options":["30-60","25-50","10-20","5-25"],"answer":"B","why":""},{"type":"单选","stem":"创伤急救原则是（　）。","options":["先固定,后搬运,再抢救","先搬运,后固定,再抢救","先抢救,后搬运,再固定","先抢救,后固定,再搬运"],"answer":"D","why":""},{"type":"单选","stem":"通信工程中选用的安全帽通常有效期通常为（　）年。","options":["2 年","3 年","5 年","6 年"],"answer":"A","why":"塑料安全帽从制造之日起有效期最长 3 年（植物枝条编织 2 年、玻璃钢 3 年半），到期必须更换；6 年是特种作业操作证有效期，别混。答案A。案例四为人井事故背景，与本小题配套。"},{"type":"单选","stem":"道路上施工作业前,应设置安全警示标志,标志设置时应（　）。","options":["从警告区开始,直到终止区结束","从警告区开始,直到作业区结束","从作业区开始,往警告区起点处","从缓冲区开始,直到作业区结束答案:A"],"answer":"A","why":""},{"type":"单选","stem":"该起事故的性质应认定为（　）。","options":["责任事故","意外事故","人身伤害事故","突发事件"],"answer":"A","why":""},{"type":"单选","stem":"根据《生产安全事故报告和调查处理条例»(中华人民共和国国务院令第 493 号),该起事故属于（　）。","options":["一般事故","较大事故","重大事故","特别重大事故"],"answer":"A","why":""},{"type":"单选","stem":"进入人井作业,作业人员应该佩戴（　）安全带。","options":["带缓冲器的绳式","全身式","围杆作业","区域限制式"],"answer":"B","why":""},{"type":"单选","stem":"以下属于该起事故的间接经济损失的有（　）。","options":["现场抢救费用","停业造成的损失","事故赔偿","汽车损坏价值"],"answer":"B","why":""},{"type":"单选","stem":"安全色中（　）常用于表示紧急停止、禁止和危险的信号。","options":["红色","黄色","蓝色","绿色"],"answer":"A","why":""},{"type":"单选","stem":"城市道路施工时如需围蔽工作区的,围栏的高度一般应（　）,距交叉路口 20m 内、地面 0.8m 以上采用通透式围挡。","options":["≥2m","≥1.8m","≥2.0m","≥2.5m"],"answer":"B","why":""},{"type":"单选","stem":"导致事故的发生的直接原因是包括机械、物质或环境的不安全状态和（　）。","options":["安全操作规程不健全","人的不安全行为","劳动组织不合理","现场缺乏检查或指导错误"],"answer":"B","why":""},{"type":"单选","stem":"建设工程工地四周应按规定设置连续、密闭的围栏:在市区主要路段和市容景观道路及机场、码头、车站广场设置的围栏其高度不得低于（　）。","options":["1m","1.2m","1.8m","2.5m"],"answer":"D","why":""},{"type":"单选","stem":"在道路进行夜间施工作业时,应在路栏或渠化设施顶部设置施工警告灯,警告灯的问距应（　）。","options":["≤6m","≤10m","≤20m","≤25m案例五:某施工项目部承接一无线基站工程项目,项目经理施某。在进行某处楼顶铁塔天馈线安装作业由穆某带领的施工班组负责,穆某为班组兼职安全员,穆某安排马某(项目经理施某从另一作业班组的调来)负责楼顶室外走线架焊接连通工作,派佟某和李某负责上塔安装天馈线,由于人手不够穆某又从当地找了农民张某负责在塔下监护,以防止其他人员进入施工区内。作业前,穆某进行简单地交待了作业内容及安全事项,三人虽携带了安全带,但为了方便操作,都未系挂,马某作业时不慎摔下,当场死亡。据调查,施工队人员的持证情况如下:穆某技工证、佟某持登高证,马某持电焊证,其他人员无特种作业证。楼高 10 米周边无栏杆,楼顶上的走线架高 2 米,铁塔高 20 米。请根据背景资料完成以下各题。"],"answer":"C","why":""},{"type":"单选","stem":"以下不属于造成本起该事故的直接原因是（　）。","options":["穆队长违章指挥","马某无证作业","马某未使用安全带","安全技术交底不规范"],"answer":"D","why":""},{"type":"单选","stem":"该事故中都是事故的直接责任者是（　）。","options":["马某","穆某","马某和穆某","穆某、马某、佟某和李某都是"],"answer":"C","why":""},{"type":"单选","stem":"离开特种作业岗位达（　）以上的特种作业人员,应当重新进行实际操作考核,经确认合格后方可上岗作业。","options":["3 个月","6 个月","一年","两年"],"answer":"B","why":""},{"type":"单选","stem":"楼顶临边作业时设置的防护栏杆应能承受的外力大小最小应达到（　）。","options":["500N","800N","1000 N","承受外力 2000 N"],"answer":"C","why":""},{"type":"单选","stem":"佟某和李某塔上作业时,应使用有后备保护绳的双背带式或全身式安全带,当后备保护绳超过（　）时,应使用缓冲器。","options":["1 米","2 米","3 米","4 米"],"answer":"C","why":""},{"type":"单选","stem":"佟某和李某两人同时上塔,两人之间距离应保持在（　）以上","options":["2 米","2.5 米","3 米","4 米"],"answer":"C","why":""},{"type":"单选","stem":"移动通信铁塔天馈线安装时,其室外馈线防雷接地一般要求进行（　）接地方式。","options":["单点","二点","三点","四点"],"answer":"C","why":""},{"type":"单选","stem":"在此项作业中,（　）无需持特种作业操作资格证。","options":["穆某","李某","佟某","马某"],"answer":"A","why":""},{"type":"单选","stem":"塔上作业时,应以塔基为圆心,（　）为半径,设置施工区,非作业人员不得入内。","options":["塔高的 20%","塔高的 50%","塔高","塔高的 1.05 倍"],"answer":"D","why":""},{"type":"单选","stem":"下列（　）情况不属于违章作业。","options":["上塔作业时穿防滑鞋","电焊作业时不带护目镜","高处作业时不系安全带","监护人员站在在施工禁区内监护案例六:某施工单位承担一项 30 个无线基站工程,其中 20 个基站天线安装在楼顶,10 个基站天线安装在铁塔上。其中在楼顶安装天线的基站,楼顶增高架、室外走线架需焊接连通,并连接至楼顶接地装置。某日,施工队在郊区一个基站铁塔上进行天馈线安装作业,监理单位由于路远,没有到场。由于现场人员不足,施工队长在当地临时雇佣了两名农民,并在现场对工作内容及安全事项进行了简单讲解。施工中,其中一人在塔上整理馈线时, 为了方便操作,松开安全带,不慎从未盖好的孔洞中摔下当场死亡。事故发生后, 队长及时上报项目经理,项目经理上报公司主要负责人,并按照主要负责人的要求赶往现场处理。项目经理到达现场并了解事故情况后,因死者是临时雇佣的农民工,并未办理任何保险,因此与死者家属就赔偿及后事处理等相关事项协商一致, 私下了结了此事。但安全监督管理部门在一个月后获知此事后对事故责任单位及人员进行了责任追究。问题:"],"answer":"A","why":""},{"type":"单选","stem":"不需要持特种作业人员操作证上岗的是（　）","options":["电工","焊工","项目经理","高空作业人员"],"answer":"C","why":""},{"type":"单选","stem":"本次事故的等级为（　）。","options":["严重事故","一般事故","重大事故","高空坠落事故"],"answer":"B","why":""},{"type":"单选","stem":"不属于施工单位从本事故中应当汲取的教训的是（　）","options":["施工单位应当建立健全安全生产责任制度和安全生产教育培训制度,制定安全生产规章制度和操作规程,并贯彻落实","施工单位应当加强安全生产教育培训,提高现场人员安全意识和安全操作技能","加强现场安全生产管理,保证操作人员按规定持证上岗","施工单位应做好消息封锁,不能让安监部门知晓事故,以免受罚"],"answer":"C","why":"事故教训必须围绕「防止再发」：建制度、抓培训、持证上岗都是正面教训；封锁消息瞒报事故违反《安全生产法》报告义务，属于违法行为而非教训。答案D（题目问不属于）。"},{"type":"单选","stem":"不属于本起事故直接原因的是（　）","options":["擅自更改设计路由","作业人员未佩戴安全帽","作业人员违章作业","总包单位违法分包"],"answer":"D","why":""},{"type":"单选","stem":"造成本次事故的危险源是（　）","options":["裸露的铜鼻子","作业人员未佩戴安全帽","作业面距离高压电过近","安全技术交底缺失"],"answer":"A","why":"危险源是可能意外释放能量的根源或载体：裸露带电的铜鼻子是触电能量来源，属第一类危险源；未戴安全帽、交底缺失是人的不安全行为/管理缺陷（第二类危险源），距离过近是状态描述。答案A。"},{"type":"单选","stem":"冯某上杆作业可以不佩戴的物品包括（　）。","options":["安全帽","绝缘手套","防护眼镜","安全带"],"answer":"C","why":""},{"type":"单选","stem":"事故调查处理工作中坚持（　）。","options":["优先保护职工权益的原则","企业利益至上的原则","公正、公开的原则","科学严谨、依法依规、实事求是、注重实效"],"answer":"D","why":""},{"type":"单选","stem":"根据本次事故等级情况,安监部门可以对事故发生单位处（　）罚款。","options":["2~10 万","10~20 万","20~50 万","30~100 万"],"answer":"D","why":""},{"type":"单选","stem":"案例中,该起事故的事故发生单位是（　）","options":["电信运营商","监理公司","总包单位","某通信施工公司"],"answer":"C","why":""},{"type":"单选","stem":"当施工人员在 10KV 的高压线附近进行作业时,其身体(含超出身体以外的金属工具或物件)离开高压线的最小间距应保证（　）米。","options":["1.5","2.5","4","8"],"answer":"B","why":""},{"type":"单选","stem":"建筑法规定,施工企业必须按照工程设计图纸和施工技术标准施工,不得偷工减料,如施工单位发现设计不合理需要修改的,由（　）负责修改。","options":["施工单位","原设计单位","建设单位","总包单位"],"answer":"B","why":""},{"type":"单选","stem":"根据通信线路设计规范要求,架空电缆线路不宜与电力线路合杆架设。在不可避免时,允许和（　）的电力线路合杆架设。","options":["1K 以下","10KV 以下","22KV 以下","35KV 以下案例八:某通信工程公司承接了一项 30Km 城区管道光缆敷设工程。工程公司针对此项目,任命了项目经理,组建了项目经理部。项目经理部在施工前做了以下工作:安排现场勘查,利用直观经验法辨识了危险源,并采用专家打分评价法找出了 2 个较大危险源:人井内可能存在的有毒有害气体、道路上的施工场所。针对人井内有毒有害气体编制了控制措施。组建了施工作业队伍,作业人员均参加过公司和项目部级安全生产教育"],"answer":"B","why":""},{"type":"单选","stem":"不属于通信工程常用的危险源辨识方法的是（　）","options":["直观经验法","对照分析法","类比推断法","盲猜法"],"answer":"D","why":""},{"type":"单选","stem":"针对人孔内有可能存在有毒有害气体,下面那个防范措施是错误的（　）","options":["严禁将易燃、易爆物品带入管道人孔","严禁在人孔吸烟、生火取暖、点燃喷灯","进入人孔前,必须先通风,并使用专用气体检测仪器进行气体检测,确认无易燃、易爆、有毒、有害气体并通风后方可进入","在人孔内作业期间,上下人孔的梯子不得撤走,人孔上面必须有专人监护,如有人窒息可立刻进入人孔施救"],"answer":"D","why":""},{"type":"单选","stem":"本项目的安全生产费应按（　）计取。","options":["建安费的 2%","施工费的 1.5%","建安费的 1.0%","施工费的 1.0%"],"answer":"A","why":"依据《企业安全生产费用提取和使用管理办法》，通信工程施工企业以建安造价为基数计提安全生产费，费率 2%（2022 年办法将矿山等上调，通信工程维持 2% 档）。答案A。"},{"type":"单选","stem":"不属于施工企业主要负责人安全职责的是（　）","options":["对本企业安全生产工作负全面责任。","建立、健全本单位安全生产责任制;组织制定本单位安全生产规章制度和操作规程","落实安全生产组织领导机构,成立安全生产委员会,担任主任","根据工程的特点组织制定安全施工措施,实施项目安全生产管理"],"answer":"D","why":""},{"type":"单选","stem":"不属于施工企业专职安全员职责的是（　）","options":["组织或者参与拟订本单位安全生产规章制度、操作规程和生产安全事故应急救援预案","建立、健全本单位安全生产责任制,组织制定本单位安全生产规章制度和操作规程","督促落实本单位重大危险源的安全管理措施","检查本单位的安全生产状况,及时排查生产安全事故隐患,提出改进安全生产管理的建议案例九:某日,某通信施工公司 8 名施工人员在队长丁某带领下,进行人井铺缆作业。8 时 40 分,陈某首先撬开人井盖,顺着电缆托架下到井内观察,井下污水漫到膝盖,不到 3 分钟,陈某突然瘫倒在人井内。正在整理材料的潘某和李某见状,不由分说,先后跳下人井救人,也一头栽倒在井底。一旁作业的韩某发现后大声呼叫随后队长丁某摒住气迅速下到井底,把绳子拴到他们腰上,众人合力先后将 3 人拉出了井口,并随即报警。15 分钟后,110 民警和 120 急救人员赶到现场,检查发现,事故造成 1 人当场死亡,2 人经抢救无效于 2 天后死亡。经了解,这些施工人员是 2 个月前被队长丁某从老家召雇来干活的,无劳动合同,无工伤保险;该项目由丁某私人承包,开工已有一月之余,开工前无人进行安全技术交底,期间也无人进行过安全检查。施工人员韩某说:“也不知道管井里咋会有毒气!也没有人告诉我们这些”。作业现场除有一个锥形桩、二只工具包外,未发现有围档、警示标志、安全绳、排风设备,更没有气体检测仪等安全检测装备。请根据背景资料完成以下 10 题。"],"answer":"B","why":""},{"type":"单选","stem":"通信建设工程安全费的提取标准应为（　）","options":["建安费的 1.5%（2%）","施工费的 1.5%","建安费的 1%","施工费的 1%"],"answer":"A","why":"通信建设工程安全生产费提取标准为建安费的 2%（现行办法），题干括号内 1.5%(2%) 为新旧办法标注，按现行 2% 执行；基数是建安费不是施工费。答案A。"},{"type":"单选","stem":"在该起事故中队长丁某涉嫌（　）","options":["重大责任事故罪","重大劳动安全事故罪","强令违章冒险作业罪","工程重大安全事故罪"],"answer":"A","why":"队长杨某安排冯某上杆作业、未做提醒，属生产作业中违反安全管理规定因而发生重大伤亡——主体是自然人（直接责任人员），构成重大责任事故罪；重大劳动安全事故罪主体是单位，工程重大安全事故罪针对降低工程质量。答案A。"},{"type":"单选","stem":"以下属于导致潘某死亡的间接原因是（　）。","options":["人孔内毒气过量","未佩戴防毒面具盲目施救","人孔内氧浓度低","安全知识缺乏"],"answer":"D","why":""},{"type":"单选","stem":"国家标准将作业场所空气中氧含量低于的状态定义为“缺氧”（　）","options":["17.5%","18.5%","19.5%","21.5%"],"answer":"C","why":""},{"type":"单选","stem":"以下（　）不属于安全费的使用范围。","options":["气体检测仪购买","用于应急救援的安全绳的购买","为作业人员购买意外伤害保险的费用","对施工人员的安全教育培训的开支"],"answer":"C","why":""},{"type":"单选","stem":"进入人孔等有限空间内作业前必须进行气体检测,当硫化氢的浓度超过（　）严禁有限空间进行长时间作业。","options":["4.6 mg/m3","10mg/m3","15 mg/m3","30mg/m3"],"answer":"B","why":""},{"type":"单选","stem":"有限空间作业每隔（　）组织作业人员进行演练。","options":["一个月","两个月","三个月","半年7、通信施工企业应当对新招的施工人员进行岗前三级安全教育,培训时长不少于( D )学时A、12 B、20 C、24 D、32"],"answer":"D","why":""},{"type":"单选","stem":"该起事故的原因中,导致陈某发生事故的直接原因的是（　） 。","options":["未参加安全教育培训","作业现场未设警示标志","未通风就贸然进入有毒气的人井","未参加安全交底"],"answer":"C","why":""},{"type":"单选","stem":"关于劳动合同与劳动关系说法以下正确的是（　）","options":["建立劳动关系就应当订立书面劳动合同","提交工伤申请时应当提供劳动合同","双方劳动关系在劳动合同签订时确立","先工作后签合同的最迟不超过 1 个月"],"answer":"A","why":"《劳动合同法》：建立劳动关系应当订立书面劳动合同（A对）；劳动关系自用工之日起建立，不是合同签订时（C错）；已建立劳动关系未签书面合同的，应当自用工之日起一个月内订立（D表述与法条一致但对个体工伤申请而言劳动合同并非唯一凭证，B不准确）。单选最优为A。"},{"type":"单选","stem":"根据《生产安全事故报告和调查处理条例》,该起事故属于（　）","options":["一般事故","较大事故","重大事故","特别重大事故案例十:2014 年 8 月某日下午,H 施工单位的现场负责人带领 5 位施工人员对位于某市一交叉路口处进行通信管道开挖作业。经过几个小时的工作,己开挖好长约 10 米,深约 1.5 米的管道。下午 17: 00 时左右突然上方堆放的泥土石块坍塌,一名施工人员因躲避不及,胸部以下被泥石掩埋,经 120 医生现场抢救无效死亡,而另一名工人受伤。据调查,本工程项目的建设单位是 Y 公司,监理单位是 J 公司,开挖作业的 5 名施工人员来自于 L 劳务公司。请根据背景资料完成以下 10 题。"],"answer":"B","why":""},{"type":"单选","stem":"本次事故中死亡员工的一次性工亡补助金的标准为（　）。","options":["2013 年全国城镇居民人均收入的 20 倍","2013 年全国城镇居民人均可支配收入的 20 倍","2013 年统筹地区居民人均收入的 20 倍","2013 年统筹地区城镇居民人均收入的 20 倍"],"answer":"B","why":""},{"type":"单选","stem":"受伤人员在停工留薪期内,原工资福利待遇不变,停工留薪期最长不超过（　）。","options":["6 个月","12 个月","24 个月","36 个月"],"answer":"C","why":""},{"type":"单选","stem":"土方开挖时,挖出的土、石应堆放在距离沟、坑边沿（　）以外,使土、石不致回落于沟内。","options":["30cm","40cm","50cm","60cm"],"answer":"D","why":""},{"type":"单选","stem":"开挖深度（　）的基坑(槽)的土方开挖工程不仅需要编制专项施工方案,还需要专家论证。","options":["1.5 m","3m","5m","6m"],"answer":"C","why":""},{"type":"单选","stem":"事故发生后,应由（　）负责向统筹地区社会保险行政部门提出工伤认定申请。","options":["Y 公司","J 公司","H 公司","L 公司"],"answer":"D","why":""},{"type":"单选","stem":"施工单位的现场负责人可能遭受的（　）的刑事处罚。","options":["3 年以下","5 年以下","3- 7 年","5 年以上"],"answer":"A","why":""},{"type":"单选","stem":"土方开挖时,沟坑深在（　）以上者,应有人在地面清土。","options":["1m","l.2m","1.5m","1.8m"],"answer":"C","why":""},{"type":"单选","stem":"（　）是本起事故的间接原因。","options":["无专项施工方案","堆土高度过高","土质松软","不设挡士板"],"answer":"A","why":""},{"type":"单选","stem":"员工受伤后,用人单位应当自事故伤害发生之日起（　）内提出工伤认定申请。","options":["15 日","30 日","一个月","一年"],"answer":"B","why":""},{"type":"单选","stem":"土方开挖时,堆土积高度不宜超过（　）。","options":["1m","l.2m","l.5m","1.8m(以下新增)案例十一A 省 F 县两路的交叉路口,因市政道路改迁,由某施工单位( 注册地 H 省 Z 市)负责该路段的通信杆搬迁工作,某日在通信杆搬迁过程中,因吊装绳不堪重负突然断裂,导致通信杆突然掉落,重重砸在两辆正在等红灯的小轿车上,造成 3 人死亡,1 人重伤的安全事故,现场没有安全生产管理负责人。这次事故造成的损失包括:医疗费用(含护理费用)4 5 万元,丧葬及抚恤等费用 60 万元,处理事故和现场抢救费用28 万元,设备损失 50 万元,停产损失 150 万元。(施工单位法定代表人为 D,技术负责人为 E,本项目负责人为 M,吊车司机 L)"],"answer":"C","why":""},{"type":"单选","stem":"下面（　） 不属于人的不安全行为。","options":["、驾驶人员忽视安全","作业使用吊绳强度不足","施工人员未设围档","吊车司机注意力分散"],"answer":"B","why":""},{"type":"单选","stem":"根据《企业职工伤亡事故分类》, 该事故的类别应为（　）","options":["、物体打击","机械伤害 c 、起重伤害","D、交通事故"],"answer":"C","why":""},{"type":"单选","stem":"事故发生后,施工企业应当及时向（　） 上报事故。","options":["、F 县安监局和 A 省管局","Z 市安监局和 H 省通管局c 、F 县安监局和 H 省通管, 局","、Z 市安监局和 A 省通管局"],"answer":"A","why":""},{"type":"单选","stem":"此起事故中施工企业被处于（　） 罚款","options":["、10-20 万元","20-50 万","50-100 万元","100-500 万元"],"answer":"D","why":""},{"type":"单选","stem":"根据上述情况描述, 此故的直接经济损失为（　） 。","options":["、105 万元","183 万元","283 万元","333 万元"],"answer":"B","why":""},{"type":"单选","stem":"事故发生后, 应由（　） 负责向安全生产监督管理部门上报事故情况。","options":["、法定代表人","技术负责人 c 、项目负责人","、吊车司机"],"answer":"A","why":""},{"type":"单选","stem":"建设工程工地四周应按规定设置连续、密闭的围挡;在市区主要路段和市容景观道路及机场、码头、车站广场设置的围栏其高度不得低于（　） 。","options":["、1.5","1.8m","2m","2. 5m"],"answer":"D","why":""},{"type":"单选","stem":"事故发生后, 施工企业应当最迟（　） 上报事故。","options":["、30 分钟内","1 小时内","2 小时内","1 天内"],"answer":"B","why":""},{"type":"单选","stem":"吊装作业中,夜间应有足够的照明,室外作业遇到大雪、暴雨、大雾及（　）以上大风时,应停止作业。","options":["、四级","五级","六级","八级"],"answer":"C","why":""},{"type":"单选","stem":"从事起重机械的（　）不需要持《特种设备作业人员证》","options":["、安全管理人员","司机","指挥人员","项目负责人案例十二:某通信工程公司通过招投标,5 折中标了湖北某地城域网管道光缆线路工程,建设单位委托了监理单位。建设单位项目负责人要求设计院计列安全生产费按照“不参与竞争原则执行;在施工合同中与施工单位约定,安全生产费和施工费统一按照施工进度支付。2010 年 5 月 29 日,出发前,施工队长在驻地告诉大家“施工中要注意安全,一定要完成今天的工作量”\"。到达施工现场后,一名施工人员在下井开始管道光缆穿放时,被人孔内的有毒气体重晕,井上人员发现后,在没有采取任何防护措施的情况下,接二连三盲日下井施救,造成下井施救的 3 名工友死亡。 事故调查发现:作业人员在进入人井作业前,未进行通风,未使用专用气体检测仪器进行有毒有害气体检测,施救人员未佩戴防护用品、未携带救援设备等盲目下井施救,最终酿成事故。相关单位按照政府的意见处理了相关责任人。事故处理整改后,施工单位给现场配备了复合气体检测仪,并配齐了劳动防护用品,施工人员按照规程要求的照明条件进行人井中作业,完成施工任务,最后工程通过验收。"],"answer":"D","why":""},{"type":"单选","stem":"在本工程潮湿的人井中施工时,相关规范规定照明灯具电压应不大于（　）V。","options":["3","6","12","24"],"answer":"C","why":""},{"type":"单选","stem":"按照法规规定,设计院应按照（　）计算安全生产费。","options":["建设单位文件要求和现行通信概预算定额计算的建安费乘 1.5%","现行通信概预算定额全额计算的建安费乘 1.5%","投标单位报价折扣和现行通信定额计算的建安费乘 1.5%","投标单位报价折扣和现行通信定额计算的建安费乘 0.75%"],"answer":"A","why":""},{"type":"单选","stem":"造成本工程安全事故的间接原因是（　）。","options":["施工人员违章作业","施救人员盲目施救","施工队长违章指挥","施工人员缺乏安全知识"],"answer":"D","why":""},{"type":"单选","stem":"在事故处理后,施工单位为人井内作业人员配备的安全防护用品错误的是（　）。","options":["自吸式导管防毒面具","腰带式安全带","安全绳","安全帽"],"answer":"B","why":""},{"type":"单选","stem":"该事故的类别是（　）事故。","options":["高处坠落","瓦斯爆炸","中毒和窒息","其他伤害"],"answer":"C","why":""},{"type":"单选","stem":"事故发生处的施工作业,在《通信建设工程安全生产管理规定》中被称为（　）作业,有些省市按照持证上岗管理。","options":["井下空间","室外架设","光缆线路","有限空间"],"answer":"D","why":""},{"type":"单选","stem":"在事故处理整改后,施工单位配备的复合气体检测仪至少应能检测的四种气体,（　）不是其中之一。","options":["二氧化碳","可燃气体","硫化氢","氧气"],"answer":"A","why":"有限空间复合气体检测仪必测四种：氧气（防缺氧窒息）、可燃气体（防爆炸）、硫化氢、一氧化碳（两种常见有毒气体）；二氧化碳不在必测四项之列。答案A。"},{"type":"单选","stem":"该事故的等级是（　）事故。","options":["一般","较大","重大","特别重大"],"answer":"B","why":""},{"type":"单选","stem":"以下（　）不属于安全费的使用范围。","options":["气体检测仪购买","用于应急救援的安全绳的购买","为作业人员购买意外伤害保险的费用","对施工人员的安全教育培训的开支"],"answer":"C","why":""},{"type":"单选","stem":"通信施工企业应当对新招收的施工人员开展岗前三级教育,培训时间不少于（　）学时。","options":["8","12","24","32"],"answer":"D","why":""},{"type":"单选","stem":"王某高处作业的等级是（　）。","options":["一级","二级","三级","特级"],"answer":"B","why":""},{"type":"单选","stem":"根据相关法规,该公司下列哪种做法符合要求（　）。","options":["不设立安全生产管理机构,配备专职安全生产管理人员","配备兼职的安全生产管理人员","设立安全生产管理机构,配备专职安全生产管理人员","只配备注册安全工程师"],"answer":"C","why":""},{"type":"单选","stem":"如果事故发生在 2021 年 9 月,则应急管理部门对该公司的罚款金额最可能是（　）","options":["二十万元以上三十万元以下","三十万元以上一百万元以下","一百万元以上二百万元以下","二百万元以上三百万元 190 以下"],"answer":"B","why":""},{"type":"单选","stem":"该案例中需要持《特种作业操作证》的人是（　）。","options":["吴某","李某","周某","王某"],"answer":"D","why":""},{"type":"单选","stem":"该生产安全事故的类别是（　）。","options":["物体打击","触电","倒塌","高处坠落"],"answer":"D","why":""},{"type":"单选","stem":"事故发生后,公司的主要负责人应当（　）向县以上应急管理部门和省通信管理局报告。","options":["立即","在 1 小时内","在 2 小时内","在 24 小时内"],"answer":"B","why":""},{"type":"单选","stem":"此期间对该公司的安全生产工作全面负责的人是（　）。","options":["赵某","钱某","孙某","李某"],"answer":"C","why":""},{"type":"单选","stem":"造成该事故的直接原因是（　）。","options":["现场没有必要的安全管理制度","管理松懈,无章可循","现场作业人员违反操作规范","缺乏现场安全监督管理和检查预控案例 14:某年 9 月 18 日上午,天空正刮台风,下大雨,某施工单位两名施工人员在某新建基站挖掘孔桩施工时,因电线电缆没有穿管保护,配电箱的铁皮割破绝缘皮,造成电线外壳、提升机的钢绞线带电。其中一名施工人员不慎触及提升机钢绞线,受电击经抢救无效死亡。据调查,该项目施工组织设计中没有现场临时用电方案,也无专项施工方案,出事地点配电箱没有配备漏电保护开关,现场用电采用的是三相四线制,现场安全管理混乱,施工作业人员没有穿防护服,绝缘鞋,施工作业前未进行安全交底。"],"answer":"C","why":""},{"type":"单选","stem":"施工现场配电系统的漏电保护开关应按（　）配置","options":["四级","三级","两级","一级"],"answer":"C","why":""},{"type":"单选","stem":"低压带电作业断开导线时,应（　）","options":["应先断开相线,后断开零线","先断开零线后断开相线","先断开相线或零线均可","两者同时断开"],"answer":"A","why":"低压带电作业：断开导线应先断相线（火线）后断零线，恢复时相反——先断相线保证线路彻底失电，防止先断零线后相线仍带电造成风险。答案A。"},{"type":"单选","stem":"实施心肺复苏术时的按压频次为（　）次每分钟","options":["60~80","80~100","100~120","120~140"],"answer":"C","why":""},{"type":"单选","stem":"触电伤员呼吸微弱或停止时,应立即通畅触电者气道（　）用枕头等物垫在伤员的头下","options":["应当","宜","严禁","不宜"],"answer":"C","why":""},{"type":"单选","stem":"施工组织总设计是以（　）为对象编制的。","options":["单位工程","分部工程","分项工程","整个建设项目或群体工程"],"answer":"A","why":"施工组织总设计以整个建设项目或群体工程为对象编制，是全局性指导文件；单位工程编「施工组织设计」，分部分项工程编「施工方案」，层级要分清。答案D。"},{"type":"单选","stem":"下列分部分项工程中,不需要编制专项施工方案的是（　）","options":["起重吊装工程","模板工程","砌筑工程","拆除爆破工程"],"answer":"C","why":""},{"type":"单选","stem":"带电作业时,监护人应由（　）担任","options":["班组长","具有具备带电作业资格、带电作业实践经验的人员","经过培训的人员","技术人员"],"answer":"B","why":""},{"type":"单选","stem":"施工现场临时用电应采用（　）保护系统","options":["TN-C","B、TN-S C、IT","TT"],"answer":"B","why":""},{"type":"单选","stem":"起重机等大功率机械设备的供电开关箱（　）电缆向设备供电","options":["只可使用 5 芯 C、可使用 3 芯","可使用 3 芯 B、只可使用 4 芯","使用 4 芯 5 芯均可案例 15:某市通信工程公司在某郊区农田间进行光缆线路工程施工。该光缆路由是在 kV 电力线正下方 2 米多的位置。作业队长带领同村 4 名作业人员到达施工现场,传达了项目经理“施工中要注意安全”的要求,随后离开。作业人员使用铝合金伸缩梯子挂光缆,在放完一段光缆后,两人举着梯子在电力线下方移动,致使铝合金梯子上方与电力线接触,举梯人触电。另外 2 人直接用手施救,造成 3 人死亡,1 人受伤的事故。事故发生后,受伤人立即报告了现场情况。事故调查发现:本项目施工准备过程项目负责人没有组织危险源辨识和制定安全防范措施,没有书面安全技术交底,但项目经理在开工前强调“施工中要注意安全”。事后,公司按照“四不放过”原则对事故进行了处理。事故处理后,施工单位为现场配置了安全防护用品,本工程大部分段落,施工人员采用吊板方式布放光缆,测试过程中安全使用仪器仪表,最后工程通过验收。"],"answer":"A","why":""},{"type":"单选","stem":"本项目安全技术交底应该由（　）向全部作业人员和管理人员进行详细说明。","options":["公司技术总监","公司安全总监","项目技术负责人","项目专职安全员"],"answer":"C","why":""},{"type":"单选","stem":"该事故的类别是（　）事故。","options":["高处坠落","机械伤害","触电","其他伤害"],"answer":"C","why":""},{"type":"单选","stem":"造成本工程安全事故的直接原因是（　）。","options":["项目负责人安全意识缺乏","施工单位安全培训不到位","施工人员违章作业","施工人员安全知识缺乏"],"answer":"C","why":""},{"type":"单选","stem":"按照相关规范要求,公司应为本工程所有参与人员配备的安全防护用品是（　）。","options":["安全帽","安全带","绝缘鞋","绝缘手套"],"answer":"D","why":""},{"type":"单选","stem":"该事故的等级是（　）事故。","options":["一般","较大","重大","特别重大"],"answer":"B","why":""},{"type":"单选","stem":"下列事故处理做法,不属于事故处理“四不放过”原则的是（　）。","options":["公司组织了安全生产标准化培训","公司对全员就本事故的教训进行专题教育培训","公司制定了线路施工常见事故预防措施并监督实施","行政主管部门对项目负责人进行了处罚"],"answer":"A","why":""},{"type":"单选","stem":"本项目实施过程中,不得使用吊板作业的情形是（　）。","options":["在 7/2.2 规格的吊线上","在跨越公路杆档","在跨越水田杆档","吊板上的挂钩已磨损五分之一时"],"answer":"B","why":""},{"type":"单选","stem":"本工程实施过程中,人员与电力线的最小安全距离是（　）米。","options":["2.0","2.5","3.5","4.0"],"answer":"A","why":""},{"type":"单选","stem":"该事故发生后,现场人员应立即向（　）报告。","options":["项目负责人","项目安全负责人","公司主管安全副总","公司负责人"],"answer":"D","why":""},{"type":"单选","stem":"在测试过程中,（　）的测试接口不得正对着眼睛观察。","options":["数字万用表","PMD 分析仪(分析端)","光功率计","波长可调光源案例 16某施工项目部承接一无线基站工程项目,项目经理施某。在进行某处楼顶铁塔天馈线安装作业由穆某带领的施工班组负责,穆某为班组兼安全员,穆某安排马某(项目经理施某从另一作业班组的调来)负责楼顶室外走线架焊接连通工作,派佟某和李某负责上塔安装天馈线,由于人手不够穆某又从当地找了农民张某负责在塔下监护,以防止其他人员进入施工区内。作业前,穆某简单地交待了作业内容及安全事项,三人虽携带了安全带,但为了方便操作,都未系挂,马某作业时不慎摔下,当场死亡。据调查,施工队人员的持证情况如下:穆某技工证、佟某持登高证,马某持电焊证,其他人员无特种作业证。楼高 10 米周边无栏杆,楼顶上的走线架高 2 米,铁塔高 20 米。"],"answer":"D","why":""},{"type":"单选","stem":"以下不属于造成本起事故的直接原因是（　）。","options":["穆队长违章指挥","马某无证作业","马某未使用安全带","安全技术交底不规范"],"answer":"D","why":""},{"type":"单选","stem":"该事故中事故的直接责任者是（　）。","options":["马某","穆某","马某和穆某","穆某、马某、佟某和李某都是"],"answer":"C","why":""},{"type":"单选","stem":"离开特种作业岗位达（　）以上的特种作业人员,应当重新进行实际操作考核,经确认合格后方可上岗作业。","options":["3 个月","6 个月","一年","两年"],"answer":"B","why":""},{"type":"单选","stem":"楼顶临边作业时设置的防护栏杆应能承受的外力大小最小应达到（　）。","options":["500 N","800N","1000N","承受外力 2000 N"],"answer":"C","why":""},{"type":"单选","stem":"佟某和李某塔上作业时,应使用有后备保护绳的双背带式或全身式安全带,当后备保护绳超过（　）时,应使用缓冲器。","options":["1 米","2 米","3 米","4 米"],"answer":"C","why":""},{"type":"单选","stem":"佟某和李某两人向时上塔,两人之间距离应保持在（　）以上","options":["2 米","2.5 米 c.3 米","D.4 米"],"answer":"C","why":""},{"type":"单选","stem":"在此项作业中,（　）无需持特种作业操作资格证。","options":["穆某","李某","佟某","马某"],"answer":"A","why":""},{"type":"单选","stem":"塔上作业时,应以塔基为圆心,（　）为半径,设置施工区,非作业人员不得入内。","options":["塔高的 20%","塔高的 50%","塔高","塔高的 1.05 倍"],"answer":"D","why":""},{"type":"单选","stem":"下列（　）情况下不属于违章作业。","options":["上塔作业时穿防滑鞋","电焊作业时不带护目镜","高处作业时不系安全带","监护人员站在在施工禁区内监护"],"answer":"A","why":""},{"type":"单选","stem":"不需要持特种作业人员操作证上岗的是（　）","options":["电工","焊工","项目经理","高空作业人员"],"answer":"C","why":""},{"type":"单选","stem":"不属于施工单位从本事故中应当汲取的教训的是（　）","options":["施工单位应当建立健全安全生产责任制度和安全生产教育培训制度,制定安全生产规章制度和操作规程,并贯彻落实","施工单位应当加强安全生产教育培训,提高现场人员安全意识和安全操作技能","加强现场安全生产管理,保证操作人员按规定持证上岗","施工单位应做好消息封锁,不能让安监部门知晓事故,以免受罚"],"answer":"D","why":"事故教训必须围绕「防止再发」：建制度、抓培训、持证上岗都是正面教训；封锁消息瞒报事故违反《安全生产法》报告义务，属于违法行为而非教训。答案D（题目问不属于）。"}]};
+const KEY = 'quiz_' + QUIZ.title;
+const GROUP = 5;
+let idx = 0, answers = [], sel = [], locked = [];
+const app = document.getElementById('app');
+
+function copyGroup(gstart) {
+  let text = [];
+  for (let i = gstart; i < Math.min(gstart + GROUP, QUIZ.questions.length); i++) {
+    if (answers[i]) text.push(`${i+1}${answers[i].mine}`);
+  }
+  text = text.join(' ') || '（本组还没答题）';
+  const done = () => { const b = document.getElementById('gbtn' + gstart); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(done);
+  else done();
+}
+
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ answers, sel, locked })); } catch(e) {} }
+function loadSaved() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s && s.answers) { answers = s.answers; sel = s.sel; locked = s.locked; }
+  } catch(e) {}
+}
+
+function answeredText() {
+  return answers.map((a,i)=>a?`${i+1}${a.mine}`:null).filter(Boolean).join(' ');
+}
+function copyResult() {
+  const text = answeredText() || '（还没答任何题）';
+  const done = () => { const b = document.getElementById('copybtn'); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; setTimeout(()=>{ const x=document.getElementById('copybtn'); if(x) x.textContent='📋 复制已答成绩'; }, 2000); } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); });
+  else { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); }
+}
+function clearProgress() {
+  if (confirm('确定清空本章答题记录，从头再做吗？')) { localStorage.removeItem(KEY); location.reload(); }
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function letters(n){ return 'ABCDE'.slice(0, n).split(''); }
+
+function render() {
+  if (idx >= QUIZ.questions.length) { renderResult(); return; }
+  const q = QUIZ.questions[idx];
+  let html = `<div class="progress">第 <b>${idx+1}</b> / ${QUIZ.questions.length} 题 · 已做对 ${answers.filter((a,i)=>a && a.ok).length}
+    <span style="float:right"><button class="mini" id="copybtn" onclick="copyResult()">📋 复制已答成绩</button> <button class="mini" onclick="clearProgress()">清空重做</button></span></div>`;
+  html += `<span class="badge">${q.type}</span><div class="stem">${esc(q.stem)}</div>`;
+  if (q.type === '判断') {
+    html += `<div class="tf">` + ['对','错'].map(t =>
+      `<button class="opt ${locked[idx] ? (t===q.answer?'right':(sel[idx]===t?'wrong':'')) : ''}" ${locked[idx]?'disabled':''} onclick="pick('${t}')">${t}</button>`).join('') + `</div>`;
+  } else {
+    html += letters(q.options.length).map((L,i) =>
+      `<button class="opt ${locked[idx] ? (q.answer.includes(L)?'right':((sel[idx]||[]).includes(L)?'wrong':'')) : ((sel[idx]||[]).includes(L)?'sel':'')}" ${locked[idx]?'disabled':''} onclick="pick('${L}')"><b>${L}</b>　${esc(q.options[i])}</button>`).join('');
+    if (q.type === '多选' && !locked[idx]) html += `<button class="confirm" ${sel[idx] && sel[idx].length ? '' : 'disabled'} onclick="confirmMulti()">确　认</button>`;
+  }
+  if (locked[idx]) {
+    const ok = answers[idx].ok;
+    html += `<div class="why"><div class="verdict ${ok?'ok':'no'}">${ok ? '✅ 答对了' : '❌ 答错了，正确答案 ' + q.answer}</div>${q.why ? esc(q.why) : ''}</div>`;
+  }
+  // 每完成一组（GROUP 题）弹出复制提示
+  if (locked[idx] && (idx + 1) % GROUP === 0 && idx + 1 < QUIZ.questions.length) {
+    const gs = idx + 1 - GROUP;
+    html += `<div class="groupbar">✅ 第 ${gs+1}~${idx+1} 题完成（对 ${answers.slice(gs, idx+1).filter(a=>a&&a.ok).length} / ${GROUP}）<br>
+      <button class="mini gbtn" id="gbtn${gs}" onclick="copyGroup(${gs})">📋 复制这 ${GROUP} 题成绩发给我</button>
+      <span class="ghint">粘贴到聊天后，点「下一题 →」继续</span></div>`;
+  }
+  html += `<div class="nav"><button onclick="prev()" ${idx===0?'disabled':''}>← 上一题</button><button onclick="next()" ${locked[idx]?'':'disabled'}>${idx===QUIZ.questions.length-1?'看成绩 →':'下一题 →'}</button></div>`;
+  app.innerHTML = html;
+}
+
+function pick(v) {
+  if (locked[idx]) return;
+  const q = QUIZ.questions[idx];
+  if (q.type === '判断' || q.type === '单选') { submit([v]); }
+  else { // 多选 toggle
+    sel[idx] = sel[idx] || [];
+    const i = sel[idx].indexOf(v);
+    i >= 0 ? sel[idx].splice(i,1) : sel[idx].push(v);
+    render();
+  }
+}
+function confirmMulti() { if (sel[idx] && sel[idx].length) submit([...sel[idx]].sort()); }
+
+function submit(vals) {
+  const q = QUIZ.questions[idx];
+  const std = q.type === '判断' ? q.answer : q.answer.split('').sort().join('');
+  const mine = q.type === '判断' ? vals[0] : vals.join('');
+  const ok = mine === std;
+  answers[idx] = { mine, ok };
+  locked[idx] = true;
+  save();
+  render();
+}
+
+function prev() { if (idx > 0) { idx--; render(); } }
+function next() { if (locked[idx]) { idx++; render(); } }
+
+function renderResult() {
+  const total = QUIZ.questions.length;
+  const right = answers.filter(a => a && a.ok).length;
+  const wrongs = QUIZ.questions.map((q,i) => ({q,i,a:answers[i]})).filter(x => x.a && !x.a.ok);
+  let html = `<div class="result"><div class="progress">${QUIZ.title}</div><div class="score">${right}<small> / ${total}</small></div>`;
+  if (wrongs.length) {
+    html += `<div class="wronglist"><b>❌ 错题（已记入待重测）：</b><br>` + wrongs.map(x =>
+      `第${x.i+1}题 你答 ${x.a.mine} · 正确 ${x.q.answer}<br>　${esc(x.q.why)}`).join('<br>') + `</div>`;
+  } else {
+    html += `<div class="wronglist">🎉 全对！没有错题。</div>`;
+  }
+  html += `<button class="copy" onclick="copyResult()">📋 复制成绩（发给 ZCode 记错题本）</button>`;
+  html += `<textarea id="ta" readonly>${answeredText()}</textarea>`;
+  html += `<button class="redo" onclick="clearProgress()">🗑 清空本章记录，从头再做</button></div>`;
+  app.innerHTML = html;
+}
+
+function copyResult() {
+  copyResultBtn();  // 顶栏按钮复用同一函数
+}
+function copyResultBtn() {}  // 占位（顶栏直接用 copyResult）
+
+answers = new Array(QUIZ.questions.length).fill(null);
+sel = new Array(QUIZ.questions.length).fill(null);
+locked = new Array(QUIZ.questions.length).fill(false);
+loadSaved();
+// 续做：跳到第一个未答的题；全答完则直接看成绩
+idx = locked.findIndex(l => !l);
+if (idx === -1) idx = QUIZ.questions.length;
+render();
+</script>
+</body>
+</html>

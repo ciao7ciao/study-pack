@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>第十一章</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; display: flex; justify-content: center; padding: 30px 16px; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 2px 14px #00000012; max-width: 640px; width: 100%; padding: 26px 28px; }
+.progress { font-size: 13px; color: #8a95a1; margin-bottom: 14px; }
+.progress b { color: #1a66d6; }
+.badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #e3edfb; color: #1a66d6; margin-bottom: 12px; }
+.stem { font-size: 19px; line-height: 1.65; font-weight: 600; margin-bottom: 18px; }
+.opt { display: block; width: 100%; text-align: left; font-size: 16px; line-height: 1.5; padding: 13px 16px; margin: 8px 0; border: 1.5px solid #dbe3ea; border-radius: 11px; background: #fbfcfe; cursor: pointer; font-family: inherit; color: #22303e; }
+.opt:hover { border-color: #9ec2ee; background: #f2f7fd; }
+.opt.sel { border-color: #1a66d6; background: #e8f1fd; }
+.opt.right { border-color: #2e9e5b; background: #e9f7ef; }
+.opt.wrong { border-color: #d64545; background: #fdecec; }
+.opt:disabled { cursor: default; }
+.tf { display: flex; gap: 14px; } .tf .opt { text-align: center; font-size: 18px; font-weight: 600; }
+.confirm { margin-top: 14px; width: 100%; padding: 13px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.confirm:disabled { background: #b9c6d4; cursor: default; }
+.why { margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; line-height: 1.6; background: #fff8e6; color: #6b5416; }
+.verdict { font-weight: 800; margin-bottom: 4px; }
+.verdict.ok { color: #2e9e5b; } .verdict.no { color: #d64545; }
+.nav { display: flex; justify-content: space-between; margin-top: 20px; }
+.nav button { padding: 10px 22px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 9px; background: #fff; cursor: pointer; font-family: inherit; }
+.nav button:disabled { opacity: .35; cursor: default; }
+.result { text-align: center; }
+.score { font-size: 46px; font-weight: 800; margin: 10px 0; }
+.score small { font-size: 18px; color: #8a95a1; font-weight: 600; }
+.wronglist { text-align: left; font-size: 14.5px; line-height: 1.7; background: #f7f9fb; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+.copy { width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.redo { margin-top: 10px; width: 100%; padding: 12px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 11px; background: #fff; cursor: pointer; font-family: inherit; }
+.mini { font-size: 12px; padding: 4px 10px; border: 1px solid #d3dce4; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; color: #4a5560; }
+.mini:hover { background: #eef2f6; }
+.groupbar { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: #e8f1fd; border: 1px solid #bcd6f5; font-size: 14.5px; color: #17427e; line-height: 1.8; }
+.groupbar .gbtn { font-size: 14px; padding: 8px 14px; background: #1a66d6; color: #fff; border: none; border-radius: 9px; cursor: pointer; font-family: inherit; font-weight: 700; }
+.groupbar .ghint { color: #5a7ba6; font-size: 13px; margin-left: 8px; }
+textarea { width: 100%; height: 64px; margin-top: 12px; font-size: 14px; padding: 10px; border: 1px solid #d3dce4; border-radius: 9px; font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script>
+const QUIZ = {"title":"第十一章","questions":[{"type":"单选","stem":"作业人员对于施工现场的火灾事故防范应做到三懂三会,其中三懂不包括 （　）。","options":["懂本岗位的火灾危险性","懂预防火灾的措施","懂火灾扑救的方法","懂消防器材的设置要求"],"answer":"D","why":""},{"type":"多选","stem":"燃烧的特征包括（　）,这也是区分燃烧和非燃烧的依据","options":["发光","发热","生成新物质","可燃物","助燃物"],"answer":"ABC","why":""},{"type":"多选","stem":"燃烧过程的发生和发展须具备的必要条件包括 （　）","options":["引火源","还原剂","发光","可燃物","氧化剂"],"answer":"ADE","why":""},{"type":"多选","stem":"下列物质属于助燃物的有 （　）。","options":["氢气","乙快","氨气","氧气","甲烷"],"answer":"CD","why":""},{"type":"单选","stem":"属于分解燃烧形式的是 （　）的燃烧。","options":["酒精","木炭","铁","木材"],"answer":"D","why":""},{"type":"多选","stem":"下列物质的燃烧属于分解燃烧形式的有 （　）","options":["纸","木碳","油脂","木材","酒精"],"answer":"AD","why":""},{"type":"多选","stem":"下列物质的燃烧属于表面燃烧形式的有 （　）","options":["纸","木炭","焦炭","木材","铜"],"answer":"BCE","why":""},{"type":"单选","stem":"根据我国现行标准规定 （　）火灾属于","options":["类火灾A 木材","石蜡","氢气","铝镁合金"],"answer":"A","why":""},{"type":"单选","stem":"根据我国现行标准规定 （　） 火灾属于 B 类火灾","options":["木材","石蜡","氢气","铝镁合金"],"answer":"B","why":""},{"type":"单选","stem":"根据我国现行标准规定,（　） 火灾属于 C 类火灾","options":["木材","石蜡","氢气","铝镁合金"],"answer":"C","why":""},{"type":"单选","stem":"根据我国现行标准规定 （　） 火灾属于 D 类火灾。","options":["木材","石蜡","氢气","铝镁合金"],"answer":"D","why":""},{"type":"判断","stem":"根据我国现行标准规定,动物油脂火灾属于 F 类（　）。","options":[],"answer":"对","why":""},{"type":"单选","stem":"死亡 30 人的火灾,属于 （　） 火灾。","options":["一般","较大","重大","特别重大"],"answer":"D","why":""},{"type":"单选","stem":"重伤 50 人的火灾,属于（　） 火灾。","options":["一般","较大","重大","特别重大"],"answer":"C","why":""},{"type":"单选","stem":"死亡 5 人的火灾,属于（　） 火灾。","options":["一般","较大","重大","特别重大"],"answer":"B","why":""},{"type":"单选","stem":"死亡 1 人的火灾,属于（　）火灾。","options":["一般","较大","重大","特别重大"],"answer":"A","why":""},{"type":"判断","stem":"一般情况下,闪点越低,火灾危险性越大。 （　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"扑救火灾的最佳阶段是（　）","options":["初起期","发展期 D 减弱期","减弱期 C 最盛期"],"answer":"A","why":""},{"type":"单选","stem":"下列关于爆炸的说法,正确的是 （　）","options":["化学爆炸一般威力较小,而物理性爆炸往往威力非常大","物理爆炸只有极少数是氧化反应引起的爆炸","液化气钢瓶的爆炸属于化学爆炸","水蒸气爆炸属于物理爆炸"],"answer":"D","why":""},{"type":"单选","stem":"属于化学过程的灭火方法是 （　）","options":["冷却灭火","隔离灭火","室息灭火","抑蚱错灭火"],"answer":"D","why":""},{"type":"单选","stem":"不能使用泡沫灭火器扑救的火灾是（　）火灾。","options":["木材","汽油","石蜡","氢气"],"answer":"D","why":""},{"type":"多选","stem":"泡沫灭火剂不适用于扑救 （　）火灾。","options":["类","类","类","类","类"],"answer":"CDE","why":""},{"type":"单选","stem":"能用于扑救 1KV 以上高压带电设备的灭火剂是 （　）","options":["泡沫灭火剂","二氧化碳灭火剂","干粉灭火剂","烟雾灭火剂"],"answer":"C","why":""},{"type":"单选","stem":"不能使用干粉灭火器扑救的火灾是（　）火灾。","options":["可燃液体","可燃固体","可燃气体","轻金属"],"answer":"D","why":""},{"type":"单选","stem":"二氧化碳灭火器主要灭火原理是 （　）","options":["冷却","室息","隔离","抑制"],"answer":"B","why":""},{"type":"多选","stem":"混合气体灭火剂是由（　） 按一定比例混合而成的气体","options":["氮气","气","氧气","二氧化碳气体","一氧化碳"],"answer":"ABD","why":""},{"type":"单选","stem":"混合气体灭火剂中不包含 （　）","options":["氮气","二氧化碳","氧气","气"],"answer":"C","why":""},{"type":"单选","stem":"混合气体灭火剂不能扑救的火灾是 （　） 火灾。","options":["类","类","类 D","类"],"answer":"C","why":""},{"type":"单选","stem":"火灾自动报警系统一般由触发器件、火灾报警装置、（　）和电源四部分组成。","options":["火灾警报装置","自动灭火装置","防烟排烟装置","安全疏散设施"],"answer":"A","why":""},{"type":"多选","stem":"火灾自动报警系统一般由 （　） 和电源四部分组成。","options":["触发器件","火灾报警装置","火灾警报装置","自动灭火装置","防烟排烟装置"],"answer":"ABC","why":""},{"type":"单选","stem":"火灾自动报警系统中的核心组成部分是（　）","options":["触发器件","火灾警报器","火灾报警控制器","消防控制器"],"answer":"C","why":""},{"type":"判断","stem":"灭火器由筒体、器头、喷嘴等部件组成,借助驱动压力将所充装的灭火剂喷出,达到灭火的目的,是扑救初起火灾的重要消防器材。（　）","options":[],"answer":"对","why":""},{"type":"多选","stem":"通常通信机房中常用 （　） 和阻火模块等封堵电缆井和各种缆线通过的孔洞。","options":["泡沫封堵材料","柔性有机材料","阻火包","防火封堵板材","防火蜜封胶"],"answer":"BCD","why":""},{"type":"单选","stem":"气焊或气割时,操作人员应保证气瓶距火源之间的距离在 （　）米以上。","options":["10","15","18"],"answer":"B","why":""},{"type":"判断","stem":"焊接带电的设备时可不断电,但需采取措施,避免触电。 （　）","options":[],"answer":"错","why":""},{"type":"单选","stem":"氧气瓶是储存和运输氧气的专用高压容器,它是由瓶体、瓶箍、瓶阀和瓶帽 4 部分组成。其瓶体为 （　）色,并用黑漆标明氧气两字,用以区别其它气瓶。","options":["白","黑","天蓝","灰"],"answer":"C","why":""},{"type":"单选","stem":"氧气瓶是储存和运输氧气的专用高压容器,它是由瓶体、瓶箍、瓶阀和瓶帽 4 部分组成。其瓶体为天蓝色,并用（　） 漆标明氧气两字,用以区别其它气瓶。","options":["白","黑","红","黄"],"answer":"B","why":""},{"type":"单选","stem":"氧气瓶与明火之间的最小距离为（　）M。","options":["5","10","15"],"answer":"C","why":""},{"type":"单选","stem":"乙炔瓶是一种储存和运输乙炔的容器,其瓶体外表漆成白色,并漆有 （　）色\"乙炔”字样。","options":["天蓝","黑","红","黄"],"answer":"C","why":""},{"type":"单选","stem":"乙炔瓶与易燃、易爆物质之间的存放距离不得近于 （　） M。","options":["5","10","15"],"answer":"B","why":""},{"type":"判断","stem":"必须将氧气瓶或乙炔瓶内的气体全部用完后方可再罐装气体。（　）","options":[],"answer":"错","why":""},{"type":"单选","stem":"如果发现电器设备着火,首先应该 （　）","options":["找就近灭火器灭火","关掉电源","打 119 报警","立即通知消防控制室人员"],"answer":"B","why":""},{"type":"多选","stem":"电气事故按发生灾害的形式,可以分为人身事故（　） 等","options":["接地事故","漏电事故","爆炸事故","设备事故","电气火灾"],"answer":"CDE","why":""},{"type":"判断","stem":"无论哪种电气事故,都是由于各种类型的电流、电荷、电磁场的能量不适当释放或转移造成的。 （　）","options":[],"answer":"对","why":""},{"type":"多选","stem":"电流对人体的伤害的严重程度与 （　）有关","options":["通过人体的电流大小","通过人体的电流频率","通过人体的电流持续时间","流经途径","人体的体型"],"answer":"ABCD","why":""},{"type":"单选","stem":"引起电击事故最危险的电流频率是 （　）","options":["直流","50Hz","50KHz","50MHz"],"answer":"B","why":""},{"type":"单选","stem":"对于工频电流,一般成年男性的感知电流为（　）mA 左右","options":["0.5","0.7","1.1","1.6"],"answer":"C","why":""},{"type":"单选","stem":"对于工频电流,一般成年女性在摆脱概率为 50%时的摆脱电流约为（　） mA.","options":["9","10.5","16"],"answer":"C","why":""},{"type":"单选","stem":"对于工频电流,一般成年男性在摆脱概率为 99.5%时的摆脱电流约为（　） mA。","options":["9","10.5","16"],"answer":"B","why":""},{"type":"单选","stem":"对于工频电流,一般成年女性在摆脱概率为 99.5%时的摆脱电流约为（　） mA。","options":["9","10.5","16"],"answer":"A","why":""},{"type":"单选","stem":"对于工频电流,当电流持续时间超过心脏跳动周期时,人的室额电流约为 （　） mA。","options":["0","50","100","500"],"answer":"B","why":""},{"type":"单选","stem":"正常人在正常条件下对直流电流的感觉闽值约为 （　） mA。","options":["2","5","10"],"answer":"B","why":""},{"type":"单选","stem":"对于直流电来说,以下说法错误的是 （　）","options":["与交流相比,摆脱较难","正常人在正常条件下的感觉闯值约为 2mA,且只有在接通和断开时才会引起感觉","300mA 及以下时,没有可确定的摆脱闽值","电流持续时间小于 200ms 时,直流室颤闯值大致与交流相同"],"answer":"A","why":""},{"type":"多选","stem":"关于人体对流经人体的电流的反应,说法错误的是 （　）","options":["儿童较大人敏感","女性较男性敏感","体重大的较体重轻的敏感","患有心脏病者触电死亡率较大"],"answer":"ABD","why":""},{"type":"单选","stem":"绝大部分触电死亡事故是 （　） 造成的。","options":["电击","电伤","雷击","电磁辐射"],"answer":"A","why":""},{"type":"多选","stem":"电伤包括 （　）等。","options":["间接接触电击","间接接触电伤","电烧伤","电烙印","电光眼"],"answer":"CDE","why":""},{"type":"多选","stem":"人体触电的方式有很多,常见的触电方式有 （　） 等","options":["单项触电","两相触电","三相触电","跨步触电","接触电压触电"],"answer":"ABDE","why":""},{"type":"单选","stem":"安全工作规程要求人们在户内不要走近电线落地点 （　） M 以内地段,否则会发生触电事故。","options":["6","8","10"],"answer":"C","why":""},{"type":"判断","stem":"我国习惯上以 1kv 为界线,额定电压在 1 千伏及以上的称为高压,1 千伏以下的称为低压。（　）","options":[],"answer":"对","why":""},{"type":"多选","stem":"防止直接接触电击事故中最基本、最重要的安全技术措施 （　）","options":["绝缘","屏护","间距","保护接地","保护接零"],"answer":"ABC","why":""},{"type":"判断","stem":"气体和液体绝缘击穿后,可以恢复其功能。（　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"变配电装置的户内临时栅栏高度不应低于 （　） m。","options":["1.0","1.2","1.5","1.7"],"answer":"B","why":""},{"type":"单选","stem":"变配电装置的户外临时栅栏高度不应低于 （　） m。","options":["1.0","1.2","1.5","1.7"],"answer":"C","why":""},{"type":"单选","stem":"在 TN 系统中,以下做法错误的是（　）","options":["将电器外壳保护接地","将 PEN 线重复接地","安装电流型漏电保护器","单相负荷线路保护零线可借用工作零线"],"answer":"D","why":""},{"type":"单选","stem":"金属容器内、隧道内、水井内以及周围有大面积接地导体等工作地点狭窄、行动不便的环境或特别潮湿的环境应采用 （　）V 安全电压。","options":["12","24","42"],"answer":"B","why":""},{"type":"判断","stem":"电流型漏电保护装置只能防止间接接触电击,不能防止直接接触电击。 （　）","options":[],"answer":"错","why":""},{"type":"多选","stem":"我国标准规定的高灵敏度电流型漏电保护装置的额定动作电流有（　） mA。","options":["0","15","30","50","75"],"answer":"ABC","why":""},{"type":"单选","stem":"用于防止人身触电事故,应选用的电流型漏电保护装置应该是（　）。","options":["高灵敏度","中灵敏度","低灵敏度","特低灵敏度"],"answer":"A","why":""},{"type":"单选","stem":"用于监视一相接地事故,应选用的电流型漏电保护装置应该是（　）","options":["特高灵敏度","高灵敏度","中灵敏度","低灵敏度"],"answer":"D","why":""},{"type":"单选","stem":"用于防止漏电火灾事故,可以选用的电流型漏电保护装置应该是（　）","options":["特高灵敏度","高灵敏度","中灵敏度","低灵敏度","都可以"],"answer":"D","why":""},{"type":"判断","stem":"电流型漏电保护装电流不得低于额定动作电流的 1/2.。（　）","options":[],"answer":"对","why":""},{"type":"多选","stem":"以下关于电源线颜色标识正确的有 （　）","options":["相-为红色","相-为绿色","相-为黑色","工作零线-为黄色","专用保护零线-为黄绿双色"],"answer":"BE","why":""},{"type":"单选","stem":"电源线路可分为工作相线 (火线),工作零线和专用保护零线。工作零线用 （　）色芯线。","options":["黄","绿","黑","蓝"],"answer":"D","why":""},{"type":"判断","stem":"建筑施工现场临时用电工程必须采用三级配电系统,必须采用 TN-S 接零保护系统,必须采用二级漏电保护系统。 （　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"按照《施工现场临时用电安全技术规范》规定,有关建筑施工现场临时用电说法错误的是（　）。","options":["必须采用三级配电系统","必须采用 TN-","接零保护系统C 必须采用二级漏电保护系统","每台用电设备必须有各自专用的开关箱"],"answer":"B","why":""},{"type":"单选","stem":"施工现场临时用电应采用 （　）保护系统。","options":["TN-C","TN-S C IT","TT83 施工现场配电系统的漏电保护开关应按( C)配置。A 四级 B 三级 C 二级 D 一级"],"answer":"C","why":""},{"type":"单选","stem":"施工现场开关箱与用电设备的水平距离不宜超过（　）M。","options":["3","4","5"],"answer":"B","why":""},{"type":"单选","stem":"施工现场的配电箱、开关箱应设置在安全稳固、便于操作、不易被碰撞的地点,周围不得有易燃物或杂物。其底部距地面最小距离为（　）m。","options":["1.0","1.2","1.3","1.5"],"answer":"C","why":""},{"type":"单选","stem":"在人孔内、天花板及坚井内等有电击危险环境中作业时,应使用电源电压不超过（　）的行灯照明。","options":["2Y","24V","36V","42V"],"answer":"C","why":""},{"type":"单选","stem":"施工现场的照明线路（　）必须经过开关才能进入照明灯具。","options":["相线","零线","相线和零线","都不是"],"answer":"A","why":""},{"type":"单选","stem":"低压带电作业断开导线时,应（　）","options":["先断开相线,后断开零线","先断开零线,后断开相线","先断开相线或零线均可","两者同时断开"],"answer":"A","why":""},{"type":"判断","stem":"运输或存放有锋刃的工具要平放,锋刃口应朝上或向外,放入工具袋时纫口应向下。 （　）","options":[],"answer":"错","why":""},{"type":"单选","stem":"千斤顶不得超负荷使用,旋升最大行程不得超过丝杠总长的（　）","options":["三分之二","四分之三","五分之三","二分之一"],"answer":"C","why":""},{"type":"多选","stem":"通信工程中用电工具的使用,做法正确的是 （　）","options":["使用前应进行安全检查","应使用独立的的插座","传递用电工具时应先切断电源","易燃场所作业时必须使用防爆式工具","带电设备上作业时应使用隔离变压器"],"answer":"ACDE","why":""},{"type":"单选","stem":"关于用电工具,以下说法错误的是 （　）。","options":["在带电设备上可以使用用电工具","使用手电钻或电锤时,必须戴帆布手套","使用手持式砂轮机打磨作业时,工作前,应进行空载试验","不得在易燃、用熔接机的场所用熔接机"],"answer":"B","why":""},{"type":"多选","stem":"关于仪表的车使用,以下说法正确的有 （　）","options":["使用交流供电的仪表,金属外壳应接地保护","使用带激光源的仪器时,不得将光源正对着眼睛","测试电缆的耐压或绝缘时,应把电缆与相应设备连接可靠","做过耐压和绝缘测试的电缆,必须放电后才能再进行其它项目的测试","长期不使用时应及时从仪表中取出电池"],"answer":"ABDE","why":""},{"type":"单选","stem":"关于电焊机的使用,以下说法错误的是 （　）","options":["交流电焊机应配装防二次侧触电保护器","交流电焊机一次侧电源线长度不应大于 30 米","二次侧电源线应采用防水型橡皮护套铜芯软电缆","在潮湿处操作电焊机,操作人员应站在绝缘板上。"],"answer":"B","why":""},{"type":"单选","stem":"通信工程路面切割机的使用,做法错误的是 （　）。","options":["金属外壳应做好保护接地","手柄上应有电源控制开关并做绝终保护","使用时应一边操作、一边随机整理电源线","操作人员应戴绝缘手套、穿绝缘鞋"],"answer":"C","why":""},{"type":"判断","stem":"砂轮切割机的电源线应采用耐气温变化的橡胶皮护套铜芯软电缆（　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"砂轮切割机应安装防护罩,切割机前面应设立（　）M 高的耐火档砂板。","options":["1.2","1.5","1.7","2"],"answer":"C","why":""},{"type":"单选","stem":"推土机横坡行驶的坡度最大为（　）","options":["0°","15°","20°","25°"],"answer":"A","why":""},{"type":"单选","stem":"推土机停车时刀铲距地面要保持 （　） m 左右。","options":["0.2","0.5","1.0"],"answer":"A","why":""},{"type":"单选","stem":"使用吊车在架空电力线附近工作时,应与其保持安全距离,当输电线路电压为 10KV 时,允许与输电线路的最近距离为（　）米。","options":["1.5","2.0","4.0","6.0"],"answer":"B","why":""},{"type":"单选","stem":"使用吊车在架空电力线附近工作时,应与其保持安全距离,当输电线路电压为 35KV 时,允许与输电线路的最近距离为（　）米","options":["1.5","2.0","4.0","6.0"],"answer":"C","why":""}]};
+const KEY = 'quiz_' + QUIZ.title;
+const GROUP = 5;
+let idx = 0, answers = [], sel = [], locked = [];
+const app = document.getElementById('app');
+
+function copyGroup(gstart) {
+  let text = [];
+  for (let i = gstart; i < Math.min(gstart + GROUP, QUIZ.questions.length); i++) {
+    if (answers[i]) text.push(`${i+1}${answers[i].mine}`);
+  }
+  text = text.join(' ') || '（本组还没答题）';
+  const done = () => { const b = document.getElementById('gbtn' + gstart); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(done);
+  else done();
+}
+
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ answers, sel, locked })); } catch(e) {} }
+function loadSaved() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s && s.answers) { answers = s.answers; sel = s.sel; locked = s.locked; }
+  } catch(e) {}
+}
+
+function answeredText() {
+  return answers.map((a,i)=>a?`${i+1}${a.mine}`:null).filter(Boolean).join(' ');
+}
+function copyResult() {
+  const text = answeredText() || '（还没答任何题）';
+  const done = () => { const b = document.getElementById('copybtn'); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; setTimeout(()=>{ const x=document.getElementById('copybtn'); if(x) x.textContent='📋 复制已答成绩'; }, 2000); } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); });
+  else { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); }
+}
+function clearProgress() {
+  if (confirm('确定清空本章答题记录，从头再做吗？')) { localStorage.removeItem(KEY); location.reload(); }
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function letters(n){ return 'ABCDE'.slice(0, n).split(''); }
+
+function render() {
+  if (idx >= QUIZ.questions.length) { renderResult(); return; }
+  const q = QUIZ.questions[idx];
+  let html = `<div class="progress">第 <b>${idx+1}</b> / ${QUIZ.questions.length} 题 · 已做对 ${answers.filter((a,i)=>a && a.ok).length}
+    <span style="float:right"><button class="mini" id="copybtn" onclick="copyResult()">📋 复制已答成绩</button> <button class="mini" onclick="clearProgress()">清空重做</button></span></div>`;
+  html += `<span class="badge">${q.type}</span><div class="stem">${esc(q.stem)}</div>`;
+  if (q.type === '判断') {
+    html += `<div class="tf">` + ['对','错'].map(t =>
+      `<button class="opt ${locked[idx] ? (t===q.answer?'right':(sel[idx]===t?'wrong':'')) : ''}" ${locked[idx]?'disabled':''} onclick="pick('${t}')">${t}</button>`).join('') + `</div>`;
+  } else {
+    html += letters(q.options.length).map((L,i) =>
+      `<button class="opt ${locked[idx] ? (q.answer.includes(L)?'right':((sel[idx]||[]).includes(L)?'wrong':'')) : ((sel[idx]||[]).includes(L)?'sel':'')}" ${locked[idx]?'disabled':''} onclick="pick('${L}')"><b>${L}</b>　${esc(q.options[i])}</button>`).join('');
+    if (q.type === '多选' && !locked[idx]) html += `<button class="confirm" ${sel[idx] && sel[idx].length ? '' : 'disabled'} onclick="confirmMulti()">确　认</button>`;
+  }
+  if (locked[idx]) {
+    const ok = answers[idx].ok;
+    html += `<div class="why"><div class="verdict ${ok?'ok':'no'}">${ok ? '✅ 答对了' : '❌ 答错了，正确答案 ' + q.answer}</div>${q.why ? esc(q.why) : ''}</div>`;
+  }
+  // 每完成一组（GROUP 题）弹出复制提示
+  if (locked[idx] && (idx + 1) % GROUP === 0 && idx + 1 < QUIZ.questions.length) {
+    const gs = idx + 1 - GROUP;
+    html += `<div class="groupbar">✅ 第 ${gs+1}~${idx+1} 题完成（对 ${answers.slice(gs, idx+1).filter(a=>a&&a.ok).length} / ${GROUP}）<br>
+      <button class="mini gbtn" id="gbtn${gs}" onclick="copyGroup(${gs})">📋 复制这 ${GROUP} 题成绩发给我</button>
+      <span class="ghint">粘贴到聊天后，点「下一题 →」继续</span></div>`;
+  }
+  html += `<div class="nav"><button onclick="prev()" ${idx===0?'disabled':''}>← 上一题</button><button onclick="next()" ${locked[idx]?'':'disabled'}>${idx===QUIZ.questions.length-1?'看成绩 →':'下一题 →'}</button></div>`;
+  app.innerHTML = html;
+}
+
+function pick(v) {
+  if (locked[idx]) return;
+  const q = QUIZ.questions[idx];
+  if (q.type === '判断' || q.type === '单选') { submit([v]); }
+  else { // 多选 toggle
+    sel[idx] = sel[idx] || [];
+    const i = sel[idx].indexOf(v);
+    i >= 0 ? sel[idx].splice(i,1) : sel[idx].push(v);
+    render();
+  }
+}
+function confirmMulti() { if (sel[idx] && sel[idx].length) submit([...sel[idx]].sort()); }
+
+function submit(vals) {
+  const q = QUIZ.questions[idx];
+  const std = q.type === '判断' ? q.answer : q.answer.split('').sort().join('');
+  const mine = q.type === '判断' ? vals[0] : vals.join('');
+  const ok = mine === std;
+  answers[idx] = { mine, ok };
+  locked[idx] = true;
+  save();
+  render();
+}
+
+function prev() { if (idx > 0) { idx--; render(); } }
+function next() { if (locked[idx]) { idx++; render(); } }
+
+function renderResult() {
+  const total = QUIZ.questions.length;
+  const right = answers.filter(a => a && a.ok).length;
+  const wrongs = QUIZ.questions.map((q,i) => ({q,i,a:answers[i]})).filter(x => x.a && !x.a.ok);
+  let html = `<div class="result"><div class="progress">${QUIZ.title}</div><div class="score">${right}<small> / ${total}</small></div>`;
+  if (wrongs.length) {
+    html += `<div class="wronglist"><b>❌ 错题（已记入待重测）：</b><br>` + wrongs.map(x =>
+      `第${x.i+1}题 你答 ${x.a.mine} · 正确 ${x.q.answer}<br>　${esc(x.q.why)}`).join('<br>') + `</div>`;
+  } else {
+    html += `<div class="wronglist">🎉 全对！没有错题。</div>`;
+  }
+  html += `<button class="copy" onclick="copyResult()">📋 复制成绩（发给 ZCode 记错题本）</button>`;
+  html += `<textarea id="ta" readonly>${answeredText()}</textarea>`;
+  html += `<button class="redo" onclick="clearProgress()">🗑 清空本章记录，从头再做</button></div>`;
+  app.innerHTML = html;
+}
+
+function copyResult() {
+  copyResultBtn();  // 顶栏按钮复用同一函数
+}
+function copyResultBtn() {}  // 占位（顶栏直接用 copyResult）
+
+answers = new Array(QUIZ.questions.length).fill(null);
+sel = new Array(QUIZ.questions.length).fill(null);
+locked = new Array(QUIZ.questions.length).fill(false);
+loadSaved();
+// 续做：跳到第一个未答的题；全答完则直接看成绩
+idx = locked.findIndex(l => !l);
+if (idx === -1) idx = QUIZ.questions.length;
+render();
+</script>
+</body>
+</html>

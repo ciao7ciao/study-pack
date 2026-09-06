@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第九章 · 通听版 · 安全考证陪学</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #2b3440; padding-bottom: 110px; }
+header { position: sticky; top: 0; background: #ffffffdd; backdrop-filter: blur(8px); border-bottom: 1px solid #e3e8ee; padding: 14px 22px 10px; z-index: 5; }
+header h1 { font-size: 18px; color: #1d2733; }
+header p { font-size: 13px; color: #7a8694; margin-top: 3px; }
+main { max-width: 720px; margin: 0 auto; padding: 20px 22px; }
+.tag { color: #1a66d6; font-weight: 700; font-size: 14px; margin: 30px 0 8px; }
+.line { font-size: 20px; line-height: 1.75; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #5a6572; transition: all .15s; }
+.line:hover { background: #e9eef4; }
+.line.now { color: #0d1b2a; font-size: 26px; font-weight: 700; background: #ffffff; box-shadow: 0 1px 6px #00000014; }
+.line.done { color: #a8b2bd; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffffee; border-top: 1px solid #e3e8ee; padding: 12px 20px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; z-index: 5; }
+button { background: #eef2f6; border: 1px solid #d9e1e9; border-radius: 9px; font-size: 15px; padding: 10px 18px; cursor: pointer; font-family: inherit; color: #2b3440; }
+button:hover { background: #e2e9f0; }
+button.play { background: #1a66d6; border-color: #1a66d6; color: #fff; padding: 10px 30px; }
+label.speed, label.mem { font-size: 14px; color: #5a6572; display: flex; align-items: center; gap: 5px; }
+#status { font-size: 13px; color: #7a8694; }
+</style>
+</head>
+<body>
+<header><h1>第九章 · 通听版</h1><p>点 ▶ 播放，念到哪字幕到哪；点任意一句可从那里听。需用电脑自带中文语音（Mac=婷婷，Windows=晓晓/辉辉）。</p></header>
+<main id="list"></main>
+<footer>
+  <button id="prev">⏮ 上一题</button>
+  <button id="toggle" class="play">▶ 播放</button>
+  <button id="next">下一题 ⏭</button>
+  <label class="speed">语速
+    <select id="rate"><option value="0.85">慢 0.85</option><option value="1" selected>正常 1.0</option><option value="1.15">快 1.15</option><option value="1.3">更快 1.3</option></select>
+  </label>
+  <label class="mem"><input type="checkbox" id="mem" checked> 每题两遍</label>
+  <span id="status"></span>
+</footer>
+<script>
+const SEGS = [{"tag": "第1题", "text": "第1题，单选题。施工单位施工现场的专职安全生产管理人员,应当由 （　） 委派,并监督其落实安全管理职责。 选项：A，建设单位；B，施工单位；C，设计单位；D，监理单位。"}, {"tag": null, "text": "正确答案：B，施工单位。"}, {"tag": "第2题", "text": "第2题，单选题。分包单位施工现场的专职安全生产管理人员,应当由 （　）委派,并监督其落实安全管理职责。 选项：A，建设单位；B，总包单位；C，分包单位；D，监理单位。"}, {"tag": null, "text": "正确答案：C，分包单位。"}, {"tag": "第3题", "text": "第3题，单选题。施工组织设计是以（　）为对象编制的 选项：A，单位工程；B，分部工程；C，分项工程；D，整个建设项目或群体工程。"}, {"tag": null, "text": "正确答案：A，单位工程。"}, {"tag": "第4题", "text": "第4题，多选题。下列施工现场周边环境中,（　）环境下作业需要编制相应的安全技术措施。 选项：A，居民稠密区；B，重要交通路口；C，铁路沿线；D，变电站附近；E，绿化区内。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第5题", "text": "第5题，判断题。专项安全施工方案是施工单位在编制施工组织设计的基础上,单独编制的安全技术措施文件。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第6题", "text": "第6题，单选题。通信工程专项施工方案的施工计划中,一般不包括的（　）内容 选项：A，施工进度计划；B，材料与设备供应计划；C，资金配备计划；D，质量控制计划。"}, {"tag": null, "text": "正确答案：C，资金配备计划。"}, {"tag": "第7题", "text": "第7题，判断题。专项施工方案的施工安全保证措施应包括组织保障措施、技术措施、监测监控措施等内容。 （　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第8题", "text": "第8题，单选题。通信工程专项施工方案的施工安全保证措施中,一般不包括 （　） 选项：A，管理保障措施；B，技术保障措施；C，应急管理预案；D，事故处理方法。"}, {"tag": null, "text": "正确答案：D，事故处理方法。"}, {"tag": "第9题", "text": "第9题，多选题。施工现场多家单位同时作业时,应由（　）协调作业顺序,防止出现安全隐患。 选项：A，建设单位；B，设计单位；C，施工单位；D，监理单位；E，分包单位。"}, {"tag": null, "text": "正确答案：A、D。"}, {"tag": "第10题", "text": "第10题，单选题。项目经理应对专项施工作业的安全生产负全面 （　）责任。 选项：A，领导；B，监督；C，监理；D，协调l1 通信工程拆除作业中,下列局站通信线缆拆除的做法,错误的是(D)A 拆除前应逐条核查线缆上实没有业务 B 线缆翻越电缆槽时应在下方垫衬保护垫C 拆除尾纤时不得影响其他尾纤的正常运行 D 作业过程中施工人员应佩戴手套。"}, {"tag": null, "text": "正确答案：D，协调l1 通信工程拆除作业中,下列局站通信线缆拆除的做法,错误的是(D)A 拆除前应逐条核查线缆上实没有业务 B 线缆翻越电缆槽时应在下方垫衬保护垫C 拆除尾纤时不得影响其他尾纤的正常运行 D 作业过程中施工人员应佩戴手套。"}, {"tag": "第12题", "text": "第12题，单选题。通信工程拆除作业中,下列天线及室外单元拆除的做法,错误的是（　） 选项：A，施工现场设专人看护,塔下作业人员不得进入安全禁区；B，遇六级及以上大风时,应快速完成当前作业再停工；C，吊装用的绳索和滑轮应固定牢靠、位置合理；D，拆除设备翻越楼顶女儿墙时,应采取有效的防撞措施。"}, {"tag": null, "text": "正确答案：B，遇六级及以上大风时,应快速完成当前作业再停工。"}, {"tag": "第13题", "text": "第13题，多选题。通信工程土方开挖作业中,以下情况时必须支撑护土板的有 （　） 选项：A，沟坑距离机动车道较近处；B，与其他沟交叉处或平行距离较近处；C，距离建筑物或设施较近处；D，回填土、砂士、流砂等地带；E，按规定可以进行放坡处。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第14题", "text": "第14题，单选题。通信工程割接作业中,操作人员的错误做法是 （　） 选项：A，无监护独立完成带电操作；B，佩戴防静电手环插拔机盘；C，使用专用工具插拔电源熔断器；D，使用进行过绝缘处理后的工具。"}, {"tag": null, "text": "正确答案：A，无监护独立完成带电操作。"}, {"tag": "第15题", "text": "第15题，单选题。带电作业时监护人应由（　） 担任。 选项：A，班组长；B，具有具备带电作业资格、带电作业实践经验的人员；C，经过培训的人员；D，技术人员。"}, {"tag": null, "text": "正确答案：B，具有具备带电作业资格、带电作业实践经验的人员。"}, {"tag": "第17题", "text": "第17题，判断题。电源设备加电,操作人员应穿绝缘鞋,带绝缘手套,并有两人互相配合。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第18题", "text": "第18题，单选题。通信工程割接作业中,设备加电时,操作人员的错误做法是 （　） 选项：A，穿绝缘鞋；B，戴绝终手套；C，独自完成操作；D，沿电流方向逐级加电。"}, {"tag": null, "text": "正确答案：C，独自完成操作。"}, {"tag": "第19题", "text": "第19题，单选题。直流电源系统割接工程中,通信设备有“主、备用”电源端子时,应先将 （　） 接入新电源系统中,正常后再全部接入。 选项：A，主用电源端子；B，备用电源端子；C，正极电源端子；D，负极电源端子。"}, {"tag": null, "text": "正确答案：B，备用电源端子。"}, {"tag": "第20题", "text": "第20题，单选题。直流电源系统割接工程中,通常测量电流的仪表为 （　） 选项：A，数字万用表；B，直流安培表；C，钳形电流表；D，交流安培表。"}, {"tag": null, "text": "正确答案：C，钳形电流表。"}, {"tag": "第21题", "text": "第21题，单选题。施工现场临时用电的供电方式,说法错误的是 （　） 选项：A，应采用三相五线制；B，必须符合三级配电结构；C，多台用电设备合用开关箱；D，采用两级漏电保护。"}, {"tag": null, "text": "正确答案：C，多台用电设备合用开关箱。"}, {"tag": "第23题", "text": "第23题，单选题。维修施工现场临时用电设备和线路时,做法错误的是 （　） 选项：A，电工独立完成；B，穿绝缘鞋；C，戴绝缘手套；D，使用绝缘工具。"}, {"tag": null, "text": "正确答案：A，电工独立完成。"}, {"tag": "第24题", "text": "第24题，单选题。安全技术交底一般不宜采用 （　） 形式进行。 选项：A，书面文件；B，集体会议；C，样板演示；D，远程视频。"}, {"tag": null, "text": "正确答案：D，远程视频。"}, {"tag": "第25题", "text": "第25题，单选题。安全技术交底应覆盖工程项目的（　） 选项：A，管理人员；B，作业人员；C，技术人员；D，全体人员。"}, {"tag": null, "text": "正确答案：D，全体人员。"}, {"tag": "第26题", "text": "第26题，判断题。一般情况下,安全技术交底仅在整个项目施工前做一次交底时不够的。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第27题", "text": "第27题，单选题。安全技术交底的内容一般不包括 （　） 选项：A，作业危险因素；B，具体预防措施；C，生产操作规程；D，事故处理报告。"}, {"tag": null, "text": "正确答案：D，事故处理报告。"}, {"tag": "第28题", "text": "第28题，单选题。正确的安全技术交底的时间点是 （　）。 选项：A，项目投标前；B，施工图设计前；C，项目开工前；D，竣工交付前。"}, {"tag": null, "text": "正确答案：C，项目开工前。"}, {"tag": "第29题", "text": "第29题，多选题。关于安全技术交底的时间点,选择正确的是 （　） 选项：A，项目投标前；B，项目开工前；C，作业班组进场前；D，关键作业实施前；E，竣工交付。"}, {"tag": null, "text": "正确答案：B、C。"}, {"tag": "第30题", "text": "第30题，判断题。施工现场有两个以上施工单位施工时,建设单位应明确各方的安全职责。 （　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第31题", "text": "第31题，判断题。施工现场有两个以上施工单位施工时,建设单位应指定其中一个,对施工现场实行统一管理（　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第32题", "text": "第32题，多选题。通信工程施工现场的安全生产管理,包括 （　） 选项：A，建立项目安全生产责任体系；B，编制安全技术措施、方案；C，组织安全检查、整改安全隐患；D，确定消防安全责任人；E，组织安全事故调查处理。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第33题", "text": "第33题，多选题。通信工程施工现场的安全生产管理,包括（　）。 选项：A，配置人员、设施、劳动防护用品；B，编制安全技术措施、方案；C，组织安全检查、整改安全隐患；D，对施工安全生产进行记录；E，组织安全事故调查处理。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第34题", "text": "第34题，单选题。施工现场安全管理的“三点控制”中的三点不包括 （　） 选项：A，危险点；B，危害点；C，事故多发点；D，质量控制点。"}, {"tag": null, "text": "正确答案：D，质量控制点。"}, {"tag": "第35题", "text": "第35题，多选题。施工现场安全管理的“三点控制”是指对现场的（　）进行强化控制管理。 选项：A，危险点；B，危害点；C，事故多发点；D，质量控制点；E，里程碑时间点。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第36题", "text": "第36题，单选题。下列做法中,不属于施工现场常见的违规操作行为的是 （　） 选项：A，不按规定使用劳动防护用品；B，不执行规定的安全防范措施；C，对违章指挥盲目服从,不加抵制；D，强令他人冒险进入危险区域。"}, {"tag": null, "text": "正确答案：D，强令他人冒险进入危险区域。"}, {"tag": "第37题", "text": "第37题，多选题。通信施工现场,施工人员的以下行为,对做到“保证他人不被伤害”有所帮助的包括 （　）。 选项：A，发现事故隐患主动告知他人；B，提出安全建议；C，与他人分享安全经验；D，关注他人身体情况和精神状况；E，虚心接受他人对自己行为的纠正。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第38题", "text": "第38题，多选题。通信工程施工现场,室内作业涉及的作业环境不良的因素包括（　） 选项：A，恶劣气候与环境；B，作业场所狭窄；C，作业场地杂乱；D，室内梯架缺陷；E，采光照明不良。"}, {"tag": null, "text": "正确答案：B、C、D、E。"}, {"tag": "第39题", "text": "第39题，多选题。通信线路建设中,应采取的环保措施包括（　） 选项：A，尽量减少林木砍伐和对天然植被的破坏；B，应根据实际情况采取有效的水土保持措施；C，严禁在崩塌滑坡危险区采石、采砂、取土；D，倾倒在河滩、沟渠的废沙、石、土等,其裸漏表面应植树种草；E，应采用喷水、覆盖等有效措施控制扬尘。"}, {"tag": null, "text": "正确答案：A、B、C、E。"}, {"tag": "第40题", "text": "第40题，单选题。通信工程中,废弃的沙、石、土的处理,错误的是 （　） 选项：A，必须运至规定的专门存放地堆放；B，不得向江河、湖泊、水库倾倒；C，可以向废弃的沟渠倾倒并植树种草；D，临时堆放时应防止被雨水冲走。"}, {"tag": null, "text": "正确答案：C，可以向废弃的沟渠倾倒并植树种草。"}, {"tag": "第41题", "text": "第41题，单选题。通信工程中,同一工程项目有多个分包商施工时,由（　）对各分包商的安全生产工作统一协调、管理。 选项：A，建设单位；B，监理单位；C，总包单位；D，分包单位。"}, {"tag": null, "text": "正确答案：C，总包单位。"}, {"tag": "第42题", "text": "第42题，多选题。总包单位对分包商的安全审核主要内容包括 （　） 选项：A，取得国家规定的安全资质证书；B，建立完善的安全管理机构；C，配备不少于一定比例的专职安全管理人员；D，通过第三方职业健康安全审核；E，具有规定数量的工程技术人员。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第43题", "text": "第43题，多选题。总包单位应定期对分包商进行安全考核和评价,内容包括 （　） 选项：A，分包商安全生产管理机构设置情况；B，分包商安全生产管理人员配置及资格情况；C，分包商安全生产违约、违章记录；D，分包商安全生产绩效；E，分包商质量进度情况。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}];
+const synth = window.speechSynthesis;
+let cur = -1, playing = false, pass = 1, voice = null;
+const starts = SEGS.map((s, i) => s.tag ? i : -1).filter(i => i >= 0);
+const list = document.getElementById('list');
+
+SEGS.forEach((s, i) => {
+  if (s.tag) { const t = document.createElement('div'); t.className = 'tag'; t.textContent = s.tag; list.appendChild(t); }
+  const d = document.createElement('div'); d.className = 'line'; d.textContent = s.text;
+  d.onclick = () => { pass = 1; start(i); }; list.appendChild(d); s.el = d;
+});
+
+function pickVoice() {
+  const vs = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
+  voice = vs.find(v => /婷婷|Tingting|晓晓|Xiaoxiao|辉辉|Huihui|Yaoyao/.test(v.name)) || vs[0] || null;
+}
+pickVoice();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice;
+
+function qStart(i) { let r = 0; for (const s of starts) { if (s <= i) r = s; else break; } return r; }
+function qEnd(i) { for (const s of starts) { if (s > i) return s - 1; } return SEGS.length - 1; }
+
+function start(i) {
+  synth.cancel();
+  if (i >= SEGS.length) { done(); return; }
+  if (i < 0) i = 0;
+  cur = i;
+  document.querySelectorAll('.line').forEach((el, k) => {
+    el.classList.toggle('now', k === cur);
+    el.classList.toggle('done', k < cur);
+  });
+  SEGS[cur].el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  document.getElementById('status').textContent = (pass === 2 ? '第2遍 · ' : '') + `第 ${cur + 1}/${SEGS.length} 句`;
+  const u = new SpeechSynthesisUtterance(SEGS[cur].text);
+  u.lang = 'zh-CN';
+  if (voice) u.voice = voice;
+  u.rate = parseFloat(document.getElementById('rate').value);
+  u.onend = () => {
+    if (!playing) return;
+    if (cur < qEnd(cur)) { pass = pass; start(cur + 1); }
+    else if (document.getElementById('mem').checked && pass === 1) { pass = 2; start(qStart(cur)); }
+    else { pass = 1; const n = qEnd(cur) + 1; if (n < SEGS.length) start(n); else done(); }
+  };
+  synth.speak(u);
+  playing = true; setBtn();
+}
+function done() { playing = false; setBtn(); document.getElementById('status').textContent = '✅ 讲完啦'; }
+function setBtn() { document.getElementById('toggle').textContent = playing ? '⏸ 暂停' : '▶ 播放'; }
+document.getElementById('toggle').onclick = () => {
+  if (cur === -1) { start(0); return; }
+  if (playing) { synth.pause(); playing = false; setBtn(); }
+  else if (synth.paused && synth.speaking) { synth.resume(); playing = true; setBtn(); }
+  else { playing = true; start(cur); }
+};
+document.getElementById('prev').onclick = () => { pass = 1; const p = qStart(Math.max(cur - 1, 0)); start(p === cur ? 0 : p); };
+document.getElementById('next').onclick = () => { pass = 1; const n = starts.find(s => s > cur); start(n === undefined ? SEGS.length : n); };
+document.getElementById('rate').onchange = () => { if (cur >= 0) { const c = cur; start(c); } };
+</script>
+</body>
+</html>

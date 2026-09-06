@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第八章 · 通听版 · 安全考证陪学</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #2b3440; padding-bottom: 110px; }
+header { position: sticky; top: 0; background: #ffffffdd; backdrop-filter: blur(8px); border-bottom: 1px solid #e3e8ee; padding: 14px 22px 10px; z-index: 5; }
+header h1 { font-size: 18px; color: #1d2733; }
+header p { font-size: 13px; color: #7a8694; margin-top: 3px; }
+main { max-width: 720px; margin: 0 auto; padding: 20px 22px; }
+.tag { color: #1a66d6; font-weight: 700; font-size: 14px; margin: 30px 0 8px; }
+.line { font-size: 20px; line-height: 1.75; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #5a6572; transition: all .15s; }
+.line:hover { background: #e9eef4; }
+.line.now { color: #0d1b2a; font-size: 26px; font-weight: 700; background: #ffffff; box-shadow: 0 1px 6px #00000014; }
+.line.done { color: #a8b2bd; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffffee; border-top: 1px solid #e3e8ee; padding: 12px 20px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; z-index: 5; }
+button { background: #eef2f6; border: 1px solid #d9e1e9; border-radius: 9px; font-size: 15px; padding: 10px 18px; cursor: pointer; font-family: inherit; color: #2b3440; }
+button:hover { background: #e2e9f0; }
+button.play { background: #1a66d6; border-color: #1a66d6; color: #fff; padding: 10px 30px; }
+label.speed, label.mem { font-size: 14px; color: #5a6572; display: flex; align-items: center; gap: 5px; }
+#status { font-size: 13px; color: #7a8694; }
+</style>
+</head>
+<body>
+<header><h1>第八章 · 通听版</h1><p>点 ▶ 播放，念到哪字幕到哪；点任意一句可从那里听。需用电脑自带中文语音（Mac=婷婷，Windows=晓晓/辉辉）。</p></header>
+<main id="list"></main>
+<footer>
+  <button id="prev">⏮ 上一题</button>
+  <button id="toggle" class="play">▶ 播放</button>
+  <button id="next">下一题 ⏭</button>
+  <label class="speed">语速
+    <select id="rate"><option value="0.85">慢 0.85</option><option value="1" selected>正常 1.0</option><option value="1.15">快 1.15</option><option value="1.3">更快 1.3</option></select>
+  </label>
+  <label class="mem"><input type="checkbox" id="mem" checked> 每题两遍</label>
+  <span id="status"></span>
+</footer>
+<script>
+const SEGS = [{"tag": "第1题", "text": "第1题，多选题。应急管理是一个动态过程,包括（　）四个阶段。 选项：A，立项；B，预防；C，准备；D，响应；E，恢复。"}, {"tag": null, "text": "正确答案：B、C、D、E。"}, {"tag": "第2题", "text": "第2题，单选题。为迅速有效地开展应急行动,需要预先所做的各种准备不包括（　）。 选项：A，应急队伍建设；B，应急机构设立；C，应急预案演练；D，开展安全研究。"}, {"tag": null, "text": "正确答案：D，开展安全研究。"}, {"tag": "第3题", "text": "第3题，单选题。应急响应是在事故发生后应立即采取的（　） 行动。 选项：A，应急与事故处理；B，救援和事故处理；C，救援与上报；D，应急与救援。"}, {"tag": null, "text": "正确答案：D，应急与救援。"}, {"tag": "第4题", "text": "第4题，判断题。事故应急救援的总目标是通过有效的应急救援行动,尽可能降低事故的后果,包括人员伤亡、财产损失和环境破坏等。 （　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第5题", "text": "第5题，单选题。整个应急救援系统的重心 （　） 选项：A，应急救援中心；B，应急救援专家组；C，公众疏散组织；D，后勤保障组织。"}, {"tag": null, "text": "正确答案：A，应急救援中心。"}, {"tag": "第6题", "text": "第6题，单选题。为保障重大事故应急救援工作的有效开展,应建立重大事故应急救援体系的 （　）系统。 选项：A，检查分析；B，问题比对；C，支持保障；D，纠偏。"}, {"tag": null, "text": "正确答案：C，支持保障。"}, {"tag": "第7题", "text": "第7题，判断题。应急救援体系可以有可靠的通信保障系统,保证整个应急救援过程中救援组织内部,以及内部与外部之间通畅的通信网络,并设立备用通信系统。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第8题", "text": "第8题，单选题。临时应急恢复阶段不包括 （　） 选项：A，恢复现场；B，人员清点和撤离；C，警戒解除；D，事故处理和事故调查。"}, {"tag": null, "text": "正确答案：A，恢复现场。"}, {"tag": "第9题", "text": "第9题，单选题。应急预案体系的构成不包含 （　） 选项：A，综合应急预案；B，专项应急预案；C，施工组织预案；D，现场处置预案。"}, {"tag": null, "text": "正确答案：C，施工组织预案。"}, {"tag": "第10题", "text": "第10题，多选题。生产经营单位应急预案编制程序包括 （　）、应急预案编制、桌面推演等步骤。 选项：A，成立编制工作组；B，收集资料；C，评估风险和应急资源调查；D，应急预案评审和批准；E，发布和执行预案。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第11题", "text": "第11题，单选题。施工单位应急预案编制完成后,应由 （　） 组织评审。 选项：A，建设单位；B，设计单位；C，施工单位；D，监理单位。"}, {"tag": null, "text": "正确答案：C，施工单位。"}, {"tag": "第12题", "text": "第12题，单选题。下列表述中不属于生产安全事故应急救援预案制定要求的是（　） 选项：A，系统性；B，科学性；C，针对性；D，可操作性。"}, {"tag": null, "text": "正确答案：A，系统性。"}, {"tag": "第13题", "text": "第13题，多选题。综合应急预案的应急响应部分的内容,一般应包括 （　） 选项：A，信息报告；B，响应分级；C，应急处置；D，应急支援；E，响应终止。"}, {"tag": null, "text": "正确答案：A、C、D、E。"}, {"tag": "第14题", "text": "第14题，单选题。综合应急预案的应急响应部分的内容,一般不包括（　） 选项：A，信息报告；B，响应分级；C，应急处置；D，应急支援。"}, {"tag": null, "text": "正确答案：B，响应分级。"}, {"tag": "第15题", "text": "第15题，多选题。综合应急预案中,应急响应终止应明确终止的 （　） 选项：A，基本条件；B，要求；C，责任人；D，信息公开；E，后勤保障。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第16题", "text": "第16题，单选题。用于事故应急响应的保障队伍,一般不包括 （　） 选项：A，专职应急队伍；B，兼职应急队伍；C，应急队伍；D，业余应急队伍。"}, {"tag": null, "text": "正确答案：D，业余应急队伍。"}, {"tag": "第17题", "text": "第17题，多选题。现场处置方案主要由（　）、注意事项等内容组成。 选项：A，事故风险分析；B，应急工作职责；C，应急预案管理；D，应急处置；E，安全制度。"}, {"tag": null, "text": "正确答案：A、B、D。"}, {"tag": "第18题", "text": "第18题，单选题。现场处置方案中应明确的注意事项,描述不准确的是 （　） 选项：A，使用施工机具方面的注意事项；B，使用救援装备方面的注意事项；C，现场自救互救方面的注意事项；D，现场人员安全防护的注意事项。"}, {"tag": null, "text": "正确答案：A，使用施工机具方面的注意事项。"}, {"tag": "第19题", "text": "第19题，单选题。综合应急预案、专项应急预案和现场处置方案最后都要列出一个附件,其主要内容不包括的是（　） 选项：A，有关应急部门、机构或人员的联系方式；B，应急物质装备的名称或清单；C，关键的路线、标识和图纸；D，公司相关的安全管理制度。"}, {"tag": null, "text": "正确答案：D，公司相关的安全管理制度。"}, {"tag": "第20题", "text": "第20题，单选题。应急演练是针对事故情景,依据应急预案而 （　） 开展的应急救援活动。 选项：A，提前；B，实际；C，模拟；D，准备。"}, {"tag": null, "text": "正确答案：C，模拟。"}, {"tag": "第21题", "text": "第21题，判断题。通过开展应急演练,可以实现评估应急准备状态,发现并及时修改应急预案、执行程序等相关工作的缺陷和不足。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第22题", "text": "第22题，单选题。作为应急演练的原则,不适合的是（　） 选项：A，注重知识水平提升；B，符合相关规定；C，切合企业实际；D，确保安全有序。"}, {"tag": null, "text": "正确答案：A，注重知识水平提升。"}, {"tag": "第23题", "text": "第23题，判断题。桌面演练是选择(或模拟) 生产经营活动中的设备设施、装置或场所,设定事故情景,依据应急预案而模拟的应急演练活动。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第24题", "text": "第24题，单选题。选择生产经营活动中的设备设施、场所,设定事故情景,依据应急预案而模拟开展的演练活动是 （　） 选项：A，桌面演练；B，现场演练；C，单项演练；D，综合演练。"}, {"tag": null, "text": "正确答案：B，现场演练。"}, {"tag": "第25题", "text": "第25题，多选题。应急演练按照内容可分为 （　） 选项：A，桌面演练；B，现场演练；C，单项演练；D，综合演练；E，专项演练。"}, {"tag": null, "text": "正确答案：C、D。"}, {"tag": "第26题", "text": "第26题，单选题。不属于应急演练计划内容的是 （　） 选项：A，演练目的及类型(形式)；B，参加单位和经营预算；C，演练的时间、地点及主要内容；D，演练效果评价。"}, {"tag": null, "text": "正确答案：D，演练效果评价。"}, {"tag": "第27题", "text": "第27题，单选题。根据演练评估报告中对应急预案的改进建议,由应急预案的 (按程序对预案进行修订完善。（　） 选项：A，编制部门；B，演练部门；C，管理部门；D，上级部门。"}, {"tag": null, "text": "正确答案：A，编制部门。"}, {"tag": "第28题", "text": "第28题，多选题。通信工程有限空间作业中毒或窒息事故的现场处置方案,主要由（　）、注意事项、附件等内容组成。 选项：A，事故风险分析；B，应急工作职责；C，应急预案管理；D，应急处置；E，安全制度。"}, {"tag": null, "text": "正确答案：A、B、D。"}];
+const synth = window.speechSynthesis;
+let cur = -1, playing = false, pass = 1, voice = null;
+const starts = SEGS.map((s, i) => s.tag ? i : -1).filter(i => i >= 0);
+const list = document.getElementById('list');
+
+SEGS.forEach((s, i) => {
+  if (s.tag) { const t = document.createElement('div'); t.className = 'tag'; t.textContent = s.tag; list.appendChild(t); }
+  const d = document.createElement('div'); d.className = 'line'; d.textContent = s.text;
+  d.onclick = () => { pass = 1; start(i); }; list.appendChild(d); s.el = d;
+});
+
+function pickVoice() {
+  const vs = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
+  voice = vs.find(v => /婷婷|Tingting|晓晓|Xiaoxiao|辉辉|Huihui|Yaoyao/.test(v.name)) || vs[0] || null;
+}
+pickVoice();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice;
+
+function qStart(i) { let r = 0; for (const s of starts) { if (s <= i) r = s; else break; } return r; }
+function qEnd(i) { for (const s of starts) { if (s > i) return s - 1; } return SEGS.length - 1; }
+
+function start(i) {
+  synth.cancel();
+  if (i >= SEGS.length) { done(); return; }
+  if (i < 0) i = 0;
+  cur = i;
+  document.querySelectorAll('.line').forEach((el, k) => {
+    el.classList.toggle('now', k === cur);
+    el.classList.toggle('done', k < cur);
+  });
+  SEGS[cur].el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  document.getElementById('status').textContent = (pass === 2 ? '第2遍 · ' : '') + `第 ${cur + 1}/${SEGS.length} 句`;
+  const u = new SpeechSynthesisUtterance(SEGS[cur].text);
+  u.lang = 'zh-CN';
+  if (voice) u.voice = voice;
+  u.rate = parseFloat(document.getElementById('rate').value);
+  u.onend = () => {
+    if (!playing) return;
+    if (cur < qEnd(cur)) { pass = pass; start(cur + 1); }
+    else if (document.getElementById('mem').checked && pass === 1) { pass = 2; start(qStart(cur)); }
+    else { pass = 1; const n = qEnd(cur) + 1; if (n < SEGS.length) start(n); else done(); }
+  };
+  synth.speak(u);
+  playing = true; setBtn();
+}
+function done() { playing = false; setBtn(); document.getElementById('status').textContent = '✅ 讲完啦'; }
+function setBtn() { document.getElementById('toggle').textContent = playing ? '⏸ 暂停' : '▶ 播放'; }
+document.getElementById('toggle').onclick = () => {
+  if (cur === -1) { start(0); return; }
+  if (playing) { synth.pause(); playing = false; setBtn(); }
+  else if (synth.paused && synth.speaking) { synth.resume(); playing = true; setBtn(); }
+  else { playing = true; start(cur); }
+};
+document.getElementById('prev').onclick = () => { pass = 1; const p = qStart(Math.max(cur - 1, 0)); start(p === cur ? 0 : p); };
+document.getElementById('next').onclick = () => { pass = 1; const n = starts.find(s => s > cur); start(n === undefined ? SEGS.length : n); };
+document.getElementById('rate').onchange = () => { if (cur >= 0) { const c = cur; start(c); } };
+</script>
+</body>
+</html>

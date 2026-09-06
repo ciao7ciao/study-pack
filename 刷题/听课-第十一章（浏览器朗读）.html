@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第十一章 · 通听版 · 安全考证陪学</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #2b3440; padding-bottom: 110px; }
+header { position: sticky; top: 0; background: #ffffffdd; backdrop-filter: blur(8px); border-bottom: 1px solid #e3e8ee; padding: 14px 22px 10px; z-index: 5; }
+header h1 { font-size: 18px; color: #1d2733; }
+header p { font-size: 13px; color: #7a8694; margin-top: 3px; }
+main { max-width: 720px; margin: 0 auto; padding: 20px 22px; }
+.tag { color: #1a66d6; font-weight: 700; font-size: 14px; margin: 30px 0 8px; }
+.line { font-size: 20px; line-height: 1.75; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #5a6572; transition: all .15s; }
+.line:hover { background: #e9eef4; }
+.line.now { color: #0d1b2a; font-size: 26px; font-weight: 700; background: #ffffff; box-shadow: 0 1px 6px #00000014; }
+.line.done { color: #a8b2bd; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffffee; border-top: 1px solid #e3e8ee; padding: 12px 20px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; z-index: 5; }
+button { background: #eef2f6; border: 1px solid #d9e1e9; border-radius: 9px; font-size: 15px; padding: 10px 18px; cursor: pointer; font-family: inherit; color: #2b3440; }
+button:hover { background: #e2e9f0; }
+button.play { background: #1a66d6; border-color: #1a66d6; color: #fff; padding: 10px 30px; }
+label.speed, label.mem { font-size: 14px; color: #5a6572; display: flex; align-items: center; gap: 5px; }
+#status { font-size: 13px; color: #7a8694; }
+</style>
+</head>
+<body>
+<header><h1>第十一章 · 通听版</h1><p>点 ▶ 播放，念到哪字幕到哪；点任意一句可从那里听。需用电脑自带中文语音（Mac=婷婷，Windows=晓晓/辉辉）。</p></header>
+<main id="list"></main>
+<footer>
+  <button id="prev">⏮ 上一题</button>
+  <button id="toggle" class="play">▶ 播放</button>
+  <button id="next">下一题 ⏭</button>
+  <label class="speed">语速
+    <select id="rate"><option value="0.85">慢 0.85</option><option value="1" selected>正常 1.0</option><option value="1.15">快 1.15</option><option value="1.3">更快 1.3</option></select>
+  </label>
+  <label class="mem"><input type="checkbox" id="mem" checked> 每题两遍</label>
+  <span id="status"></span>
+</footer>
+<script>
+const SEGS = [{"tag": "第1题", "text": "第1题，单选题。作业人员对于施工现场的火灾事故防范应做到三懂三会,其中三懂不包括 （　）。 选项：A，懂本岗位的火灾危险性；B，懂预防火灾的措施；C，懂火灾扑救的方法；D，懂消防器材的设置要求。"}, {"tag": null, "text": "正确答案：D，懂消防器材的设置要求。"}, {"tag": "第2题", "text": "第2题，多选题。燃烧的特征包括（　）,这也是区分燃烧和非燃烧的依据 选项：A，发光；B，发热；C，生成新物质；D，可燃物；E，助燃物。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第3题", "text": "第3题，多选题。燃烧过程的发生和发展须具备的必要条件包括 （　） 选项：A，引火源；B，还原剂；C，发光；D，可燃物；E，氧化剂。"}, {"tag": null, "text": "正确答案：A、D、E。"}, {"tag": "第4题", "text": "第4题，多选题。下列物质属于助燃物的有 （　）。 选项：A，氢气；B，乙快；C，氨气；D，氧气；E，甲烷。"}, {"tag": null, "text": "正确答案：C、D。"}, {"tag": "第5题", "text": "第5题，单选题。属于分解燃烧形式的是 （　）的燃烧。 选项：A，酒精；B，木炭；C，铁；D，木材。"}, {"tag": null, "text": "正确答案：D，木材。"}, {"tag": "第6题", "text": "第6题，多选题。下列物质的燃烧属于分解燃烧形式的有 （　） 选项：A，纸；B，木碳；C，油脂；D，木材；E，酒精。"}, {"tag": null, "text": "正确答案：A、D。"}, {"tag": "第7题", "text": "第7题，多选题。下列物质的燃烧属于表面燃烧形式的有 （　） 选项：A，纸；B，木炭；C，焦炭；D，木材；E，铜。"}, {"tag": null, "text": "正确答案：B、C、E。"}, {"tag": "第8题", "text": "第8题，单选题。根据我国现行标准规定 （　）火灾属于 选项：A，类火灾A 木材；B，石蜡；C，氢气；D，铝镁合金。"}, {"tag": null, "text": "正确答案：A，类火灾A 木材。"}, {"tag": "第9题", "text": "第9题，单选题。根据我国现行标准规定 （　） 火灾属于 B 类火灾 选项：A，木材；B，石蜡；C，氢气；D，铝镁合金。"}, {"tag": null, "text": "正确答案：B，石蜡。"}, {"tag": "第10题", "text": "第10题，单选题。根据我国现行标准规定,（　） 火灾属于 C 类火灾 选项：A，木材；B，石蜡；C，氢气；D，铝镁合金。"}, {"tag": null, "text": "正确答案：C，氢气。"}, {"tag": "第11题", "text": "第11题，单选题。根据我国现行标准规定 （　） 火灾属于 D 类火灾。 选项：A，木材；B，石蜡；C，氢气；D，铝镁合金。"}, {"tag": null, "text": "正确答案：D，铝镁合金。"}, {"tag": "第12题", "text": "第12题，判断题。根据我国现行标准规定,动物油脂火灾属于 F 类（　）。"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第13题", "text": "第13题，单选题。死亡 30 人的火灾,属于 （　） 火灾。 选项：A，一般；B，较大；C，重大；D，特别重大。"}, {"tag": null, "text": "正确答案：D，特别重大。"}, {"tag": "第14题", "text": "第14题，单选题。重伤 50 人的火灾,属于（　） 火灾。 选项：A，一般；B，较大；C，重大；D，特别重大。"}, {"tag": null, "text": "正确答案：C，重大。"}, {"tag": "第15题", "text": "第15题，单选题。死亡 5 人的火灾,属于（　） 火灾。 选项：A，一般；B，较大；C，重大；D，特别重大。"}, {"tag": null, "text": "正确答案：B，较大。"}, {"tag": "第16题", "text": "第16题，单选题。死亡 1 人的火灾,属于（　）火灾。 选项：A，一般；B，较大；C，重大；D，特别重大。"}, {"tag": null, "text": "正确答案：A，一般。"}, {"tag": "第17题", "text": "第17题，判断题。一般情况下,闪点越低,火灾危险性越大。 （　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第18题", "text": "第18题，单选题。扑救火灾的最佳阶段是（　） 选项：A，初起期；B，发展期 D 减弱期；C，减弱期 C 最盛期。"}, {"tag": null, "text": "正确答案：A，初起期。"}, {"tag": "第20题", "text": "第20题，单选题。下列关于爆炸的说法,正确的是 （　） 选项：A，化学爆炸一般威力较小,而物理性爆炸往往威力非常大；B，物理爆炸只有极少数是氧化反应引起的爆炸；C，液化气钢瓶的爆炸属于化学爆炸；D，水蒸气爆炸属于物理爆炸。"}, {"tag": null, "text": "正确答案：D，水蒸气爆炸属于物理爆炸。"}, {"tag": "第21题", "text": "第21题，单选题。属于化学过程的灭火方法是 （　） 选项：A，冷却灭火；B，隔离灭火；C，室息灭火；D，抑蚱错灭火。"}, {"tag": null, "text": "正确答案：D，抑蚱错灭火。"}, {"tag": "第22题", "text": "第22题，单选题。不能使用泡沫灭火器扑救的火灾是（　）火灾。 选项：A，木材；B，汽油；C，石蜡；D，氢气。"}, {"tag": null, "text": "正确答案：D，氢气。"}, {"tag": "第23题", "text": "第23题，多选题。泡沫灭火剂不适用于扑救 （　）火灾。 选项：A，类；B，类；C，类；D，类；E，类。"}, {"tag": null, "text": "正确答案：C、D、E。"}, {"tag": "第25题", "text": "第25题，单选题。能用于扑救 1KV 以上高压带电设备的灭火剂是 （　） 选项：A，泡沫灭火剂；B，二氧化碳灭火剂；C，干粉灭火剂；D，烟雾灭火剂。"}, {"tag": null, "text": "正确答案：C，干粉灭火剂。"}, {"tag": "第26题", "text": "第26题，单选题。不能使用干粉灭火器扑救的火灾是（　）火灾。 选项：A，可燃液体；B，可燃固体；C，可燃气体；D，轻金属。"}, {"tag": null, "text": "正确答案：D，轻金属。"}, {"tag": "第27题", "text": "第27题，单选题。二氧化碳灭火器主要灭火原理是 （　） 选项：A，冷却；B，室息；C，隔离；D，抑制。"}, {"tag": null, "text": "正确答案：B，室息。"}, {"tag": "第28题", "text": "第28题，多选题。混合气体灭火剂是由（　） 按一定比例混合而成的气体 选项：A，氮气；B，气；C，氧气；D，二氧化碳气体；E，一氧化碳。"}, {"tag": null, "text": "正确答案：A、B、D。"}, {"tag": "第29题", "text": "第29题，单选题。混合气体灭火剂中不包含 （　） 选项：A，氮气；B，二氧化碳；C，氧气；D，气。"}, {"tag": null, "text": "正确答案：C，氧气。"}, {"tag": "第30题", "text": "第30题，单选题。混合气体灭火剂不能扑救的火灾是 （　） 火灾。 选项：A，类；B，类；C，类 D；D，类。"}, {"tag": null, "text": "正确答案：C，类 D。"}, {"tag": "第31题", "text": "第31题，单选题。火灾自动报警系统一般由触发器件、火灾报警装置、（　）和电源四部分组成。 选项：A，火灾警报装置；B，自动灭火装置；C，防烟排烟装置；D，安全疏散设施。"}, {"tag": null, "text": "正确答案：A，火灾警报装置。"}, {"tag": "第32题", "text": "第32题，多选题。火灾自动报警系统一般由 （　） 和电源四部分组成。 选项：A，触发器件；B，火灾报警装置；C，火灾警报装置；D，自动灭火装置；E，防烟排烟装置。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第33题", "text": "第33题，单选题。火灾自动报警系统中的核心组成部分是（　） 选项：A，触发器件；B，火灾警报器；C，火灾报警控制器；D，消防控制器。"}, {"tag": null, "text": "正确答案：C，火灾报警控制器。"}, {"tag": "第34题", "text": "第34题，判断题。灭火器由筒体、器头、喷嘴等部件组成,借助驱动压力将所充装的灭火剂喷出,达到灭火的目的,是扑救初起火灾的重要消防器材。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第35题", "text": "第35题，多选题。通常通信机房中常用 （　） 和阻火模块等封堵电缆井和各种缆线通过的孔洞。 选项：A，泡沫封堵材料；B，柔性有机材料；C，阻火包；D，防火封堵板材；E，防火蜜封胶。"}, {"tag": null, "text": "正确答案：B、C、D。"}, {"tag": "第36题", "text": "第36题，单选题。气焊或气割时,操作人员应保证气瓶距火源之间的距离在 （　）米以上。 选项：A，10；B，15；C，18。"}, {"tag": null, "text": "正确答案：B，15。"}, {"tag": "第37题", "text": "第37题，判断题。焊接带电的设备时可不断电,但需采取措施,避免触电。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第38题", "text": "第38题，单选题。氧气瓶是储存和运输氧气的专用高压容器,它是由瓶体、瓶箍、瓶阀和瓶帽 4 部分组成。其瓶体为 （　）色,并用黑漆标明氧气两字,用以区别其它气瓶。 选项：A，白；B，黑；C，天蓝；D，灰。"}, {"tag": null, "text": "正确答案：C，天蓝。"}, {"tag": "第39题", "text": "第39题，单选题。氧气瓶是储存和运输氧气的专用高压容器,它是由瓶体、瓶箍、瓶阀和瓶帽 4 部分组成。其瓶体为天蓝色,并用（　） 漆标明氧气两字,用以区别其它气瓶。 选项：A，白；B，黑；C，红；D，黄。"}, {"tag": null, "text": "正确答案：B，黑。"}, {"tag": "第40题", "text": "第40题，单选题。氧气瓶与明火之间的最小距离为（　）M。 选项：A，5；B，10；C，15。"}, {"tag": null, "text": "正确答案：C，15。"}, {"tag": "第41题", "text": "第41题，单选题。乙炔瓶是一种储存和运输乙炔的容器,其瓶体外表漆成白色,并漆有 （　）色\"乙炔”字样。 选项：A，天蓝；B，黑；C，红；D，黄。"}, {"tag": null, "text": "正确答案：C，红。"}, {"tag": "第43题", "text": "第43题，单选题。乙炔瓶与易燃、易爆物质之间的存放距离不得近于 （　） M。 选项：A，5；B，10；C，15。"}, {"tag": null, "text": "正确答案：B，10。"}, {"tag": "第44题", "text": "第44题，判断题。必须将氧气瓶或乙炔瓶内的气体全部用完后方可再罐装气体。（　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第45题", "text": "第45题，单选题。如果发现电器设备着火,首先应该 （　） 选项：A，找就近灭火器灭火；B，关掉电源；C，打 119 报警；D，立即通知消防控制室人员。"}, {"tag": null, "text": "正确答案：B，关掉电源。"}, {"tag": "第46题", "text": "第46题，多选题。电气事故按发生灾害的形式,可以分为人身事故（　） 等 选项：A，接地事故；B，漏电事故；C，爆炸事故；D，设备事故；E，电气火灾。"}, {"tag": null, "text": "正确答案：C、D、E。"}, {"tag": "第47题", "text": "第47题，判断题。无论哪种电气事故,都是由于各种类型的电流、电荷、电磁场的能量不适当释放或转移造成的。 （　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第48题", "text": "第48题，多选题。电流对人体的伤害的严重程度与 （　）有关 选项：A，通过人体的电流大小；B，通过人体的电流频率；C，通过人体的电流持续时间；D，流经途径；E，人体的体型。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第49题", "text": "第49题，单选题。引起电击事故最危险的电流频率是 （　） 选项：A，直流；B，50Hz；C，50KHz；D，50MHz。"}, {"tag": null, "text": "正确答案：B，50Hz。"}, {"tag": "第50题", "text": "第50题，单选题。对于工频电流,一般成年男性的感知电流为（　）mA 左右 选项：A，.5；B，0.7；C，1.1；D，1.6。"}, {"tag": null, "text": "正确答案：C，1.1。"}, {"tag": "第52题", "text": "第52题，单选题。对于工频电流,一般成年女性在摆脱概率为 50%时的摆脱电流约为（　） mA. 选项：A，9；B，10.5；C，16。"}, {"tag": null, "text": "正确答案：C，16。"}, {"tag": "第53题", "text": "第53题，单选题。对于工频电流,一般成年男性在摆脱概率为 99.5%时的摆脱电流约为（　） mA。 选项：A，9；B，10.5；C，16。"}, {"tag": null, "text": "正确答案：B，10.5。"}, {"tag": "第54题", "text": "第54题，单选题。对于工频电流,一般成年女性在摆脱概率为 99.5%时的摆脱电流约为（　） mA。 选项：A，9；B，10.5；C，16。"}, {"tag": null, "text": "正确答案：A，9。"}, {"tag": "第55题", "text": "第55题，单选题。对于工频电流,当电流持续时间超过心脏跳动周期时,人的室额电流约为 （　） mA。 选项：A，0；B，50；C，100；D，500。"}, {"tag": null, "text": "正确答案：B，50。"}, {"tag": "第56题", "text": "第56题，单选题。正常人在正常条件下对直流电流的感觉闽值约为 （　） mA。 选项：A，2；B，5；C，10。"}, {"tag": null, "text": "正确答案：B，5。"}, {"tag": "第57题", "text": "第57题，单选题。对于直流电来说,以下说法错误的是 （　） 选项：A，与交流相比,摆脱较难；B，正常人在正常条件下的感觉闯值约为 2mA,且只有在接通和断开时才会引起感觉；C，300mA 及以下时,没有可确定的摆脱闽值；D，电流持续时间小于 200ms 时,直流室颤闯值大致与交流相同。"}, {"tag": null, "text": "正确答案：A，与交流相比,摆脱较难。"}, {"tag": "第58题", "text": "第58题，多选题。关于人体对流经人体的电流的反应,说法错误的是 （　） 选项：A，儿童较大人敏感；B，女性较男性敏感；C，体重大的较体重轻的敏感；D，患有心脏病者触电死亡率较大。"}, {"tag": null, "text": "正确答案：A、B、D。"}, {"tag": "第60题", "text": "第60题，单选题。绝大部分触电死亡事故是 （　） 造成的。 选项：A，电击；B，电伤；C，雷击；D，电磁辐射。"}, {"tag": null, "text": "正确答案：A，电击。"}, {"tag": "第61题", "text": "第61题，多选题。电伤包括 （　）等。 选项：A，间接接触电击；B，间接接触电伤；C，电烧伤；D，电烙印；E，电光眼。"}, {"tag": null, "text": "正确答案：C、D、E。"}, {"tag": "第62题", "text": "第62题，多选题。人体触电的方式有很多,常见的触电方式有 （　） 等 选项：A，单项触电；B，两相触电；C，三相触电；D，跨步触电；E，接触电压触电。"}, {"tag": null, "text": "正确答案：A、B、D、E。"}, {"tag": "第63题", "text": "第63题，单选题。安全工作规程要求人们在户内不要走近电线落地点 （　） M 以内地段,否则会发生触电事故。 选项：A，6；B，8；C，10。"}, {"tag": null, "text": "正确答案：C，10。"}, {"tag": "第64题", "text": "第64题，判断题。我国习惯上以 1kv 为界线,额定电压在 1 千伏及以上的称为高压,1 千伏以下的称为低压。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第65题", "text": "第65题，多选题。防止直接接触电击事故中最基本、最重要的安全技术措施 （　） 选项：A，绝缘；B，屏护；C，间距；D，保护接地；E，保护接零。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第66题", "text": "第66题，判断题。气体和液体绝缘击穿后,可以恢复其功能。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第67题", "text": "第67题，单选题。变配电装置的户内临时栅栏高度不应低于 （　） m。 选项：A，.0；B，1.2；C，1.5；D，1.7。"}, {"tag": null, "text": "正确答案：B，1.2。"}, {"tag": "第68题", "text": "第68题，单选题。变配电装置的户外临时栅栏高度不应低于 （　） m。 选项：A，.0；B，1.2；C，1.5；D，1.7。"}, {"tag": null, "text": "正确答案：C，1.5。"}, {"tag": "第69题", "text": "第69题，单选题。在 TN 系统中,以下做法错误的是（　） 选项：A，将电器外壳保护接地；B，将 PEN 线重复接地；C，安装电流型漏电保护器；D，单相负荷线路保护零线可借用工作零线。"}, {"tag": null, "text": "正确答案：D，单相负荷线路保护零线可借用工作零线。"}, {"tag": "第71题", "text": "第71题，单选题。金属容器内、隧道内、水井内以及周围有大面积接地导体等工作地点狭窄、行动不便的环境或特别潮湿的环境应采用 （　）V 安全电压。 选项：A，12；B，24；C，42。"}, {"tag": null, "text": "正确答案：B，24。"}, {"tag": "第72题", "text": "第72题，判断题。电流型漏电保护装置只能防止间接接触电击,不能防止直接接触电击。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第73题", "text": "第73题，多选题。我国标准规定的高灵敏度电流型漏电保护装置的额定动作电流有（　） mA。 选项：A，0；B，15；C，30；D，50；E，75。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第74题", "text": "第74题，单选题。用于防止人身触电事故,应选用的电流型漏电保护装置应该是（　）。 选项：A，高灵敏度；B，中灵敏度；C，低灵敏度；D，特低灵敏度。"}, {"tag": null, "text": "正确答案：A，高灵敏度。"}, {"tag": "第75题", "text": "第75题，单选题。用于监视一相接地事故,应选用的电流型漏电保护装置应该是（　） 选项：A，特高灵敏度；B，高灵敏度；C，中灵敏度；D，低灵敏度。"}, {"tag": null, "text": "正确答案：D，低灵敏度。"}, {"tag": "第76题", "text": "第76题，单选题。用于防止漏电火灾事故,可以选用的电流型漏电保护装置应该是（　） 选项：A，特高灵敏度；B，高灵敏度；C，中灵敏度；D，低灵敏度；E，都可以。"}, {"tag": null, "text": "正确答案：D，低灵敏度。"}, {"tag": "第77题", "text": "第77题，判断题。电流型漏电保护装电流不得低于额定动作电流的 1/2.。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第78题", "text": "第78题，多选题。以下关于电源线颜色标识正确的有 （　） 选项：A，相-为红色；B，相-为绿色；C，相-为黑色；D，工作零线-为黄色；E，专用保护零线-为黄绿双色。"}, {"tag": null, "text": "正确答案：B、E。"}, {"tag": "第79题", "text": "第79题，单选题。电源线路可分为工作相线 (火线),工作零线和专用保护零线。工作零线用 （　）色芯线。 选项：A，黄；B，绿；C，黑；D，蓝。"}, {"tag": null, "text": "正确答案：D，蓝。"}, {"tag": "第80题", "text": "第80题，判断题。建筑施工现场临时用电工程必须采用三级配电系统,必须采用 TN-S 接零保护系统,必须采用二级漏电保护系统。 （　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第81题", "text": "第81题，单选题。按照《施工现场临时用电安全技术规范》规定,有关建筑施工现场临时用电说法错误的是（　）。 选项：A，必须采用三级配电系统；B，必须采用 TN-；C，接零保护系统C 必须采用二级漏电保护系统；D，每台用电设备必须有各自专用的开关箱。"}, {"tag": null, "text": "正确答案：B，必须采用 TN-。"}, {"tag": "第82题", "text": "第82题，单选题。施工现场临时用电应采用 （　）保护系统。 选项：A，TN-C；B，TN-S C IT；C，TT83 施工现场配电系统的漏电保护开关应按( C)配置。A 四级 B 三级 C 二级 D 一级。"}, {"tag": null, "text": "正确答案：C，TT83 施工现场配电系统的漏电保护开关应按( C)配置。A 四级 B 三级 C 二级 D 一级。"}, {"tag": "第84题", "text": "第84题，单选题。施工现场开关箱与用电设备的水平距离不宜超过（　）M。 选项：A，3；B，4；C，5。"}, {"tag": null, "text": "正确答案：B，4。"}, {"tag": "第85题", "text": "第85题，单选题。施工现场的配电箱、开关箱应设置在安全稳固、便于操作、不易被碰撞的地点,周围不得有易燃物或杂物。其底部距地面最小距离为（　）m。 选项：A，.0；B，1.2；C，1.3；D，1.5。"}, {"tag": null, "text": "正确答案：C，1.3。"}, {"tag": "第86题", "text": "第86题，单选题。在人孔内、天花板及坚井内等有电击危险环境中作业时,应使用电源电压不超过（　）的行灯照明。 选项：A，2Y；B，24V；C，36V；D，42V。"}, {"tag": null, "text": "正确答案：C，36V。"}, {"tag": "第87题", "text": "第87题，单选题。施工现场的照明线路（　）必须经过开关才能进入照明灯具。 选项：A，相线；B，零线；C，相线和零线；D，都不是。"}, {"tag": null, "text": "正确答案：A，相线。"}, {"tag": "第88题", "text": "第88题，单选题。低压带电作业断开导线时,应（　） 选项：A，先断开相线,后断开零线；B，先断开零线,后断开相线；C，先断开相线或零线均可；D，两者同时断开。"}, {"tag": null, "text": "正确答案：A，先断开相线,后断开零线。"}, {"tag": "第89题", "text": "第89题，判断题。运输或存放有锋刃的工具要平放,锋刃口应朝上或向外,放入工具袋时纫口应向下。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第90题", "text": "第90题，单选题。千斤顶不得超负荷使用,旋升最大行程不得超过丝杠总长的（　） 选项：A，三分之二；B，四分之三；C，五分之三；D，二分之一。"}, {"tag": null, "text": "正确答案：C，五分之三。"}, {"tag": "第91题", "text": "第91题，多选题。通信工程中用电工具的使用,做法正确的是 （　） 选项：A，使用前应进行安全检查；B，应使用独立的的插座；C，传递用电工具时应先切断电源；D，易燃场所作业时必须使用防爆式工具；E，带电设备上作业时应使用隔离变压器。"}, {"tag": null, "text": "正确答案：A、C、D、E。"}, {"tag": "第92题", "text": "第92题，单选题。关于用电工具,以下说法错误的是 （　）。 选项：A，在带电设备上可以使用用电工具；B，使用手电钻或电锤时,必须戴帆布手套；C，使用手持式砂轮机打磨作业时,工作前,应进行空载试验；D，不得在易燃、用熔接机的场所用熔接机。"}, {"tag": null, "text": "正确答案：B，使用手电钻或电锤时,必须戴帆布手套。"}, {"tag": "第93题", "text": "第93题，多选题。关于仪表的车使用,以下说法正确的有 （　） 选项：A，使用交流供电的仪表,金属外壳应接地保护；B，使用带激光源的仪器时,不得将光源正对着眼睛；C，测试电缆的耐压或绝缘时,应把电缆与相应设备连接可靠；D，做过耐压和绝缘测试的电缆,必须放电后才能再进行其它项目的测试；E，长期不使用时应及时从仪表中取出电池。"}, {"tag": null, "text": "正确答案：A、B、D、E。"}, {"tag": "第94题", "text": "第94题，单选题。关于电焊机的使用,以下说法错误的是 （　） 选项：A，交流电焊机应配装防二次侧触电保护器；B，交流电焊机一次侧电源线长度不应大于 30 米；C，二次侧电源线应采用防水型橡皮护套铜芯软电缆；D，在潮湿处操作电焊机,操作人员应站在绝缘板上。。"}, {"tag": null, "text": "正确答案：B，交流电焊机一次侧电源线长度不应大于 30 米。"}, {"tag": "第95题", "text": "第95题，单选题。通信工程路面切割机的使用,做法错误的是 （　）。 选项：A，金属外壳应做好保护接地；B，手柄上应有电源控制开关并做绝终保护；C，使用时应一边操作、一边随机整理电源线；D，操作人员应戴绝缘手套、穿绝缘鞋。"}, {"tag": null, "text": "正确答案：C，使用时应一边操作、一边随机整理电源线。"}, {"tag": "第96题", "text": "第96题，判断题。砂轮切割机的电源线应采用耐气温变化的橡胶皮护套铜芯软电缆（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第97题", "text": "第97题，单选题。砂轮切割机应安装防护罩,切割机前面应设立（　）M 高的耐火档砂板。 选项：A，.2；B，1.5；C，1.7；D，2。"}, {"tag": null, "text": "正确答案：C，1.7。"}, {"tag": "第98题", "text": "第98题，单选题。推土机横坡行驶的坡度最大为（　） 选项：A，0°；B，15°；C，20°；D，25°。"}, {"tag": null, "text": "正确答案：A，0°。"}, {"tag": "第99题", "text": "第99题，单选题。推土机停车时刀铲距地面要保持 （　） m 左右。 选项：A，0.2；B，0.5；C，1.0。"}, {"tag": null, "text": "正确答案：A，0.2。"}, {"tag": "第100题", "text": "第100题，单选题。使用吊车在架空电力线附近工作时,应与其保持安全距离,当输电线路电压为 10KV 时,允许与输电线路的最近距离为（　）米。 选项：A，.5；B，2.0；C，4.0；D，6.0。"}, {"tag": null, "text": "正确答案：B，2.0。"}, {"tag": "第101题", "text": "第101题，单选题。使用吊车在架空电力线附近工作时,应与其保持安全距离,当输电线路电压为 35KV 时,允许与输电线路的最近距离为（　）米 选项：A，.5；B，2.0；C，4.0；D，6.0。"}, {"tag": null, "text": "正确答案：C，4.0。"}];
+const synth = window.speechSynthesis;
+let cur = -1, playing = false, pass = 1, voice = null;
+const starts = SEGS.map((s, i) => s.tag ? i : -1).filter(i => i >= 0);
+const list = document.getElementById('list');
+
+SEGS.forEach((s, i) => {
+  if (s.tag) { const t = document.createElement('div'); t.className = 'tag'; t.textContent = s.tag; list.appendChild(t); }
+  const d = document.createElement('div'); d.className = 'line'; d.textContent = s.text;
+  d.onclick = () => { pass = 1; start(i); }; list.appendChild(d); s.el = d;
+});
+
+function pickVoice() {
+  const vs = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
+  voice = vs.find(v => /婷婷|Tingting|晓晓|Xiaoxiao|辉辉|Huihui|Yaoyao/.test(v.name)) || vs[0] || null;
+}
+pickVoice();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice;
+
+function qStart(i) { let r = 0; for (const s of starts) { if (s <= i) r = s; else break; } return r; }
+function qEnd(i) { for (const s of starts) { if (s > i) return s - 1; } return SEGS.length - 1; }
+
+function start(i) {
+  synth.cancel();
+  if (i >= SEGS.length) { done(); return; }
+  if (i < 0) i = 0;
+  cur = i;
+  document.querySelectorAll('.line').forEach((el, k) => {
+    el.classList.toggle('now', k === cur);
+    el.classList.toggle('done', k < cur);
+  });
+  SEGS[cur].el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  document.getElementById('status').textContent = (pass === 2 ? '第2遍 · ' : '') + `第 ${cur + 1}/${SEGS.length} 句`;
+  const u = new SpeechSynthesisUtterance(SEGS[cur].text);
+  u.lang = 'zh-CN';
+  if (voice) u.voice = voice;
+  u.rate = parseFloat(document.getElementById('rate').value);
+  u.onend = () => {
+    if (!playing) return;
+    if (cur < qEnd(cur)) { pass = pass; start(cur + 1); }
+    else if (document.getElementById('mem').checked && pass === 1) { pass = 2; start(qStart(cur)); }
+    else { pass = 1; const n = qEnd(cur) + 1; if (n < SEGS.length) start(n); else done(); }
+  };
+  synth.speak(u);
+  playing = true; setBtn();
+}
+function done() { playing = false; setBtn(); document.getElementById('status').textContent = '✅ 讲完啦'; }
+function setBtn() { document.getElementById('toggle').textContent = playing ? '⏸ 暂停' : '▶ 播放'; }
+document.getElementById('toggle').onclick = () => {
+  if (cur === -1) { start(0); return; }
+  if (playing) { synth.pause(); playing = false; setBtn(); }
+  else if (synth.paused && synth.speaking) { synth.resume(); playing = true; setBtn(); }
+  else { playing = true; start(cur); }
+};
+document.getElementById('prev').onclick = () => { pass = 1; const p = qStart(Math.max(cur - 1, 0)); start(p === cur ? 0 : p); };
+document.getElementById('next').onclick = () => { pass = 1; const n = starts.find(s => s > cur); start(n === undefined ? SEGS.length : n); };
+document.getElementById('rate').onchange = () => { if (cur >= 0) { const c = cur; start(c); } };
+</script>
+</body>
+</html>

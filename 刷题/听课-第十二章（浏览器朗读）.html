@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第十二章 · 通听版 · 安全考证陪学</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #2b3440; padding-bottom: 110px; }
+header { position: sticky; top: 0; background: #ffffffdd; backdrop-filter: blur(8px); border-bottom: 1px solid #e3e8ee; padding: 14px 22px 10px; z-index: 5; }
+header h1 { font-size: 18px; color: #1d2733; }
+header p { font-size: 13px; color: #7a8694; margin-top: 3px; }
+main { max-width: 720px; margin: 0 auto; padding: 20px 22px; }
+.tag { color: #1a66d6; font-weight: 700; font-size: 14px; margin: 30px 0 8px; }
+.line { font-size: 20px; line-height: 1.75; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #5a6572; transition: all .15s; }
+.line:hover { background: #e9eef4; }
+.line.now { color: #0d1b2a; font-size: 26px; font-weight: 700; background: #ffffff; box-shadow: 0 1px 6px #00000014; }
+.line.done { color: #a8b2bd; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffffee; border-top: 1px solid #e3e8ee; padding: 12px 20px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; z-index: 5; }
+button { background: #eef2f6; border: 1px solid #d9e1e9; border-radius: 9px; font-size: 15px; padding: 10px 18px; cursor: pointer; font-family: inherit; color: #2b3440; }
+button:hover { background: #e2e9f0; }
+button.play { background: #1a66d6; border-color: #1a66d6; color: #fff; padding: 10px 30px; }
+label.speed, label.mem { font-size: 14px; color: #5a6572; display: flex; align-items: center; gap: 5px; }
+#status { font-size: 13px; color: #7a8694; }
+</style>
+</head>
+<body>
+<header><h1>第十二章 · 通听版</h1><p>点 ▶ 播放，念到哪字幕到哪；点任意一句可从那里听。需用电脑自带中文语音（Mac=婷婷，Windows=晓晓/辉辉）。</p></header>
+<main id="list"></main>
+<footer>
+  <button id="prev">⏮ 上一题</button>
+  <button id="toggle" class="play">▶ 播放</button>
+  <button id="next">下一题 ⏭</button>
+  <label class="speed">语速
+    <select id="rate"><option value="0.85">慢 0.85</option><option value="1" selected>正常 1.0</option><option value="1.15">快 1.15</option><option value="1.3">更快 1.3</option></select>
+  </label>
+  <label class="mem"><input type="checkbox" id="mem" checked> 每题两遍</label>
+  <span id="status"></span>
+</footer>
+<script>
+const SEGS = [{"tag": "第1题", "text": "第1题，判断题。通信工程施工现场一般就选用塑料壳一般作业类 (Y 类) 安全帽。（　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第2题", "text": "第2题，单选题。通信工程中选用的安全帽通常有效期通常为 （　）年。 选项：A，年；B，3 年；C，5 年；D，6 年。"}, {"tag": null, "text": "正确答案：A，年。"}, {"tag": "第3题", "text": "第3题，单选题。戴安全帽时,头顶和帽体内顶部的空间垂直距离正确的是 （　） 选项：A，5；B，35；C，55；D，75。"}, {"tag": null, "text": "正确答案：B，35。"}, {"tag": "第4题", "text": "第4题，单选题。在铁塔上作业应选用（　）安全带 选项：A，电信工围杆绳单腰带式；B，电信工悬挂单腰带式；C，通用悬挂双背带式(有腿带)；D，通用悬挂自锁式。"}, {"tag": null, "text": "正确答案：C，通用悬挂双背带式(有腿带)。"}, {"tag": "第5题", "text": "第5题，单选题。攀登独杆塔时应选用 （　） 安全带 选项：A，电信工围杆绳单腰带式A 电信工围杆绳单腰带式；B，电信工悬挂单腰带式；C，通用悬挂双背带式(有腿带)；D，通用悬挂自锁式。"}, {"tag": null, "text": "正确答案：D，通用悬挂自锁式。"}, {"tag": "第6题", "text": "第6题，单选题。人孔作业应选用 （　） 安全带 选项：A，电信工围杆绳单腰带式；B，电信工悬挂单腰带式；C，全身式；D，半身式。"}, {"tag": null, "text": "正确答案：C，全身式。"}, {"tag": "第7题", "text": "第7题，单选题。进入人井作业,作业人员应该佩戴 （　）安全带。 选项：A，带缓冲器的绳式；B，全身式；C，围杆作业；D，悬空坠挂。"}, {"tag": null, "text": "正确答案：B，全身式。"}, {"tag": "第8题", "text": "第8题，单选题。塔上作业时,应使用有后备保护绳的双背带式或全身式安全带,当后备保护绳超过（　）时,应使用缓冲器 选项：A，米；B，2 米；C，3 米；D，4 米。"}, {"tag": null, "text": "正确答案：C，3 米。"}, {"tag": "第9题", "text": "第9题，单选题。安全带使用 （　）后,应按批量购入情况检查一次。 选项：A，半年；B，1 年；C，2 年；D，3 年。"}, {"tag": null, "text": "正确答案：C，2 年。"}, {"tag": "第10题", "text": "第10题，单选题。高处作业,在选择安全带挂点时应当 （　）,注意防止摆动碰撞 选项：A，高挂低用；B，低挂高用；C，低挂低用；D，高挂高用。"}, {"tag": null, "text": "正确答案：A，高挂低用。"}, {"tag": "第11题", "text": "第11题，单选题。通信施工企业采购的耐压测试 5KV 的电绝缘鞋在工频 (50~60HZ)通常使用在范围 （　）的作业环境中。 选项：A，20V 以下；B，380V 以下；C，1KV 以下；D，5KV 以下。"}, {"tag": null, "text": "正确答案：C，1KV 以下。"}, {"tag": "第12题", "text": "第12题，多选题。在工程 1KV 以上的作业环境中施工作业,可穿着的绝缘鞋有 （　）。 选项：A，电绝缘皮鞋；B，布面电绝缘鞋；C，电绝缘胶靴；D，聚合材料的靴；E，以上都可以。"}, {"tag": null, "text": "正确答案：C、D。"}, {"tag": "第13题", "text": "第13题，单选题。在高速公路上作业时,以下做法错误的是 （　） 选项：A，施工作业方案报请高速公路管理部门审批；B，施工机具、材料放置在施工作业区内；C，要求上级检查人员穿戴专用的交通警示服装；D，安全警示标志的摆放顺序和摆放相同。"}, {"tag": null, "text": "正确答案：D，安全警示标志的摆放顺序和摆放相同。"}, {"tag": "第14题", "text": "第14题，单选题。建设工程工地四周应按规定设置连续、密闭的围挡;在市区主路段和市容景观道路及机场、码头、车站广场设置的围栏其高度不得低于（　）。 选项：A，.5m；B，1.8m；C，2m；D，2.5m。"}, {"tag": null, "text": "正确答案：B，1.8m。"}, {"tag": "第17题", "text": "第17题，单选题。道路上施工作业前,应设量安全警示标志。标志设置对应 （　） 选项：A，从警示区开始,直到终止区结束；B，从警告区开始,直到作业区结束；C，从作业区开始,往警告区起点处；D，从缓冲区开始。直到作业区结束。"}, {"tag": null, "text": "正确答案：A，从警示区开始,直到终止区结束。"}, {"tag": "第18题", "text": "第18题，单选题。木杆堆放层数最多为（　）层。 选项：A，2；B，3；C，4。"}, {"tag": null, "text": "正确答案：A，2。"}, {"tag": "第19题", "text": "第19题，单选题。木杆堆放层数最多为（　） 层。 选项：A，4；B，6；C，8。"}, {"tag": null, "text": "正确答案：C，8。"}, {"tag": "第20题", "text": "第20题，单选题。水泥杆堆放层数最多为（　）层。 选项：A，1；B，2；C，3；D，4。"}, {"tag": null, "text": "正确答案：B，2。"}, {"tag": "第21题", "text": "第21题，单选题。用跳板装卸车时,要使用没有木结的坚实木板做跳板,木板厚度最小（　） MM。 选项：A，0；B，50；C，60；D，80。"}, {"tag": null, "text": "正确答案：C，60。"}, {"tag": "第22题", "text": "第22题，单选题。人工搬运设备时,男工每人负重不得超过（　）公斤。 选项：A，0；B，30；C，40；D，50。"}, {"tag": null, "text": "正确答案：C，40。"}, {"tag": "第23题", "text": "第23题，单选题。人工搬运设备时,女工每人负重不得超过（　）公斤。 选项：A，0；B，30；C，40；D，50。"}, {"tag": null, "text": "正确答案：A，0。"}, {"tag": "第24题", "text": "第24题，多选题。关于器材搬运做法正确的有 （　） 选项：A，将光缆盘直接从车上推下时,车下人员要远离缆盘落下位置；B，当在地面上滚动光缆盘时,要按光缆的盘绕方向进行;；C，人工搬运器材时,女工负重不得超过 20 公斤；D，搬运设备上下楼必须使用货梯；E，在使用叉车进行搬运时,离地面高度不宜过高。"}, {"tag": null, "text": "正确答案：B、C、E。"}, {"tag": "第25题", "text": "第25题，单选题。有限空间作业往往事故频发,作业时必须有人监护。以下不属于有限空间的是 （　）。 选项：A，00m’地下室；B，隧道；C，人井；D，架空交接箱平台。"}, {"tag": null, "text": "正确答案：D，架空交接箱平台。"}, {"tag": "第26题", "text": "第26题，单选题。国家标准《缺氧危险作业安全规程》 (GB8958-2006) 规定缺氧浓度为（　）,低于该值的工作场所为缺氧。 选项：A，0.5%；B，15.5%；C，19.5%；D，23.5%。"}, {"tag": null, "text": "正确答案：C，19.5%。"}, {"tag": "第27题", "text": "第27题，单选题。国家标准将作业场所空气中氧含量低于 （　）的状态定义为“缺” 选项：A，7.5%；B，18.5%；C，19.5%；D，21.5%。"}, {"tag": null, "text": "正确答案：C，19.5%。"}, {"tag": "第28题", "text": "第28题，单选题。以下物质中,（　）有剧毒。 选项：A，氧气；B，硫化氢；C，甲烷；D，二氧化碳。"}, {"tag": null, "text": "正确答案：B，硫化氢。"}, {"tag": "第29题", "text": "第29题，单选题。进入人孔等有限空间内作业前必须进行气体检测,当硫化氢的浓度超过（　）严禁有限空间进行长时间作业。 选项：A，.6mg/m3；B，10mg/m3；C，15mg/m3；D，30mg/m3。"}, {"tag": null, "text": "正确答案：B，10mg/m3。"}, {"tag": "第30题", "text": "第30题，判断题。高浓度二氧化碳本身具有刺激和麻醉作用且能使肌体发生缺氧室息。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第31题", "text": "第31题，多选题。以下人井气体浓度,可以下井施工的有 （　） 选项：A，0。:20%,其他气体浓度正常；B，CO:3%,其他气体浓度正常；C，HS:12mg/m3,其他气体浓度正常；D，CO: 28mg/m3,其他气体浓度正常；E，CH: 10%,其他气体浓度正常。"}, {"tag": null, "text": "正确答案：A、D、E。"}, {"tag": "第32题", "text": "第32题，判断题。在检测有限空间内的气体浓度时,应沿垂直方向检测 2 个点的气体浓度。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第33题", "text": "第33题，单选题。下列有毒有害气体中,存在于通信人孔下部的气体为 （　）。 选项：A，硫化氢；B，一氧化碳；C，天然气；D，沼气。"}, {"tag": null, "text": "正确答案：A，硫化氢。"}, {"tag": "第34题", "text": "第34题，多选题。检测通信人孔内气体浓度时,选用的气体检测仪应具备的功能包括（　） 选项：A，停泵警报功能；B，内置泵吸功能；C，多气体检测功能；D，氧检测功能；E，固定式仪器。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第37题", "text": "第37题，单选题。容易引发高处坠落事故的主观原因有 （　） 选项：A，风力超过 5 级的天气；B，作业时接听手机；C，地面不平；D，寒冷天气作业。"}, {"tag": null, "text": "正确答案：B，作业时接听手机。"}, {"tag": "第38题", "text": "第38题，多选题。按照国家标准《高处作业分级》(GB3608- 2008)的说法,以下属于直接引起高处坠落的客观危险因素的有 （　）。 选项：A，阵风风力四级；B，平均气温等于 5°；C，的作业环境C 接触温度等于 10°C 的水温进行作业；D，作业场所光线不足,能见度差；E，作业活动范围距离 380V 电力线 2m。"}, {"tag": null, "text": "正确答案：B、C、D。"}, {"tag": "第39题", "text": "第39题，单选题。按照高处作业分级,线路需要绑扎到 5.5 米高的位置作业,属于（　） 选项：A，一级；B，二级；C，三级；D，四级。"}, {"tag": null, "text": "正确答案：B，二级。"}, {"tag": "第40题", "text": "第40题，单选题。按照《高处作业分级》(GB3608-2008)标准,当基础高度为 10m 时,可能坠落范围半径为（　） m。 选项：A，4；B，5；C，6。"}, {"tag": null, "text": "正确答案：B，5。"}, {"tag": "第41题", "text": "第41题，单选题。按照《高处作业分级》(GB3608-2008)标准,当基础高度为 20m 时,可能坠落范围半径为（　） m。 选项：A，4；B，5；C，6。"}, {"tag": null, "text": "正确答案：C，6。"}, {"tag": "第43题", "text": "第43题，单选题。低温或高温环境下进行高处作业,应采取保暖和防暑降温措施,作业时间 （　）过长。 选项：A，禁止；B，严禁；C，不宜；D，不得。"}, {"tag": null, "text": "正确答案：C，不宜。"}, {"tag": "第44题", "text": "第44题，单选题。不属于安全三宝的是 （　） 选项：A，安全帽；B，安全鞋；C，安全带；D，安全网。"}, {"tag": null, "text": "正确答案：B，安全鞋。"}, {"tag": "第45题", "text": "第45题，多选题。以下关于塔上作业的做法中,正确的有（　） 选项：A，制定有高处作业安全技术措施；B，塔下工作人员头戴安全帽,塔上人员没有戴安全帽；C，在 5 级风气候条件下上塔作业；D，在 39 高温天气上塔作业；E，两个相距 2 米的人在慢速爬塔。"}, {"tag": null, "text": "正确答案：A、C、D。"}, {"tag": "第46题", "text": "第46题，判断题。上下左右不同层面作业可以安排立体交叉作业。（　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第47题", "text": "第47题，单选题。吊装作业中,夜间应有足够的照明,室外作业遇到大雪、暴雨、大雾及 （　） 以上大风时,应停止作业。 选项：A，四级；B，五级；C，六级；D，八级。"}, {"tag": null, "text": "正确答案：C，六级。"}, {"tag": "第48题", "text": "第48题，单选题。梯子架设在吊线上时应高出吊线（　） 选项：A，0cm；B，30cm；C，40cm；D，50cm。"}, {"tag": null, "text": "正确答案：B，30cm。"}, {"tag": "第49题", "text": "第49题，单选题。使用人字梯时,两梯夹角宜为 （　） 选项：A，0°；B，40°；C，50°；D，60°。"}, {"tag": null, "text": "正确答案：B，40°。"}, {"tag": "第50题", "text": "第50题，单选题。楼顶没有围栏或围栏不牢固时,应在距离边沿（　）M 处,围上 1M 高的警戒线,以防施工人员过于靠近楼顶边沿。 选项：A，.5；B，1.0；C，1.2；D，1.5。"}, {"tag": null, "text": "正确答案：D，1.5。"}];
+const synth = window.speechSynthesis;
+let cur = -1, playing = false, pass = 1, voice = null;
+const starts = SEGS.map((s, i) => s.tag ? i : -1).filter(i => i >= 0);
+const list = document.getElementById('list');
+
+SEGS.forEach((s, i) => {
+  if (s.tag) { const t = document.createElement('div'); t.className = 'tag'; t.textContent = s.tag; list.appendChild(t); }
+  const d = document.createElement('div'); d.className = 'line'; d.textContent = s.text;
+  d.onclick = () => { pass = 1; start(i); }; list.appendChild(d); s.el = d;
+});
+
+function pickVoice() {
+  const vs = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
+  voice = vs.find(v => /婷婷|Tingting|晓晓|Xiaoxiao|辉辉|Huihui|Yaoyao/.test(v.name)) || vs[0] || null;
+}
+pickVoice();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice;
+
+function qStart(i) { let r = 0; for (const s of starts) { if (s <= i) r = s; else break; } return r; }
+function qEnd(i) { for (const s of starts) { if (s > i) return s - 1; } return SEGS.length - 1; }
+
+function start(i) {
+  synth.cancel();
+  if (i >= SEGS.length) { done(); return; }
+  if (i < 0) i = 0;
+  cur = i;
+  document.querySelectorAll('.line').forEach((el, k) => {
+    el.classList.toggle('now', k === cur);
+    el.classList.toggle('done', k < cur);
+  });
+  SEGS[cur].el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  document.getElementById('status').textContent = (pass === 2 ? '第2遍 · ' : '') + `第 ${cur + 1}/${SEGS.length} 句`;
+  const u = new SpeechSynthesisUtterance(SEGS[cur].text);
+  u.lang = 'zh-CN';
+  if (voice) u.voice = voice;
+  u.rate = parseFloat(document.getElementById('rate').value);
+  u.onend = () => {
+    if (!playing) return;
+    if (cur < qEnd(cur)) { pass = pass; start(cur + 1); }
+    else if (document.getElementById('mem').checked && pass === 1) { pass = 2; start(qStart(cur)); }
+    else { pass = 1; const n = qEnd(cur) + 1; if (n < SEGS.length) start(n); else done(); }
+  };
+  synth.speak(u);
+  playing = true; setBtn();
+}
+function done() { playing = false; setBtn(); document.getElementById('status').textContent = '✅ 讲完啦'; }
+function setBtn() { document.getElementById('toggle').textContent = playing ? '⏸ 暂停' : '▶ 播放'; }
+document.getElementById('toggle').onclick = () => {
+  if (cur === -1) { start(0); return; }
+  if (playing) { synth.pause(); playing = false; setBtn(); }
+  else if (synth.paused && synth.speaking) { synth.resume(); playing = true; setBtn(); }
+  else { playing = true; start(cur); }
+};
+document.getElementById('prev').onclick = () => { pass = 1; const p = qStart(Math.max(cur - 1, 0)); start(p === cur ? 0 : p); };
+document.getElementById('next').onclick = () => { pass = 1; const n = starts.find(s => s > cur); start(n === undefined ? SEGS.length : n); };
+document.getElementById('rate').onchange = () => { if (cur >= 0) { const c = cur; start(c); } };
+</script>
+</body>
+</html>

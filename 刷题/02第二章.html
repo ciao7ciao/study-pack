@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>第二章</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; display: flex; justify-content: center; padding: 30px 16px; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 2px 14px #00000012; max-width: 640px; width: 100%; padding: 26px 28px; }
+.progress { font-size: 13px; color: #8a95a1; margin-bottom: 14px; }
+.progress b { color: #1a66d6; }
+.badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #e3edfb; color: #1a66d6; margin-bottom: 12px; }
+.stem { font-size: 19px; line-height: 1.65; font-weight: 600; margin-bottom: 18px; }
+.opt { display: block; width: 100%; text-align: left; font-size: 16px; line-height: 1.5; padding: 13px 16px; margin: 8px 0; border: 1.5px solid #dbe3ea; border-radius: 11px; background: #fbfcfe; cursor: pointer; font-family: inherit; color: #22303e; }
+.opt:hover { border-color: #9ec2ee; background: #f2f7fd; }
+.opt.sel { border-color: #1a66d6; background: #e8f1fd; }
+.opt.right { border-color: #2e9e5b; background: #e9f7ef; }
+.opt.wrong { border-color: #d64545; background: #fdecec; }
+.opt:disabled { cursor: default; }
+.tf { display: flex; gap: 14px; } .tf .opt { text-align: center; font-size: 18px; font-weight: 600; }
+.confirm { margin-top: 14px; width: 100%; padding: 13px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.confirm:disabled { background: #b9c6d4; cursor: default; }
+.why { margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; line-height: 1.6; background: #fff8e6; color: #6b5416; }
+.verdict { font-weight: 800; margin-bottom: 4px; }
+.verdict.ok { color: #2e9e5b; } .verdict.no { color: #d64545; }
+.nav { display: flex; justify-content: space-between; margin-top: 20px; }
+.nav button { padding: 10px 22px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 9px; background: #fff; cursor: pointer; font-family: inherit; }
+.nav button:disabled { opacity: .35; cursor: default; }
+.result { text-align: center; }
+.score { font-size: 46px; font-weight: 800; margin: 10px 0; }
+.score small { font-size: 18px; color: #8a95a1; font-weight: 600; }
+.wronglist { text-align: left; font-size: 14.5px; line-height: 1.7; background: #f7f9fb; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+.copy { width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.redo { margin-top: 10px; width: 100%; padding: 12px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 11px; background: #fff; cursor: pointer; font-family: inherit; }
+.mini { font-size: 12px; padding: 4px 10px; border: 1px solid #d3dce4; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; color: #4a5560; }
+.mini:hover { background: #eef2f6; }
+.groupbar { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: #e8f1fd; border: 1px solid #bcd6f5; font-size: 14.5px; color: #17427e; line-height: 1.8; }
+.groupbar .gbtn { font-size: 14px; padding: 8px 14px; background: #1a66d6; color: #fff; border: none; border-radius: 9px; cursor: pointer; font-family: inherit; font-weight: 700; }
+.groupbar .ghint { color: #5a7ba6; font-size: 13px; margin-left: 8px; }
+textarea { width: 100%; height: 64px; margin-top: 12px; font-size: 14px; padding: 10px; border: 1px solid #d3dce4; border-radius: 9px; font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script>
+const QUIZ = {"title":"第二章","questions":[{"type":"单选","stem":"《建设工程安全生产管理条例》所称的建设工程,不包括（　）","options":["土木建筑工程","线路管道工程","设备安装工程","园林绿化工程"],"answer":"D","why":""},{"type":"多选","stem":"根据《建设工程安全生产管理条例》规定,建设工程,是指（　）","options":["土木工程","软件开发工程","线路管道工程","设备安装工程","装修工程"],"answer":"ACDE","why":""},{"type":"多选","stem":"建设单位应当向施工单位提供施工现场及毗邻区域内的有关资料包括（　） 。","options":["地下管线资料","气象水文资料","相邻建筑物资料","地下工程资料","运输保障资料"],"answer":"ABCD","why":""},{"type":"单选","stem":"建设单位在编制工程（　）时。应当确定建设工程安全作业环境及安全施工措施所需费用。","options":["概算","预算","结算","决算"],"answer":"A","why":""},{"type":"单选","stem":"关于建设单位安全责任的说法,错误的是（　）。","options":["建设单位应当向施工单位提供地下管线资料,并对资料的真实性、正确性、完整性负责。","建设单位应当依法履行合同,不得压缩合同约定的工期。","建设单位应当进行安全施工技术交底。","建设单位应当对拆除工程进行备案。"],"answer":"C","why":""},{"type":"单选","stem":"《建设工程安全生产管理条例》规定,设计单位应当考虑施工安全操作和防护的需要,对涉及施工安全的（　）在设计文件中注明,并对防范生产安全事故提出指导意见。","options":["重点部位和环节","所有危险、有害因素","关键与特殊过程","项目安全设施的搭建"],"answer":"A","why":""},{"type":"多选","stem":"设计单位的安全责任包括 （　）","options":["按照法律、法规和工程建设强制性标准进行设计","提出防范安全生产事故的指导意见和措施建议","对安全技术措施或专项施工方案进行审查","依法对施工安全事故隐患进行处理","对设计成果"],"answer":"ABE","why":""},{"type":"多选","stem":"下列责任中,属于设计单位安全责任的有（　）。","options":["对涉及施工安全的重点部位和环节在设计文件中注明,并对防范生产安全事故提出指导意见","发现存在安全事故隐患的,应当要求施工单位整改","审查专项施工方案是否符合工程建设强制性标准","对涉及施工安全的重点部位和环节在设计文件中注明,并对防范生产安全事故提出指导意见","采用新结构新材料。新工艺的时,应当在设计中提出保障施工作业人员安全和预防生产安全事故的措施建议。"],"answer":"ADE","why":""},{"type":"多选","stem":"为防止因设计合理导致生产安全事故的发生,设计单位应做到以下几点（　）。","options":["注明涉及施工安全的重点部位和环节","安全风险","提出保障施工作业人员安全的措施建议","提出预防生产安全事故的措施建议","全额列出工程警示标志费用"],"answer":"ACD","why":""},{"type":"单选","stem":"《建设工程安全生产管理条例》规定,（　）应当审查施工组织设计中的安全技术措施或者专项施工方案是否符合工程建设强制性标准。","options":["应急管理部门","勘察单位","设计单位","监理单位"],"answer":"D","why":""},{"type":"单选","stem":"《建设工程安全生产管理条例》规定,（　）应当审查施工组织设计中的安全技术措施或者专项施工方案是否符合工程建设强制性标准。","options":["工程概算要求","工程建设强制性标准","工艺方案要求","监理规划要求"],"answer":"B","why":""},{"type":"单选","stem":"监理单位在实施通信工程项目监理过程中,发现存在一般安全事故隐患,应当（　）。","options":["要求暂时停止施工","要求进行现场整改","及时向建设单位报告","向有关主管部门报告"],"answer":"B","why":""},{"type":"单选","stem":"工程监理单位在实施监理过程中,发现存在安全事故隐患,情况严重的,应当要求施工单位暂时停止施工,并及时报告建设单位,施工单位拒不整改或者不停止施工的,工程监理单位应当及时向（　）报告。","options":["设计单位","总包单位","当地公安部门","有关主管部门"],"answer":"D","why":""},{"type":"单选","stem":"根据《建设工程安全生产管理条例》,出租单位在签订机械设备租赁合同时,应出具（　）","options":["购货发票","检测合格证明","产品使用说明书","相应的图片"],"answer":"B","why":""},{"type":"单选","stem":"施工单位从事建设工程的新建、扩建、改建和拆除等活动,应当具备国家规定的注册资本、专业技术人员、技术装备和安全生产等条件,依法取得相应等级的资质证书,并在其（　）许可的范围内承揽工程。","options":["营业执照","技术能力","资质等级","注册资本"],"answer":"C","why":""},{"type":"单选","stem":"《建设工程安全生产管理条例》规定,施工单位的项目负责人应当由（　）的人员担任。","options":["建设单位认可","取得相应执业资格","取得安全员 C 证","注册安全工程师"],"answer":"B","why":""},{"type":"单选","stem":"某通信施工公司承接了总包单位分包的施工任务发生了事故,该起事故的“事故发生单位”应当是（　）。","options":["电信运营商","监理公司","总包单位","某通信施工公司"],"answer":"C","why":""},{"type":"单选","stem":"关于工程项目的总包与分包,说法错误的是（　）","options":["总承包单位可以将全部工程量分包给分包单位,双方应签订分包合同","分包合同中应当明确各自的安全生产方面的权利、义务","总承包单位和分包单位对分包工程的安全生产承担连带责任","分包单位不服从总承包单位管理而导致生产安全事故的,分包单位承担主要责任"],"answer":"A","why":"依据《建设工程安全生产管理条例》：总承包单位依法将工程分包给具备资质的分包单位是合法的，但「全部工程量分包」违法——主体结构必须自行完成，且禁止转包；B、C、D 均为条例原文规定（分包合同明确双方安全权利义务、总包分包连带责任、分包不服从管理由分包担主责）。答案A。"},{"type":"单选","stem":"专项施工方案应由（　）审核签字、加盖单位公章,并由总监理工程师审查签字后实施,由专职安全生产管理人员进行现场监督。","options":["施工单位项目技术负责人和现场监理工程师","施工单位负责人和建设单位负责人","建设单位负责人和总监理工程师","施工单位技术负责人和总监理工程师"],"answer":"D","why":"依据《危险性较大的分部分项工程安全管理规定》：专项施工方案应当由施工单位技术负责人审核签字并加盖单位公章，总监理工程师审查签字后实施；项目专职安全生产管理人员对方案实施情况进行现场监督。口诀「施工技术负责人+总监，双签才能干，专职安全员盯现场」。题库原题干漏了「总监审查」半句且答案键残缺，已订正。"},{"type":"多选","stem":"专项施王方案应由（　）签字后实施,由专职安全生产管理人员进行现场监督。","options":["施工单位项目现场作业队长","施工单位技术负责人","施工单位专职安全管理人员","总监理工程师","建设单位项目负责人"],"answer":"BD","why":""},{"type":"单选","stem":"下列分部分项工程中,不需要编制专项施工方案的是（　）。","options":["起重吊装工程","模板工程","砌筑工程","拆除、爆破工程"],"answer":"C","why":""},{"type":"单选","stem":"建设工程施工前,（　）应当对有关安全施工的技术要求向施工作业班组、作业人员作出详细说明。","options":["施工单位项目负责人","项目技术负责人","施工单位专职安全管理人员","建设单位项目负责人"],"answer":"B","why":""},{"type":"单选","stem":"由于建设单位采购的主设备未到货,施工现场暂时停止施工的,施工单位应当做好现场防护,所费用由（　）承担,或者按照合同约定执行。","options":["设计单位","施工单位","停工令下达单位","建设单位"],"answer":"D","why":""},{"type":"单选","stem":"施工现场临时搭建的建筑物应当符合安全使用要求,施工现场使用的装配式活动房屋应当具有（　）","options":["生产许可证","出厂证明","检测报告","产品合格证"],"answer":"D","why":""},{"type":"单选","stem":"《建设工程安全生产管理条例》规定,施工单位因建设工程施工可能造成损害的毗邻建筑物、构筑物和地下管线等,应当采取（　）措施。","options":["专项保护","公告方式告知产权单位","选用专业熟练工","采取通用防护"],"answer":"A","why":"依据《建设工程安全生产管理条例》：施工可能造成损害的毗邻建筑物、构筑物和地下管线等，应当实行专项保护——量身定制保护方案并监测变形；公告告知产权单位只是告知义务，「通用防护」不满足「专项」法定要求，专业熟练工与防护无关。"},{"type":"判断","stem":"在城市市区内的建设工程,施工单位应当对施工现场实行封闭围挡。（　）","options":[],"answer":"对","why":""},{"type":"多选","stem":"《建设工程安全生产管理条例》规定,施工单位应当在施工现场建立消防安全责任制度,可采取的措施有（　）。","options":["确定消防安全责任人","制定用火用电、使用易燃易爆材料等各项消防安全管理制度和操作规程","设置消防通道、消防水源","配备消防设施和灭火器材","在施工现场设置明显标志"],"answer":"ABCD","why":""},{"type":"单选","stem":"《建设工程安全生产管理条例》规定,施工单位应当向作业人员提供（　）,并书面告知危险岗位的操作规程和违章操作的危害。","options":["劳动保障用品","安全防护用具和安全防护服装","安全逃生用品","个人施工工具"],"answer":"B","why":""},{"type":"判断","stem":"施工单位应当向作业人员提供安全防护用具和安全防护服装,并口告知危险岗位的操作规程和违章操作的危害。 （　）","options":[],"answer":"错","why":""},{"type":"多选","stem":"为确保施工现场安全,施工作业人员在施工中应做到 （　）","options":["遵守安全施工的强制性标准","遵守规章制度和操作规程","听从现场管理人员的一切指挥","正确使用安全防护用具","有危及人身安全的情况时立即停止作业"],"answer":"ABD","why":""},{"type":"判断","stem":"施工单位采购、租赁的安全防护用具、机械设备、施工机具及配件应当具有生产《制造) 许可证、产品合格证,并在进入施工现场后进行查验。 （　）","options":[],"answer":"错","why":""},{"type":"单选","stem":"《建设工程安全生产管理条例》规定,施工现场的安全防护用具、机械设备、施工机具及配件必须（　）,定期进行检查、维修和保养建立相应的资料档案,并按照国家有关规定及时报废。","options":["存放在封闭式库房","由专人管理","多人重点管理","集中统一管理"],"answer":"B","why":""},{"type":"多选","stem":"施工单位在使用承租的机械设备和施工机具及配件的,由同（　）共同进行验收。","options":["建设单位","施工总承包单位","分包单位","出租单位","安装单位"],"answer":"BCDE","why":""},{"type":"单选","stem":"施工单位应当对管理人员和作业人员每年至少（　）进行安全教育培训。","options":["一次","二次","三次","四次"],"answer":"A","why":""},{"type":"多选","stem":"关于建设工程安全生产教育培训的说法,正确的有 （　）","options":["施工单位的主要负责人、项目负责人、专职安全生产管理当经建设行政主管部门或者其他部门考核合格后方可任职","施工单位应当对管理人员和作业人员每两年至少进行一次安产教育培训","作业人员进入新的岗位前,应当接受安全生产教育培训","作业人员进入新的施工现场前,不需要接受生产教育培训","施工单位在采用新技术、新工艺、新设备、对从业人员进行相应的安全生产教育培训"],"answer":"ACE","why":""},{"type":"单选","stem":"关于意外伤害保险的说法,正确的是 （　）","options":["意外伤害保险应给全体施工人员购买","由建设单位支付保险费","实行施工总承包的,由施工总承包单位支付保险费","保险期限自开工后 7 日起至竣工验收合格之日止"],"answer":"C","why":""},{"type":"判断","stem":"建设行政主管部门或者其他有关部门可以将施工现场的监督检查委托给建设工程安全监督机构具体实施。（　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"国家对严重危及施工安全的工艺、设备、材料实行 （　） 制度","options":["维修","监管","备案","淘汰"],"answer":"D","why":""},{"type":"单选","stem":"根据《建设工程安全生产管理条例》,国家对严重危及施工安全的) 制定并公布。工艺、设备、材料实行淘汰制度,目录由 （　）","options":["国务院安全生产委员会","国务院建设行政主管部门会同国务院其他有关部门","省级以上人民政府建设行政单位","国务院发展与改革委员会同国务院其他有关部门"],"answer":"B","why":""},{"type":"单选","stem":"关于对施工单位生产安全事故应急救援准备的要求,错误的是（　）","options":["施工单位必须建立本单位的应急救援组织","施工单位应当制定本单位的生产安全事故应急救援预案","施工单位应配备必要的应急救援器材、设备","施工单位应定期组织应急救援演练"],"answer":"A","why":""},{"type":"单选","stem":"实施总承包的工程,涉及分包工程的施工现场应急救援预案应由（　）编制。","options":["建设单位","监理单位","总包单位","分包单位"],"answer":"C","why":""},{"type":"单选","stem":"施工单位在作业过程中特种设备发生事故的,应及时、如实地向负责安全生产监督管理的部门、建设行政主管部门或者其他有关部门报告,同时还应当向（　）报告。","options":["劳动保障部门","特种作业人员监督管理部门","特种设备安全监督管理部门","特种设备行业主管部门"],"answer":"C","why":""},{"type":"单选","stem":"某施工单位的微控定向钻孔设备发生生产安全事故,该施工单位应向（　）报告。","options":["安全生产监督管理部门、建设行政主管部门","特种设备安全监督管理部门","设备经销商、设备生产厂","工程项目的建设单位、监理单位、设计单位"],"answer":"A","why":""},{"type":"多选","stem":"某施工单位的微控定向钻孔设备发生生产安全事故,该施工单位应向（　）报告。","options":["安全生产监督管理部门、建设行政主管部门","特种设备安全监督管理部门","设备经销商、设备生产厂","工程项目的建设单位、监理单位、设计单位"],"answer":"AB","why":""},{"type":"单选","stem":"实行施工总承包的建设工程,分包单位发生了安全事故,由（　）负责上报。","options":["建设单位","总包单位","监理单位","分包单位"],"answer":"D","why":""},{"type":"单选","stem":"注册执业人员未执行法律、法规和工程建设强制性标准的,情节一般的处罚是（　）","options":["责令停止执业 3 个月以上 1 年以下","吊销执业资格证书,5 年内不予注册","终身不予注册","追究刑事责任"],"answer":"A","why":""},{"type":"单选","stem":"违反《建设工程安全生产管理条例》,施工单位未按照国家有关规定在施工现场设置消防水源的,资令限期改正:逾期未改正的（　）依照《安全生产法》的有关规定处以罚款","options":["暂扣资质证书","吊销营业执照","责令停业整顿","追究行政责"],"answer":"C","why":""},{"type":"单选","stem":"根据《建设工程安全生产管理条例》,在城市市区内的施工现场未实行封闭围挡的,施工单位可能承担的法律责任是（　）","options":["处以 20 万元罚款","责令施工企业限期改正","吊销施工企业营业执照","降低施工企业资质等级"],"answer":"B","why":""},{"type":"单选","stem":"违反《建设工程安全生产管理条例》规定,施工单位的安全防护用具、机械设备、施工机具及配件在进入施工现场前未经查验或者查验不合格即投入使用的、情节严重的,降低资质等级,直至（　）","options":["吊销营业执照","吊销资质证书","吊销安全生产许可证","对主要负责人撤职"],"answer":"B","why":""},{"type":"单选","stem":"违反《建设工程安全生产管理条例》规定,施工单位在施工组织设计中未编制安全技术措施、施工现场临时用电方案或者专项施工方案的造成损失的,依法承担（　）责任。","options":["行政","刑事","索赔","赔偿"],"answer":"D","why":""},{"type":"多选","stem":"施工单位的下列行为,符合工程安全不良行为认定标准的有（　）","options":["在施工起重机械和整体提升脚手架,模板等自升式架设设施验收合格后未按照规定登记的","在尚未竣工的建筑物内设置员工集体宿舍的","未对因建设工程施工可能造成损害的毗邻建筑物、构筑物和地下管线等采取专项预防措施","使用未经验收或验收不合格的施工起重机械和整体提升脚手架、模板等自升式架设设施的","去按照节能要求进行施工的"],"answer":"ABCD","why":""},{"type":"单选","stem":"下列情形中,生产安全事故应急救援预案制定单位应当及时修订相关预案的是（　）","options":["安全生产面临的风险发生了任何变化","应急指挥机构的职责发生了调整","部分应急资源发生了任何变化","在预案演练时发现有些人不认真"],"answer":"B","why":""},{"type":"单选","stem":"发生生产安全事故后,下列应急救援措施中,错误的是（　）","options":["迅速远离危险源","及时通知可能受事故影响的单位","组织抢救遇险人员","维护事故现场秩序"],"answer":"A","why":""},{"type":"单选","stem":"按照《生产安全事故报告和调查处理条例》,重大事故,是指造成 10 人以上 30 人以下死亡,或者 50人以上 100 人以下重伤,或者（　）下以上 1 亿元以直接经济损失的事故。","options":["1000 万元","3000 万元","5000 万元","7000 万元"],"answer":"C","why":""},{"type":"单选","stem":"施工现场发生一起生产安全事故,造成 10 人死亡,20 人重伤,直接经济损失 1000 万元。根据生产安全事故报告和调查处理条列,该起事故的等级为（　） 。","options":["一般事故","较大事故","重大事故","特别重大事故"],"answer":"C","why":""},{"type":"单选","stem":"根据《生产安全事故报告和调查处理条例》,死亡 3 人事故属于（　）","options":["一般事故","较大事故","重大事故","特别重大事故"],"answer":"B","why":""},{"type":"单选","stem":"根据《生产安全事故报告和调查处理条例》(中华人民共和国国务院令第 493 号),死 1 人的事故属于（　）","options":["一般事故","较大事故","重大事故","特别重大事故"],"answer":"A","why":""},{"type":"单选","stem":"事故发生后,施工企业应当最迟 （　）上报事故","options":["0 分钟","1 小时内","2 小时内","1 天内"],"answer":"B","why":""},{"type":"单选","stem":"关于事故报告和调查处理,下列说法中正确的是 （　）","options":["事故发生后,本单位负责人应当立即报告安全生产监督管理部门每级上报的时间不得超过 2 小时","生产安全事故(含道路交通事故、火灾事故) 造成的伤亡人数发生变化的,应当自事故发生之日起 7 日内及时补报","特别重大事故以下等级事故,事故发生地与事故发生单位不在同一个县级以上行政区域的,由事故发生地人民政府负责调查","任何单位和个人不得破坏事故现场、应妥善保存现场重要痕迹、(因抢救人员、疏通交通等特殊情况除外)"],"answer":"A","why":""},{"type":"单选","stem":"通信工程施工现场发生安全事故后,现场人员事故报告的内容一般不包括（　）","options":["事故发生的时间、地点","事故的简要经过","事故已造成的伤亡人数","详细的经济损失"],"answer":"D","why":""},{"type":"单选","stem":"县级人民政府可以直接组织调查组进行调查的事故级别是 （　）","options":["特别重大事故","重大事故","较大事故","一般事故"],"answer":"D","why":""},{"type":"判断","stem":"事故发生单位应及时全面落实整改措施,负有安全生产监督管理职责的部门应当加强监督检查。（　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"事故发生单位应及时全面落实整改措施, （　） 应当加强监督检查","options":["负有安全生产监督管理职责的部门","工会组织","人民检察院","地方人民政府行政执法部门"],"answer":"A","why":""},{"type":"多选","stem":"下列情况中应由有关部门按有关规定追究有关领导和直接责任者的责任并给予必要行政、经济处罚的有（　）。","options":["对事故隐瞒不报、谎报","对事故故意延迟不报","故意破坏事故现场","无正当理由拒绝接受调查","因抢救人员需要清理事故现场,但事前作好标记"],"answer":"ABCD","why":""}]};
+const KEY = 'quiz_' + QUIZ.title;
+const GROUP = 5;
+let idx = 0, answers = [], sel = [], locked = [];
+const app = document.getElementById('app');
+
+function copyGroup(gstart) {
+  let text = [];
+  for (let i = gstart; i < Math.min(gstart + GROUP, QUIZ.questions.length); i++) {
+    if (answers[i]) text.push(`${i+1}${answers[i].mine}`);
+  }
+  text = text.join(' ') || '（本组还没答题）';
+  const done = () => { const b = document.getElementById('gbtn' + gstart); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(done);
+  else done();
+}
+
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ answers, sel, locked })); } catch(e) {} }
+function loadSaved() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s && s.answers) { answers = s.answers; sel = s.sel; locked = s.locked; }
+  } catch(e) {}
+}
+
+function answeredText() {
+  return answers.map((a,i)=>a?`${i+1}${a.mine}`:null).filter(Boolean).join(' ');
+}
+function copyResult() {
+  const text = answeredText() || '（还没答任何题）';
+  const done = () => { const b = document.getElementById('copybtn'); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; setTimeout(()=>{ const x=document.getElementById('copybtn'); if(x) x.textContent='📋 复制已答成绩'; }, 2000); } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); });
+  else { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); }
+}
+function clearProgress() {
+  if (confirm('确定清空本章答题记录，从头再做吗？')) { localStorage.removeItem(KEY); location.reload(); }
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function letters(n){ return 'ABCDE'.slice(0, n).split(''); }
+
+function render() {
+  if (idx >= QUIZ.questions.length) { renderResult(); return; }
+  const q = QUIZ.questions[idx];
+  let html = `<div class="progress">第 <b>${idx+1}</b> / ${QUIZ.questions.length} 题 · 已做对 ${answers.filter((a,i)=>a && a.ok).length}
+    <span style="float:right"><button class="mini" id="copybtn" onclick="copyResult()">📋 复制已答成绩</button> <button class="mini" onclick="clearProgress()">清空重做</button></span></div>`;
+  html += `<span class="badge">${q.type}</span><div class="stem">${esc(q.stem)}</div>`;
+  if (q.type === '判断') {
+    html += `<div class="tf">` + ['对','错'].map(t =>
+      `<button class="opt ${locked[idx] ? (t===q.answer?'right':(sel[idx]===t?'wrong':'')) : ''}" ${locked[idx]?'disabled':''} onclick="pick('${t}')">${t}</button>`).join('') + `</div>`;
+  } else {
+    html += letters(q.options.length).map((L,i) =>
+      `<button class="opt ${locked[idx] ? (q.answer.includes(L)?'right':((sel[idx]||[]).includes(L)?'wrong':'')) : ((sel[idx]||[]).includes(L)?'sel':'')}" ${locked[idx]?'disabled':''} onclick="pick('${L}')"><b>${L}</b>　${esc(q.options[i])}</button>`).join('');
+    if (q.type === '多选' && !locked[idx]) html += `<button class="confirm" ${sel[idx] && sel[idx].length ? '' : 'disabled'} onclick="confirmMulti()">确　认</button>`;
+  }
+  if (locked[idx]) {
+    const ok = answers[idx].ok;
+    html += `<div class="why"><div class="verdict ${ok?'ok':'no'}">${ok ? '✅ 答对了' : '❌ 答错了，正确答案 ' + q.answer}</div>${q.why ? esc(q.why) : ''}</div>`;
+  }
+  // 每完成一组（GROUP 题）弹出复制提示
+  if (locked[idx] && (idx + 1) % GROUP === 0 && idx + 1 < QUIZ.questions.length) {
+    const gs = idx + 1 - GROUP;
+    html += `<div class="groupbar">✅ 第 ${gs+1}~${idx+1} 题完成（对 ${answers.slice(gs, idx+1).filter(a=>a&&a.ok).length} / ${GROUP}）<br>
+      <button class="mini gbtn" id="gbtn${gs}" onclick="copyGroup(${gs})">📋 复制这 ${GROUP} 题成绩发给我</button>
+      <span class="ghint">粘贴到聊天后，点「下一题 →」继续</span></div>`;
+  }
+  html += `<div class="nav"><button onclick="prev()" ${idx===0?'disabled':''}>← 上一题</button><button onclick="next()" ${locked[idx]?'':'disabled'}>${idx===QUIZ.questions.length-1?'看成绩 →':'下一题 →'}</button></div>`;
+  app.innerHTML = html;
+}
+
+function pick(v) {
+  if (locked[idx]) return;
+  const q = QUIZ.questions[idx];
+  if (q.type === '判断' || q.type === '单选') { submit([v]); }
+  else { // 多选 toggle
+    sel[idx] = sel[idx] || [];
+    const i = sel[idx].indexOf(v);
+    i >= 0 ? sel[idx].splice(i,1) : sel[idx].push(v);
+    render();
+  }
+}
+function confirmMulti() { if (sel[idx] && sel[idx].length) submit([...sel[idx]].sort()); }
+
+function submit(vals) {
+  const q = QUIZ.questions[idx];
+  const std = q.type === '判断' ? q.answer : q.answer.split('').sort().join('');
+  const mine = q.type === '判断' ? vals[0] : vals.join('');
+  const ok = mine === std;
+  answers[idx] = { mine, ok };
+  locked[idx] = true;
+  save();
+  render();
+}
+
+function prev() { if (idx > 0) { idx--; render(); } }
+function next() { if (locked[idx]) { idx++; render(); } }
+
+function renderResult() {
+  const total = QUIZ.questions.length;
+  const right = answers.filter(a => a && a.ok).length;
+  const wrongs = QUIZ.questions.map((q,i) => ({q,i,a:answers[i]})).filter(x => x.a && !x.a.ok);
+  let html = `<div class="result"><div class="progress">${QUIZ.title}</div><div class="score">${right}<small> / ${total}</small></div>`;
+  if (wrongs.length) {
+    html += `<div class="wronglist"><b>❌ 错题（已记入待重测）：</b><br>` + wrongs.map(x =>
+      `第${x.i+1}题 你答 ${x.a.mine} · 正确 ${x.q.answer}<br>　${esc(x.q.why)}`).join('<br>') + `</div>`;
+  } else {
+    html += `<div class="wronglist">🎉 全对！没有错题。</div>`;
+  }
+  html += `<button class="copy" onclick="copyResult()">📋 复制成绩（发给 ZCode 记错题本）</button>`;
+  html += `<textarea id="ta" readonly>${answeredText()}</textarea>`;
+  html += `<button class="redo" onclick="clearProgress()">🗑 清空本章记录，从头再做</button></div>`;
+  app.innerHTML = html;
+}
+
+function copyResult() {
+  copyResultBtn();  // 顶栏按钮复用同一函数
+}
+function copyResultBtn() {}  // 占位（顶栏直接用 copyResult）
+
+answers = new Array(QUIZ.questions.length).fill(null);
+sel = new Array(QUIZ.questions.length).fill(null);
+locked = new Array(QUIZ.questions.length).fill(false);
+loadSaved();
+// 续做：跳到第一个未答的题；全答完则直接看成绩
+idx = locked.findIndex(l => !l);
+if (idx === -1) idx = QUIZ.questions.length;
+render();
+</script>
+</body>
+</html>

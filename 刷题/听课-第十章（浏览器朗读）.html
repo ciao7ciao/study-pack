@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第十章 · 通听版 · 安全考证陪学</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #2b3440; padding-bottom: 110px; }
+header { position: sticky; top: 0; background: #ffffffdd; backdrop-filter: blur(8px); border-bottom: 1px solid #e3e8ee; padding: 14px 22px 10px; z-index: 5; }
+header h1 { font-size: 18px; color: #1d2733; }
+header p { font-size: 13px; color: #7a8694; margin-top: 3px; }
+main { max-width: 720px; margin: 0 auto; padding: 20px 22px; }
+.tag { color: #1a66d6; font-weight: 700; font-size: 14px; margin: 30px 0 8px; }
+.line { font-size: 20px; line-height: 1.75; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #5a6572; transition: all .15s; }
+.line:hover { background: #e9eef4; }
+.line.now { color: #0d1b2a; font-size: 26px; font-weight: 700; background: #ffffff; box-shadow: 0 1px 6px #00000014; }
+.line.done { color: #a8b2bd; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffffee; border-top: 1px solid #e3e8ee; padding: 12px 20px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; z-index: 5; }
+button { background: #eef2f6; border: 1px solid #d9e1e9; border-radius: 9px; font-size: 15px; padding: 10px 18px; cursor: pointer; font-family: inherit; color: #2b3440; }
+button:hover { background: #e2e9f0; }
+button.play { background: #1a66d6; border-color: #1a66d6; color: #fff; padding: 10px 30px; }
+label.speed, label.mem { font-size: 14px; color: #5a6572; display: flex; align-items: center; gap: 5px; }
+#status { font-size: 13px; color: #7a8694; }
+</style>
+</head>
+<body>
+<header><h1>第十章 · 通听版</h1><p>点 ▶ 播放，念到哪字幕到哪；点任意一句可从那里听。需用电脑自带中文语音（Mac=婷婷，Windows=晓晓/辉辉）。</p></header>
+<main id="list"></main>
+<footer>
+  <button id="prev">⏮ 上一题</button>
+  <button id="toggle" class="play">▶ 播放</button>
+  <button id="next">下一题 ⏭</button>
+  <label class="speed">语速
+    <select id="rate"><option value="0.85">慢 0.85</option><option value="1" selected>正常 1.0</option><option value="1.15">快 1.15</option><option value="1.3">更快 1.3</option></select>
+  </label>
+  <label class="mem"><input type="checkbox" id="mem" checked> 每题两遍</label>
+  <span id="status"></span>
+</footer>
+<script>
+const SEGS = [{"tag": "第2题", "text": "第2题，单选题。凡是禁止、停止和有危险的器件设备或环境,应涂以 （　） 色的。 选项：A，红；B，蓝；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：A，红。"}, {"tag": "第3题", "text": "第3题，单选题。安全色中（　） 常用于表示紧急停止、禁止和危险的信号。 选项：A，红色；B，黄色；C，蓝色；D，绿色。"}, {"tag": null, "text": "正确答案：A，红色。"}, {"tag": "第4题", "text": "第4题，单选题。消防设备应涂以（　）色 选项：A，红；B，蓝；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：A，红。"}, {"tag": "第5题", "text": "第5题，单选题。需要使用红色标记的有 （　） 选项：A，消防设备；B，机械的启动按钮；C，危险机器的警戒线；D，道路边指引车辆行驶方向的交通指示标志。"}, {"tag": null, "text": "正确答案：A，消防设备。"}, {"tag": "第6题", "text": "第6题，单选题。机器的停止按钮应使用（　）色。 选项：A，红；B，蓝；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：A，红。"}, {"tag": "第7题", "text": "第7题，多选题。红色注目性高,视认性很好,可用于表示 （　） 选项：A，交通禁令标志；B，消防设备标志；C，警告信号旗；D，必须佩戴防护用具；E，仪表刻度盘上极限位置的刻度。"}, {"tag": null, "text": "正确答案：A、B、E。"}, {"tag": "第8题", "text": "第8题，单选题。必须配戴安全帽标志,应使用（　）色标记 选项：A，红；B，蓝；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：B，蓝。"}, {"tag": "第9题", "text": "第9题，多选题。黄色对人眼睛能产生比红色更高的明度,可用于表示 （　） 选项：A，危险机器的警戒线；B，消防设备标志；C，交通禁令标志；D，道路交通标志和标线中警告标志；E，楼梯的第一级和最后一级的踏步前沿。"}, {"tag": null, "text": "正确答案：A、D、E。"}, {"tag": "第10题", "text": "第10题，单选题。车间内的安全通道、太平门指示标志使用（　）色 选项：A，红；B，蓝；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：C，绿。"}, {"tag": "第11题", "text": "第11题，单选题。机器的启动按钮应使用 （　）色。 选项：A，红；B，蓝；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：C，绿。"}, {"tag": "第12题", "text": "第12题，单选题。《安全色》 (GB2893-2008) 中规定绿色的对比色为 （　）色。 选项：A，红；B，黑；C，白；D，黄。"}, {"tag": null, "text": "正确答案：C，白。"}, {"tag": "第13题", "text": "第13题，单选题。《安全色》 (GB2893-2008) 中规定黄色的对比色为（　）色。 选项：A，白；B，黑；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：B，黑。"}, {"tag": "第14题", "text": "第14题，单选题。道路边指引车和行人行驶方向的交通指示标志使用 （　）色标 选项：A，红；B，蓝；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：B，蓝。"}, {"tag": "第15题", "text": "第15题，单选题。指令标志由圆形边框、（　）色背景图形和白色的指令图形符号组成。 选项：A，红；B，蓝；C，黄；D，绿。"}, {"tag": null, "text": "正确答案：B，蓝。"}, {"tag": "第16题", "text": "第16题，单选题。提示标志由正方形边框的（　）色背景图形和被提示的白色图形符号及文字组成。 选项：A，红；B，蓝；C，黄；D，绿。"}, {"tag": null, "text": "正确答案：D，绿。"}, {"tag": "第17题", "text": "第17题，单选题。应急避难场所标志使用（　）色。 选项：A，红；B，蓝；C，绿；D，黄。"}, {"tag": null, "text": "正确答案：C，绿。"}, {"tag": "第18题", "text": "第18题，多选题。安全标志分为（　） 选项：A，禁止标志；B，警告标志；C，指令标志；D，提示标志；E，操作标志。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第19题", "text": "第19题，单选题。文字辅助标志横写时,禁止标志的文字辅助标志为（　）色字。 选项：A，红；B，蓝；C，白；D，黑。"}, {"tag": null, "text": "正确答案：C，白。"}, {"tag": "第20题", "text": "第20题，单选题。文字辅助标志横写时,指令标志的文字辅助标志为（　）色字。 选项：A，红；B，蓝；C，白；D，黑。"}, {"tag": null, "text": "正确答案：C，白。"}, {"tag": "第21题", "text": "第21题，单选题。文字辅助标志横写时,警告标志的文字辅助标志为（　）色字。 选项：A，红；B，蓝；C，白；D，黑 A)。"}, {"tag": null, "text": "正确答案：D，黑 A)。"}, {"tag": "第22题", "text": "第22题，单选题。文字辅助标志横写时,警告标志的文字辅助衬底色是 （　）。 选项：A，黄色；B，白色；C，标志的颜色；D，绿色。"}, {"tag": null, "text": "正确答案：B，白色。"}, {"tag": "第23题", "text": "第23题，单选题。生命四大特征包括呼吸、体温、血压和 （　） 选项：A，血糖；B，脉搏；C，瞳孔；D，血氧。"}, {"tag": null, "text": "正确答案：B，脉搏。"}, {"tag": "第24题", "text": "第24题，单选题。正常人的呼吸频率为（　） 次/分。 选项：A，-12；B，14-18；C，28-32；D，60-80。"}, {"tag": null, "text": "正确答案：B，14-18。"}, {"tag": "第25题", "text": "第25题，多选题。以下生命体征参数正常的有 （　） 选项：A，呼吸 18 次/分；B，体温 36.8°；C，脉搏 62 次/分；D，脉搏 90 次/分；E，血压舒张压为 120。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第26题", "text": "第26题，单选题。火警电话为 （　）。 选项：A，10；B，119；C，120；D，122。"}, {"tag": null, "text": "正确答案：B，119。"}, {"tag": "第27题", "text": "第27题，单选题。创伤急救原则是:（　） 选项：A，先固定,后搬运,再抢救；B，先搬运,后固定,再抢救；C，先抢救,后搬运,再固定；D，先抢救,后固定,再搬运。"}, {"tag": null, "text": "正确答案：D，先抢救,后固定,再搬运。"}, {"tag": "第28题", "text": "第28题，单选题。一旦发现有人触电倒地,首先应该 （　） 选项：A，使伤者脱离电源；B，实施心肺复苏；C，打 112 急救；D，负责人报告。"}, {"tag": null, "text": "正确答案：A，使伤者脱离电源。"}, {"tag": "第29题", "text": "第29题，多选题。人员发生触电事故急救时,以下处理方法正确的有。（　） 选项：A，使伤员就地平卧,松解衣扣；B，如果触电的人神志清醒,呼吸心跳均正常,让伤员站立并走动进一步观察；C，如果触电的人呼吸停止而脉搏存在,进行口对口人工呼吸；D，如果触电的人心博停止而呼吸存在,进行人工胸外心脏按压；E，如果触电的人呼吸、心跳均停止者,等待医务人员救助。"}, {"tag": null, "text": "正确答案：A、C、D。"}, {"tag": "第30题", "text": "第30题，单选题。人员发生触电事故,若呼吸、心脏均停止,现场急救应采用 （　）方法。 选项：A，人工呼吸；B，胸外心脏按压；C，人工呼吸和胸外按压应同时进行；D，等待专业人员救助。"}, {"tag": null, "text": "正确答案：C，人工呼吸和胸外按压应同时进行。"}, {"tag": "第31题", "text": "第31题，单选题。触电者神志清醒、有意识,心脏跳动,但呼吸急促、面色苍白,此时（　）用心肺复苏法抢救。 选项：A，不能；B，应立即；C，可以；D，将其移到安全处后。"}, {"tag": null, "text": "正确答案：A，不能。"}, {"tag": "第32题", "text": "第32题，单选题。触电伤员呼吸微弱或停止时,应立即通畅触电者的气道。（　）用枕头等物垫在伤员头下。 选项：A，应当；B，宜；C，严禁；D，不宜。"}, {"tag": null, "text": "正确答案：C，严禁。"}, {"tag": "第33题", "text": "第33题，判断题。发生中毒事故后,应当查明中毒原因并采取有效安全防护措施后将中毒人员移至通风良好、空气新鲜的地方,确保患者呼吸道通畅,对神志不清者应将头部偏向一侧。 （　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第34题", "text": "第34题，判断题。发生中毒事故后,应当查明中毒原因并采取有效安全防护措施后将中毒人员移至通风良好、空气新鲜的地方,确保患者呼吸道通畅,对神志不清者应脸向上平躺。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第35题", "text": "第35题，单选题。实施心肺复苏术时,按压的频次每分钟应为 （　） 选项：A，0-80 次；B，80-100 次；C，100-120 次；D，120-140 次。"}, {"tag": null, "text": "正确答案：C，100-120 次。"}];
+const synth = window.speechSynthesis;
+let cur = -1, playing = false, pass = 1, voice = null;
+const starts = SEGS.map((s, i) => s.tag ? i : -1).filter(i => i >= 0);
+const list = document.getElementById('list');
+
+SEGS.forEach((s, i) => {
+  if (s.tag) { const t = document.createElement('div'); t.className = 'tag'; t.textContent = s.tag; list.appendChild(t); }
+  const d = document.createElement('div'); d.className = 'line'; d.textContent = s.text;
+  d.onclick = () => { pass = 1; start(i); }; list.appendChild(d); s.el = d;
+});
+
+function pickVoice() {
+  const vs = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
+  voice = vs.find(v => /婷婷|Tingting|晓晓|Xiaoxiao|辉辉|Huihui|Yaoyao/.test(v.name)) || vs[0] || null;
+}
+pickVoice();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice;
+
+function qStart(i) { let r = 0; for (const s of starts) { if (s <= i) r = s; else break; } return r; }
+function qEnd(i) { for (const s of starts) { if (s > i) return s - 1; } return SEGS.length - 1; }
+
+function start(i) {
+  synth.cancel();
+  if (i >= SEGS.length) { done(); return; }
+  if (i < 0) i = 0;
+  cur = i;
+  document.querySelectorAll('.line').forEach((el, k) => {
+    el.classList.toggle('now', k === cur);
+    el.classList.toggle('done', k < cur);
+  });
+  SEGS[cur].el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  document.getElementById('status').textContent = (pass === 2 ? '第2遍 · ' : '') + `第 ${cur + 1}/${SEGS.length} 句`;
+  const u = new SpeechSynthesisUtterance(SEGS[cur].text);
+  u.lang = 'zh-CN';
+  if (voice) u.voice = voice;
+  u.rate = parseFloat(document.getElementById('rate').value);
+  u.onend = () => {
+    if (!playing) return;
+    if (cur < qEnd(cur)) { pass = pass; start(cur + 1); }
+    else if (document.getElementById('mem').checked && pass === 1) { pass = 2; start(qStart(cur)); }
+    else { pass = 1; const n = qEnd(cur) + 1; if (n < SEGS.length) start(n); else done(); }
+  };
+  synth.speak(u);
+  playing = true; setBtn();
+}
+function done() { playing = false; setBtn(); document.getElementById('status').textContent = '✅ 讲完啦'; }
+function setBtn() { document.getElementById('toggle').textContent = playing ? '⏸ 暂停' : '▶ 播放'; }
+document.getElementById('toggle').onclick = () => {
+  if (cur === -1) { start(0); return; }
+  if (playing) { synth.pause(); playing = false; setBtn(); }
+  else if (synth.paused && synth.speaking) { synth.resume(); playing = true; setBtn(); }
+  else { playing = true; start(cur); }
+};
+document.getElementById('prev').onclick = () => { pass = 1; const p = qStart(Math.max(cur - 1, 0)); start(p === cur ? 0 : p); };
+document.getElementById('next').onclick = () => { pass = 1; const n = starts.find(s => s > cur); start(n === undefined ? SEGS.length : n); };
+document.getElementById('rate').onchange = () => { if (cur >= 0) { const c = cur; start(c); } };
+</script>
+</body>
+</html>

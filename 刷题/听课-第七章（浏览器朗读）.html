@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第七章 · 通听版 · 安全考证陪学</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #2b3440; padding-bottom: 110px; }
+header { position: sticky; top: 0; background: #ffffffdd; backdrop-filter: blur(8px); border-bottom: 1px solid #e3e8ee; padding: 14px 22px 10px; z-index: 5; }
+header h1 { font-size: 18px; color: #1d2733; }
+header p { font-size: 13px; color: #7a8694; margin-top: 3px; }
+main { max-width: 720px; margin: 0 auto; padding: 20px 22px; }
+.tag { color: #1a66d6; font-weight: 700; font-size: 14px; margin: 30px 0 8px; }
+.line { font-size: 20px; line-height: 1.75; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #5a6572; transition: all .15s; }
+.line:hover { background: #e9eef4; }
+.line.now { color: #0d1b2a; font-size: 26px; font-weight: 700; background: #ffffff; box-shadow: 0 1px 6px #00000014; }
+.line.done { color: #a8b2bd; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffffee; border-top: 1px solid #e3e8ee; padding: 12px 20px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; z-index: 5; }
+button { background: #eef2f6; border: 1px solid #d9e1e9; border-radius: 9px; font-size: 15px; padding: 10px 18px; cursor: pointer; font-family: inherit; color: #2b3440; }
+button:hover { background: #e2e9f0; }
+button.play { background: #1a66d6; border-color: #1a66d6; color: #fff; padding: 10px 30px; }
+label.speed, label.mem { font-size: 14px; color: #5a6572; display: flex; align-items: center; gap: 5px; }
+#status { font-size: 13px; color: #7a8694; }
+</style>
+</head>
+<body>
+<header><h1>第七章 · 通听版</h1><p>点 ▶ 播放，念到哪字幕到哪；点任意一句可从那里听。需用电脑自带中文语音（Mac=婷婷，Windows=晓晓/辉辉）。</p></header>
+<main id="list"></main>
+<footer>
+  <button id="prev">⏮ 上一题</button>
+  <button id="toggle" class="play">▶ 播放</button>
+  <button id="next">下一题 ⏭</button>
+  <label class="speed">语速
+    <select id="rate"><option value="0.85">慢 0.85</option><option value="1" selected>正常 1.0</option><option value="1.15">快 1.15</option><option value="1.3">更快 1.3</option></select>
+  </label>
+  <label class="mem"><input type="checkbox" id="mem" checked> 每题两遍</label>
+  <span id="status"></span>
+</footer>
+<script>
+const SEGS = [{"tag": "第1题", "text": "第1题，判断题。从国际上的职业健康安全体系的角度来看,危险源一般不包括仅涉及对“物\"“财产”的损害（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第2题", "text": "第2题，单选题。识别危险源时不要发生遗漏,以免留下隐患,这是危险源辨识的（　） 原则。 选项：A，预测性；B，全面性；C，系统性；D，科学性。"}, {"tag": null, "text": "正确答案：B，全面性。"}, {"tag": "第3题", "text": "第3题，单选题。对于危险源,要分析其潜在的危险性、存在的条件及触发事件,这是危险源辨识的（　） 原则。 选项：A，预测性；B，全面性；C，系统性；D，科学性。"}, {"tag": null, "text": "正确答案：A，预测性。"}, {"tag": "第4题", "text": "第4题，单选题。安全生产检查表形式简单,针对性和操作性强,是施工企业常用的危险源辨识方法中（　）的具体运用。 选项：A，直观经验法；B，对照分析法；C，专家评议法；D，事故树分析法。"}, {"tag": null, "text": "正确答案：B，对照分析法。"}, {"tag": "第5题", "text": "第5题，单选题。LEC 法评价某种危险风险等级的计算公式为: DL*E*C,其中 D 表示（　） 选项：A，危险的等级程度；B，发生事故可能性；C，人体暴露的频繁程度；D，损失后果的严重程度。"}, {"tag": null, "text": "正确答案：A，危险的等级程度。"}, {"tag": "第6题", "text": "第6题，单选题。LEC 法评价某种危险风险等级的计算公式为: D=L*E*C,其中 E 表示（　） 选项：A，危险的等级程度；B，发生事故可能性；C，人体暴露的频繁程度；D，损失后果的严重程度。"}, {"tag": null, "text": "正确答案：C，人体暴露的频繁程度。"}, {"tag": "第7题", "text": "第7题，单选题。LEC 法评价某种危险风险等级的计算公式为: D=L*E*C,其中 C 表示（　） 选项：A，危险的等级程度；B，发生事故可能性；C，人体暴露的频繁程度；D，损失后果的严重程度。"}, {"tag": null, "text": "正确答案：D，损失后果的严重程度。"}, {"tag": "第8题", "text": "第8题，多选题。常见的风险防范措施主要包括 （　）几个方面 选项：A，组织措施；B，管理措施；C，技术措施；D，处罚措施；E，合同措施。"}, {"tag": null, "text": "正确答案：A、B、C。"}, {"tag": "第9题", "text": "第9题，单选题。在企业内部实行一岗双责制定属于（　）类别的风险防范措施 选项：A，组织措施；B，管理措施；C，技术措施；D，其它措施。"}, {"tag": null, "text": "正确答案：A，组织措施。"}, {"tag": "第10题", "text": "第10题，多选题。以下属于安全生产管理措施范畴的有 （　） 选项：A，配备安全管理人员；B，组织安全生产检查；C，建立健全安全生产责任；D，进行安全生产教育培训；E，配备安全防护用品。"}, {"tag": null, "text": "正确答案：B、C、D。"}, {"tag": "第11题", "text": "第11题，单选题。下面属于通信工程危险源的是 （　） 选项：A，裸露的铜鼻子；B，作业人员未佩戴安全帽；C，作业面与高压线间距过近；D，安全技术交底缺失。"}, {"tag": null, "text": "正确答案：C，作业面与高压线间距过近。"}, {"tag": "第12题", "text": "第12题，单选题。割接时未作绝缘处理的工具是 （　）工程中常见的危险源 选项：A，架空线路；B，直埋线路；C，管道线路；D，设备线路。"}, {"tag": null, "text": "正确答案：D，设备线路。"}, {"tag": "第13题", "text": "第13题，判断题。因外部因素影响致使生产经营单位自身难以排除的隐患,通常属于-般事故隐患。（　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第14题", "text": "第14题，单选题。通信工程施工单位的事故隐患中,危害和整改难度较大,应当局部停产停业,并经过一定时间整改治理方能排除的隐患,由 （　） 组织制定安全隐患治理方案并组织实施。 选项：A，专职安全员；B，现场负责人；C，项目负责人；D，企业主要负责人。"}, {"tag": null, "text": "正确答案：D，企业主要负责人。"}, {"tag": "第15题", "text": "第15题，单选题。通信工程施工单位的事故隐患中,危害和整改难度较小,需要整改的隐患,称为（　）。 选项：A，关注隐患；B，轻微隐患；C，一般监控隐患；D，重点监控隐患。"}, {"tag": null, "text": "正确答案：B，轻微隐患。"}, {"tag": "第16题", "text": "第16题，单选题。通信工程施工单位的事故隐患中,危害较小,发现后需引起注意的隐患,由 （　）予以关注。 选项：A，专职安全员；B，现场负责人；C，项目负责人；D，企业负责人。"}, {"tag": null, "text": "正确答案：B，现场负责人。"}, {"tag": "第17题", "text": "第17题，多选题。对于排查出来的安全生产隐患,应确定定整改责任人（　） 选项：A，整改措施；B，整改完成时间；C，整改完成单位及具体人员；D，整改验收人；E，整改监理方。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第18题", "text": "第18题，多选题。安全生产检查中属于软件系统检查内容的有 （　） 选项：A，查思想和意识；B，查制度和管理；C，查事故处理；D，查隐患及整改；E，查安全设备设施。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第19题", "text": "第19题，多选题。通常以时间为维度的安全生产检查包括 （　） 选项：A，经常性安全生产检查；B，季节性安全生产检查；C，定期安全生产检查；D，特殊时期的安全生产检查；E，远程安全生产检查。"}, {"tag": null, "text": "正确答案：B、C、D。"}, {"tag": "第20题", "text": "第20题，多选题。安全检查的类型很多,不属于时间维度检查的是 （　） 选项：A，现场安全生产检查；B，定期安全生产检查；C，季节性安全生产检查；D，远程安全生产检查；E，特殊时期安全生产检查。"}, {"tag": null, "text": "正确答案：A、D。"}, {"tag": "第21题", "text": "第21题，多选题。季节性安全生产检查具有很强的针对性,检查的重点一般包括（　） 选项：A，防冻保暖；B，防煤气中毒；C，防暑降温 防雷防电；D，防通信中断。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第22题", "text": "第22题，单选题。施工单位自行组织的安全生产检查,在整改措施计划完成后,由（　）组织有关人员进行验收。 选项：A，检查组；B，项目部；C，安全管理部门；D，专职安全员。"}, {"tag": null, "text": "正确答案：C，安全管理部门。"}, {"tag": "第23题", "text": "第23题，多选题。对通信工程企业的安全检查,主要从（　）安全教育培训、安全生产管控及隐患排查治理、事故管理、持续改进等方面进行。 选项：A，安全管理目标职责；B，安全管理制度；C，现场安全管理；D，安全应急管理；E，施工质量控制。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第24题", "text": "第24题，单选题。对通信施工企业的安全检查,通常以打分的方式进行,若得 85 分,一般应评定为（　） 选项：A，优秀；B，良好；C，合格；D，不合格。"}, {"tag": null, "text": "正确答案：B，良好。"}, {"tag": "第25题", "text": "第25题，单选题。对通信施工企业进行项目达标计划时,应抽查 （　）个以上项目的达标合格率达到 100%。 选项：A，3；B，4；C，5。"}, {"tag": null, "text": "正确答案：B，4。"}, {"tag": "第26题", "text": "第26题，单选题。施工单位应严格按照《通信建设工程安全操作规范》的规定进行（　） 选项：A，现场管理；B，制度建设；C，目标制定；D，质量检查。"}, {"tag": null, "text": "正确答案：A，现场管理。"}, {"tag": "第27题", "text": "第27题，多选题。对通信工程项目的安全检查,主要内容包括项目的 （　）等情况。 选项：A，安全生产责任制落实；B，安全技术交底；C，消防安全管理；D，现场文明施；E，施工质量控制。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第28题", "text": "第28题，多选题。对通信工程项目的安全检查,主要内容包括项目的（　）等情况。 选项：A，专项施工方案；B，人员管理；C，应急管理；D，安全检查；E，质量控制。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第29题", "text": "第29题，单选题。对通信工程项目的安全检查,主要内容不包括项目的（　） 情况。 选项：A，安全生产责任制；B，安全技术交底；C，现场文明施工；D，施工质量控制。"}, {"tag": null, "text": "正确答案：D，施工质量控制。"}, {"tag": "第30题", "text": "第30题，单选题。对通信工程项目的安全检查,主要内容不包括项目的（　） 等情况 选项：A，专项施工方案；B，人员管理；C，应急管理；D，质量控制。"}, {"tag": null, "text": "正确答案：D，质量控制。"}, {"tag": "第31题", "text": "第31题，单选题。项目部组织的全面安全生产检查,一般情况下,检查频次时 （　）。 选项：A，每天一次；B，每周一次；C，每周两次；D，每月两次。"}, {"tag": null, "text": "正确答案：B，每周一次。"}, {"tag": "第32题", "text": "第32题，多选题。对通信工程施工现场的安全检查,描述正确的是 （　） 选项：A，检查安全技术措施的落实情况；B，检查《通信建设工程安全生产操作规范》的执行情况；C，检查的内容应根据检查类型和项目特点确定；D，检查本着突出重点的原则；E，检查是上级的要求,没有必要也要进行。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}, {"tag": "第33题", "text": "第33题，单选题。对施工现场的安全检查,（　） 的评分权重最大 选项：A，项目经理；B，技术负责人；C，现场监理人员；D，专职安全员。"}, {"tag": null, "text": "正确答案：D，专职安全员。"}, {"tag": "第34题", "text": "第34题，单选题。职业健康安全管理体系的有效建立和运行,能为企业带来的受益般不包括 （　）。 选项：A，提高安全管理绩效；B，提升工程业绩；C，有助于相关法规的贯彻执行；D，树立企业良好的社会形象。"}, {"tag": null, "text": "正确答案：B，提升工程业绩。"}, {"tag": "第35题", "text": "第35题，单选题。实施职业健康安全管理体系是组织的战略和（　） 选项：A，管理决策；B，经营理念；C，经营决策；D，管理理念。"}, {"tag": null, "text": "正确答案：C，经营决策。"}, {"tag": "第36题", "text": "第36题，多选题。职业健康安全管理体系运行成功的关键因数包括（　） 选项：A，领导作用；B，承诺；C，管理；D，制度；E，所有各职能和层次的参与。"}, {"tag": null, "text": "正确答案：A、B、E。"}, {"tag": "第37题", "text": "第37题，单选题。职业健康安全管理体系认证证书最终要通过（　）才能获得 选项：A，试运行；B，内部审核；C，管理评审；D，外部审核。"}, {"tag": null, "text": "正确答案：D，外部审核。"}, {"tag": "第38题", "text": "第38题，多选题。企业的管理体系文件一般应包括 （　） 选项：A，管理手册；B，质量手册；C，作业指导书及操作规范；D，现场处置方案及运行记录；E，相关的管理制度。"}, {"tag": null, "text": "正确答案：A、C、D、E。"}, {"tag": "第39题", "text": "第39题，单选题。下列情况中,不属于职业健康安全管理体系要求增加内部审核次数的是 （　） 选项：A，企业内部组织机构等有重大变动；B，发生了重大的安全事故等；C，体系管理部门负责人认为需要；D，顾客(包括相关方)有重大投诉。"}, {"tag": null, "text": "正确答案：C，体系管理部门负责人认为需要。"}, {"tag": "第40题", "text": "第40题，判断题。企业安全生产标准化是有效防范事故发生的唯一手段（　）。"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第41题", "text": "第41题，单选题。企业开展安全生产标准化工作,应遵循方针不包括 （　） 选项：A，安全第一；B，预防为主；C，管控为主；D，综合治理。"}, {"tag": null, "text": "正确答案：C，管控为主。"}, {"tag": "第42题", "text": "第42题，单选题。企业安全生产标准化包括（　） 个一级要素。 选项：A，16；B，22；C，28。"}, {"tag": null, "text": "正确答案：A，16。"}, {"tag": "第43题", "text": "第43题，单选题。企业 （　） 至少应对安全生产标准化管理体系的运行情况进行一次自评。 选项：A，每季度；B，每半年；C，每年；D，两年。"}, {"tag": null, "text": "正确答案：C，每年。"}, {"tag": "第44题", "text": "第44题，单选题。关于安全生产标准化证书的分级,正确的是 （　） 选项：A，分为甲、乙级；B，分为一、二、三级；C，分为一、二、三、四级；D，不分级。"}, {"tag": null, "text": "正确答案：B，分为一、二、三级。"}, {"tag": "第45题", "text": "第45题，判断题。企业管理层应代表全体员工在关注安全和追求安全绩效方面做出公开的安全承诺。（　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第46题", "text": "第46题，单选题。企业内部（　）是企业安全承诺的具体体现和安全文化建设的基础要求。 选项：A，安全制度；B，管理制度；C，操作规范；D，行为规范。"}, {"tag": null, "text": "正确答案：D，行为规范。"}, {"tag": "第47题", "text": "第47题，单选题。关于企业安全文化建设程序的建立和执行的说法,正确的是（　） 选项：A，识别并说明主要的风险；B，使用者不参与程序的制定和改进过程；C，一般不形成正式文件；D，要求员工对程序的执行持信任的态度。"}, {"tag": null, "text": "正确答案：A，识别并说明主要的风险。"}, {"tag": "第48题", "text": "第48题，多选题。关于企业安全文化建设程序的建立和执行的说法,不正确的是（　） 选项：A，识别并说明主要的风险；B，使用者不参与程序的制定和改进过程,；C，由正式文件予以发布；D，向员工闻明给出特殊要求的原因；E，要求员工对程序的执行持信任的态度。"}, {"tag": null, "text": "正确答案：B、E。"}, {"tag": "第49题", "text": "第49题，单选题。对于员工所识别的安全缺陷,企业正确的做法是 （　） 选项：A，给予经济奖励；B，记录备案；C，给予及时处理和反馈；D，上级主管领导。"}, {"tag": null, "text": "正确答案：C，给予及时处理和反馈。"}, {"tag": "第50题", "text": "第50题，单选题。企业应建立有效的安全学习模式,实现动态发展的安全学习过程关于安全自主学习过程的顺序,正确的是（　） 选项：A，既有知识和能力-概念与方案-预知与反思-实践与实施-评估与总结-新的知识和能力；B，既有知识和能力-预知与反思-概念与方案-实践与实施-评估与总结-新的知识和能力；C，预知与反思既有知识和能力-概念与方案-实践与实施-评估与总结-新的知识和能力；D，既有知识和能力-预知与反思-实践与实施-概念与方案-评估与新的知识和能力。"}, {"tag": null, "text": "正确答案：B，既有知识和能力-预知与反思-概念与方案-实践与实施-评估与总结-新的知识和能力。"}, {"tag": "第51题", "text": "第51题，多选题。员工参与企业安全事务的方式有 （　） 选项：A，微小差错员工报告机制；B，成立员工安全改进小组；C，不定期召开员工代表参加的安全会议；D，进行岗位风险评审；E，不安全行为或不安全状态的自查自评活动。"}, {"tag": null, "text": "正确答案：A、B、E。"}, {"tag": "第52题", "text": "第52题，多选题。培养骨干是推动企业安全文化建设非做不可的事情,训练内容包括（　） 选项：A，理论；B，经验；C，制度的制定；D，实施的方法；E，事例。"}, {"tag": null, "text": "正确答案：A、B、D、E。"}, {"tag": "第53题", "text": "第53题，单选题。传播安全文化,促进精神文明的重要手段是 （　） 选项：A，弘扬、教育、激励、同化；B，宣传、培训、鼓励、感化；C，宣传、教育、鼓励、同化；D，宣传、教育、激励、感化。"}, {"tag": null, "text": "正确答案：D，宣传、教育、激励、感化。"}, {"tag": "第54题", "text": "第54题，单选题。企业安全文化是 （　） 企业整体行为以及员工行为的价值理念同时也指导着安全管理制度的() 选项：A，指导和约束,制定和执行；B，指导和保持,签定和执行；C，指导和保持,制定和执行；D，指导和约束,签定和执行。"}, {"tag": null, "text": "正确答案：A，指导和约束,制定和执行。"}, {"tag": "第55题", "text": "第55题，判断题。安全文化和安全管理制度是激励员工的两种有力工具,是各自独立的。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}];
+const synth = window.speechSynthesis;
+let cur = -1, playing = false, pass = 1, voice = null;
+const starts = SEGS.map((s, i) => s.tag ? i : -1).filter(i => i >= 0);
+const list = document.getElementById('list');
+
+SEGS.forEach((s, i) => {
+  if (s.tag) { const t = document.createElement('div'); t.className = 'tag'; t.textContent = s.tag; list.appendChild(t); }
+  const d = document.createElement('div'); d.className = 'line'; d.textContent = s.text;
+  d.onclick = () => { pass = 1; start(i); }; list.appendChild(d); s.el = d;
+});
+
+function pickVoice() {
+  const vs = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
+  voice = vs.find(v => /婷婷|Tingting|晓晓|Xiaoxiao|辉辉|Huihui|Yaoyao/.test(v.name)) || vs[0] || null;
+}
+pickVoice();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice;
+
+function qStart(i) { let r = 0; for (const s of starts) { if (s <= i) r = s; else break; } return r; }
+function qEnd(i) { for (const s of starts) { if (s > i) return s - 1; } return SEGS.length - 1; }
+
+function start(i) {
+  synth.cancel();
+  if (i >= SEGS.length) { done(); return; }
+  if (i < 0) i = 0;
+  cur = i;
+  document.querySelectorAll('.line').forEach((el, k) => {
+    el.classList.toggle('now', k === cur);
+    el.classList.toggle('done', k < cur);
+  });
+  SEGS[cur].el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  document.getElementById('status').textContent = (pass === 2 ? '第2遍 · ' : '') + `第 ${cur + 1}/${SEGS.length} 句`;
+  const u = new SpeechSynthesisUtterance(SEGS[cur].text);
+  u.lang = 'zh-CN';
+  if (voice) u.voice = voice;
+  u.rate = parseFloat(document.getElementById('rate').value);
+  u.onend = () => {
+    if (!playing) return;
+    if (cur < qEnd(cur)) { pass = pass; start(cur + 1); }
+    else if (document.getElementById('mem').checked && pass === 1) { pass = 2; start(qStart(cur)); }
+    else { pass = 1; const n = qEnd(cur) + 1; if (n < SEGS.length) start(n); else done(); }
+  };
+  synth.speak(u);
+  playing = true; setBtn();
+}
+function done() { playing = false; setBtn(); document.getElementById('status').textContent = '✅ 讲完啦'; }
+function setBtn() { document.getElementById('toggle').textContent = playing ? '⏸ 暂停' : '▶ 播放'; }
+document.getElementById('toggle').onclick = () => {
+  if (cur === -1) { start(0); return; }
+  if (playing) { synth.pause(); playing = false; setBtn(); }
+  else if (synth.paused && synth.speaking) { synth.resume(); playing = true; setBtn(); }
+  else { playing = true; start(cur); }
+};
+document.getElementById('prev').onclick = () => { pass = 1; const p = qStart(Math.max(cur - 1, 0)); start(p === cur ? 0 : p); };
+document.getElementById('next').onclick = () => { pass = 1; const n = starts.find(s => s > cur); start(n === undefined ? SEGS.length : n); };
+document.getElementById('rate').onchange = () => { if (cur >= 0) { const c = cur; start(c); } };
+</script>
+</body>
+</html>

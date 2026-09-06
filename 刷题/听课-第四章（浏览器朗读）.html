@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第四章 · 通听版 · 安全考证陪学</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #2b3440; padding-bottom: 110px; }
+header { position: sticky; top: 0; background: #ffffffdd; backdrop-filter: blur(8px); border-bottom: 1px solid #e3e8ee; padding: 14px 22px 10px; z-index: 5; }
+header h1 { font-size: 18px; color: #1d2733; }
+header p { font-size: 13px; color: #7a8694; margin-top: 3px; }
+main { max-width: 720px; margin: 0 auto; padding: 20px 22px; }
+.tag { color: #1a66d6; font-weight: 700; font-size: 14px; margin: 30px 0 8px; }
+.line { font-size: 20px; line-height: 1.75; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #5a6572; transition: all .15s; }
+.line:hover { background: #e9eef4; }
+.line.now { color: #0d1b2a; font-size: 26px; font-weight: 700; background: #ffffff; box-shadow: 0 1px 6px #00000014; }
+.line.done { color: #a8b2bd; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffffee; border-top: 1px solid #e3e8ee; padding: 12px 20px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; z-index: 5; }
+button { background: #eef2f6; border: 1px solid #d9e1e9; border-radius: 9px; font-size: 15px; padding: 10px 18px; cursor: pointer; font-family: inherit; color: #2b3440; }
+button:hover { background: #e2e9f0; }
+button.play { background: #1a66d6; border-color: #1a66d6; color: #fff; padding: 10px 30px; }
+label.speed, label.mem { font-size: 14px; color: #5a6572; display: flex; align-items: center; gap: 5px; }
+#status { font-size: 13px; color: #7a8694; }
+</style>
+</head>
+<body>
+<header><h1>第四章 · 通听版</h1><p>点 ▶ 播放，念到哪字幕到哪；点任意一句可从那里听。需用电脑自带中文语音（Mac=婷婷，Windows=晓晓/辉辉）。</p></header>
+<main id="list"></main>
+<footer>
+  <button id="prev">⏮ 上一题</button>
+  <button id="toggle" class="play">▶ 播放</button>
+  <button id="next">下一题 ⏭</button>
+  <label class="speed">语速
+    <select id="rate"><option value="0.85">慢 0.85</option><option value="1" selected>正常 1.0</option><option value="1.15">快 1.15</option><option value="1.3">更快 1.3</option></select>
+  </label>
+  <label class="mem"><input type="checkbox" id="mem" checked> 每题两遍</label>
+  <span id="status"></span>
+</footer>
+<script>
+const SEGS = [{"tag": "第1题", "text": "第1题，判断题。安全与危险之间是绝对的关系,不会相互转化。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第2题", "text": "第2题，单选题。下列关于安全与危险的说法,错误的是 （　） 选项：A，危险必须指明具体对象；B，危险事可以转化成安全的事；C，安全的事不会变成危险的事；D，采取有效措施可以减少安全事故发生。"}, {"tag": null, "text": "正确答案：C，安全的事不会变成危险的事。"}, {"tag": "第3题", "text": "第3题，单选题。下面对安全生产概念的理解,说法错误的是 （　） 选项：A，安全生产要求社会生产活动中的人、机、物料、环境、方法等方面和谐运作；B，安全生产的方针是对生产过程中的各种事故风险和伤害因素进行有效规划；C，安全生产的目的是切实保护劳动者的生命安全和身体健康；D，安全生产是使劳动过程在符合安全要求的物质条件和工作秩序下进行。"}, {"tag": null, "text": "正确答案：B，安全生产的方针是对生产过程中的各种事故风险和伤害因素进行有效规划。"}, {"tag": "第4题", "text": "第4题，单选题。下面关于安全与生产的统一关系,描述错误的是 （　） 选项：A，搞好安全工作,改善劳动条件,可以调动职工的生产积极性；B，减少职工伤亡,可以减少劳动力的损失；C，搞好安全工作,会增加企业开支,从而会影响生产的发展；D，安全是生产的前提条件,不能保证安全就不得进行生产。"}, {"tag": null, "text": "正确答案：C，搞好安全工作,会增加企业开支,从而会影响生产的发展。"}, {"tag": "第5题", "text": "第5题，多选题。安全生产管理的目的是 （　） 选项：A，保证生产安全 、；B，降低安全费开支,提高企业利润；C，保证人与机器设备、物料、环境的和谐；D，实现人身安全、财产安全；E，消除隐患,保证验收指标满足要求。"}, {"tag": null, "text": "正确答案：A、C、D。"}, {"tag": "第6题", "text": "第6题，单选题。下面关于安全检查法的内容,说法错误的是（　） 选项：A，检查数据必须来源于企业组成的检查组；B，形式主要有定期检查、不定期检查和特殊检查；C，安全检查应预先做好思想上、业务上的准备；D，检查过程应防止走形式、走过场。"}, {"tag": null, "text": "正确答案：A，检查数据必须来源于企业组成的检查组。"}, {"tag": "第7题", "text": "第7题，单选题。下面关于安全目标管理法的内容,说法不正确的是 （　） 选项：A，安全目标管理是安全管理的集中要求和目的所在；B，安全目标管理是将企业一定时期的安全工作任务转化为明确的安全工作目标；C，安全目标管理要求企业将安全工作目标分解到本企业的各个部门和个人；D，安全目标管理要求企业各部门和个人参考所确定的安全工作目标进行工作。"}, {"tag": null, "text": "正确答案：D，安全目标管理要求企业各部门和个人参考所确定的安全工作目标进行工作。"}, {"tag": "第8题", "text": "第8题，单选题。下面关于安全目标管理法的内容,说法不正确的是 （　） 选项：A，安全目标管理是一种信任性、指导性的管理；B，安全目标管理应制定方针、目标,并安排管理日程；C，安全目标管理依靠企业各部门及员工自觉行动和严格检查实现；D，安全目标管理是一种重视人、激励人的客观规律性的管理。"}, {"tag": null, "text": "正确答案：D，安全目标管理是一种重视人、激励人的客观规律性的管理。"}, {"tag": "第9题", "text": "第9题，单选题。“执行计划”,属于戴明循环管理法（　） 阶段的工作任务。 选项：A，计划；B，实施；C，检查；D，处理。"}, {"tag": null, "text": "正确答案：B，实施。"}, {"tag": "第10题", "text": "第10题，单选题。“总结经验,纳入标准”,属于戴明循环管理法（　） 阶段的工作任务。 选项：A，计划；B，实施；C，检查；D，处理。"}, {"tag": null, "text": "正确答案：D，处理。"}, {"tag": "第11题", "text": "第11题，单选题。“重大遗漏问题转入下期考虑”,属于戴明循环管理法 （　） 阶段的工作任务。 选项：A，计划；B，实施；C，检查；D，处理。"}, {"tag": null, "text": "正确答案：D，处理。"}, {"tag": "第12题", "text": "第12题，判断题。风险预控是在危险源辨识和风险评估的基础上,预先采取措施消除或控制风险的过程。（　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第13题", "text": "第13题，判断题。风险预控是在生产安全事故分析的基础上,预先采取措施消除或控制风险的过程。 （　）"}, {"tag": null, "text": "答案：这个说法是错的。"}, {"tag": "第14题", "text": "第14题，多选题。常用的安全管理方法有 （　） 选项：A，戴明循环管理法；B，安全检查法；C，风险预控法；D，强制比例法；E，安全目部管理法。"}, {"tag": null, "text": "正确答案：A、B、C、E。"}, {"tag": "第15题", "text": "第15题，多选题。下面关于当前通信建设工程领域安全生产形势的描述,正确的是 （　）。 选项：A，近年来安全生产事故总量逐年增加；B，安全生产意识比较淡薄；C，从业人员安全生产知识和技能不足；D，安全生产投入仍然不足；E，安全生产责任制度落实不到位。"}, {"tag": null, "text": "正确答案：B、C、D、E。"}, {"tag": "第16题", "text": "第16题，判断题。当前,通信建设工程领域的安全生产事故总量很多,较大安全生产事故时有发生。 （　）"}, {"tag": null, "text": "答案：这个说法是对的。"}, {"tag": "第17题", "text": "第17题，单选题。安全生产管理方针的基石、安全生产工作的重心是（　） 选项：A，安全第一,预防为主,综合治理；B，安全第一；C，预防为主；D，综合治理。"}, {"tag": null, "text": "正确答案：A，安全第一,预防为主,综合治理。"}, {"tag": "第18题", "text": "第18题，单选题。职工在劳动过程中的安全、健康应由（　） 负责。 选项：A，政府；B，行业；C，社会；D，生产经营单位。"}, {"tag": null, "text": "正确答案：D，生产经营单位。"}, {"tag": "第19题", "text": "第19题，多选题。对于安全生产工作机制中的“职工参与”,要求企业职工应 （　） 选项：A，参与制定或者修改企业的各项规童制度；B，参与工会组织的“查隐患、保安全”工作；C，批评、检举、控告影响工程质量的行为；D，无条件执行企业管理人员下达的各项指令；E，按照企业制度、规程的规定进行生产作业。"}, {"tag": null, "text": "正确答案：B、E。"}, {"tag": "第20题", "text": "第20题，单选题。在安全生产工作机制中,做好安全生产工作的基础是 （　） 选项：A，生产经营单位负责；B，职工参与；C，政府监管；D，社会监督。"}, {"tag": null, "text": "正确答案：A，生产经营单位负责。"}, {"tag": "第21题", "text": "第21题，单选题。在实际管理工作中,领导班子分工对所分管单位或部门同样负有安全管理主体责任。这体现了（　） 的安全生产管理原则。 选项：A，企业主要负责人对本单位安全生产工作全面负责；B，谁主管谁负责；C，管生产必须管安全；D，全员参与。"}, {"tag": null, "text": "正确答案：B，谁主管谁负责。"}, {"tag": "第22题", "text": "第22题，单选题。安全生产,人人有责体现了 （　） 的安全生产管理原则, 选项：A，谁主管谁负责；B，管生产必须管安全；C，全员参与；D，安全第一。"}, {"tag": null, "text": "正确答案：C，全员参与。"}, {"tag": "第23题", "text": "第23题，单选题。安全管理是在生产经营活动中进行的不断变化、不断完善的一种动态管理过程,因此,必须坚持 （　） 的安全生产管理原则。 选项：A，谁主管谁负责；B，管生产必须管安全；C，全员参与；D，持续改进。"}, {"tag": null, "text": "正确答案：D，持续改进。"}, {"tag": "第24题", "text": "第24题，多选题。下列活动中,属于企业安全生产主要任务的是 （　） 选项：A，执行国家的有关法律、法规、方针、政策；B，分析研究生产、经营中存在的阻碍企业发展的因素；C，从组织、技术、管理上采取措施,消除或控制影响安全的因素；D，防止生产安全事故的发生；E，保证职工的安全和健康,保障国家财产安全。"}, {"tag": null, "text": "正确答案：A、C、D、E。"}, {"tag": "第25题", "text": "第25题，单选题。下面关于企业安全生产主要任务的描述,不准确的是 （　） 选项：A，企业应经常对各级领导、特种作业人员和所有职工进行安全教育、培训；B，企业应做好安全生产费用管理,保证安全生产投入,完善安全生产条件；C，企业应依据分包合同的约定,检查工程项目的进度及质量是否满足要求；D，企业应加强现场的安全管理,严格遵守安全生产操作规范。"}, {"tag": null, "text": "正确答案：C，企业应依据分包合同的约定,检查工程项目的进度及质量是否满足要求。"}, {"tag": "第26题", "text": "第26题，单选题。下面关于安全生产目标管理的描述,不正确的是 （　） 选项：A，安全生产目标管理就是围绕着安全生产目标而进行的一系列安全生产管理工作；B，施工企业应依据国家的总体发展目标,制订企业安全生产年度及中长期安全目标；C，安全管理目标应包括生产安全事故控制指标、安全生产及文明施工管理目标；D，安全生产管理目标一旦确定,应采取一系列措施去努力实现这些目标。"}, {"tag": null, "text": "正确答案：B，施工企业应依据国家的总体发展目标,制订企业安全生产年度及中长期安全目标。"}, {"tag": "第27题", "text": "第27题，单选题。下面关于安全生产目标管理的任务描述,错误的是 （　） 选项：A，确定目标、合并目标；B，明确责任；C，落实措施；D，严格考核、实施奖惩。"}, {"tag": null, "text": "正确答案：A，确定目标、合并目标。"}, {"tag": "第28题", "text": "第28题，多选题。做好安全目标管理,应确定实现目标的措施和手段。其中措施应包括（　） 选项：A，组织措施、技术措施；B，目标完成的时间；C，目标完成应遵循的程序 E 目标的实现方法；D，目标的实现方法 D 落实目标的入员及负责人。"}, {"tag": null, "text": "正确答案：A、B、C、D。"}];
+const synth = window.speechSynthesis;
+let cur = -1, playing = false, pass = 1, voice = null;
+const starts = SEGS.map((s, i) => s.tag ? i : -1).filter(i => i >= 0);
+const list = document.getElementById('list');
+
+SEGS.forEach((s, i) => {
+  if (s.tag) { const t = document.createElement('div'); t.className = 'tag'; t.textContent = s.tag; list.appendChild(t); }
+  const d = document.createElement('div'); d.className = 'line'; d.textContent = s.text;
+  d.onclick = () => { pass = 1; start(i); }; list.appendChild(d); s.el = d;
+});
+
+function pickVoice() {
+  const vs = synth.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('zh'));
+  voice = vs.find(v => /婷婷|Tingting|晓晓|Xiaoxiao|辉辉|Huihui|Yaoyao/.test(v.name)) || vs[0] || null;
+}
+pickVoice();
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = pickVoice;
+
+function qStart(i) { let r = 0; for (const s of starts) { if (s <= i) r = s; else break; } return r; }
+function qEnd(i) { for (const s of starts) { if (s > i) return s - 1; } return SEGS.length - 1; }
+
+function start(i) {
+  synth.cancel();
+  if (i >= SEGS.length) { done(); return; }
+  if (i < 0) i = 0;
+  cur = i;
+  document.querySelectorAll('.line').forEach((el, k) => {
+    el.classList.toggle('now', k === cur);
+    el.classList.toggle('done', k < cur);
+  });
+  SEGS[cur].el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  document.getElementById('status').textContent = (pass === 2 ? '第2遍 · ' : '') + `第 ${cur + 1}/${SEGS.length} 句`;
+  const u = new SpeechSynthesisUtterance(SEGS[cur].text);
+  u.lang = 'zh-CN';
+  if (voice) u.voice = voice;
+  u.rate = parseFloat(document.getElementById('rate').value);
+  u.onend = () => {
+    if (!playing) return;
+    if (cur < qEnd(cur)) { pass = pass; start(cur + 1); }
+    else if (document.getElementById('mem').checked && pass === 1) { pass = 2; start(qStart(cur)); }
+    else { pass = 1; const n = qEnd(cur) + 1; if (n < SEGS.length) start(n); else done(); }
+  };
+  synth.speak(u);
+  playing = true; setBtn();
+}
+function done() { playing = false; setBtn(); document.getElementById('status').textContent = '✅ 讲完啦'; }
+function setBtn() { document.getElementById('toggle').textContent = playing ? '⏸ 暂停' : '▶ 播放'; }
+document.getElementById('toggle').onclick = () => {
+  if (cur === -1) { start(0); return; }
+  if (playing) { synth.pause(); playing = false; setBtn(); }
+  else if (synth.paused && synth.speaking) { synth.resume(); playing = true; setBtn(); }
+  else { playing = true; start(cur); }
+};
+document.getElementById('prev').onclick = () => { pass = 1; const p = qStart(Math.max(cur - 1, 0)); start(p === cur ? 0 : p); };
+document.getElementById('next').onclick = () => { pass = 1; const n = starts.find(s => s > cur); start(n === undefined ? SEGS.length : n); };
+document.getElementById('rate').onchange = () => { if (cur >= 0) { const c = cur; start(c); } };
+</script>
+</body>
+</html>

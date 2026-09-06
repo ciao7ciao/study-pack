@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>第五章</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; display: flex; justify-content: center; padding: 30px 16px; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 2px 14px #00000012; max-width: 640px; width: 100%; padding: 26px 28px; }
+.progress { font-size: 13px; color: #8a95a1; margin-bottom: 14px; }
+.progress b { color: #1a66d6; }
+.badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #e3edfb; color: #1a66d6; margin-bottom: 12px; }
+.stem { font-size: 19px; line-height: 1.65; font-weight: 600; margin-bottom: 18px; }
+.opt { display: block; width: 100%; text-align: left; font-size: 16px; line-height: 1.5; padding: 13px 16px; margin: 8px 0; border: 1.5px solid #dbe3ea; border-radius: 11px; background: #fbfcfe; cursor: pointer; font-family: inherit; color: #22303e; }
+.opt:hover { border-color: #9ec2ee; background: #f2f7fd; }
+.opt.sel { border-color: #1a66d6; background: #e8f1fd; }
+.opt.right { border-color: #2e9e5b; background: #e9f7ef; }
+.opt.wrong { border-color: #d64545; background: #fdecec; }
+.opt:disabled { cursor: default; }
+.tf { display: flex; gap: 14px; } .tf .opt { text-align: center; font-size: 18px; font-weight: 600; }
+.confirm { margin-top: 14px; width: 100%; padding: 13px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.confirm:disabled { background: #b9c6d4; cursor: default; }
+.why { margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; line-height: 1.6; background: #fff8e6; color: #6b5416; }
+.verdict { font-weight: 800; margin-bottom: 4px; }
+.verdict.ok { color: #2e9e5b; } .verdict.no { color: #d64545; }
+.nav { display: flex; justify-content: space-between; margin-top: 20px; }
+.nav button { padding: 10px 22px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 9px; background: #fff; cursor: pointer; font-family: inherit; }
+.nav button:disabled { opacity: .35; cursor: default; }
+.result { text-align: center; }
+.score { font-size: 46px; font-weight: 800; margin: 10px 0; }
+.score small { font-size: 18px; color: #8a95a1; font-weight: 600; }
+.wronglist { text-align: left; font-size: 14.5px; line-height: 1.7; background: #f7f9fb; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+.copy { width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.redo { margin-top: 10px; width: 100%; padding: 12px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 11px; background: #fff; cursor: pointer; font-family: inherit; }
+.mini { font-size: 12px; padding: 4px 10px; border: 1px solid #d3dce4; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; color: #4a5560; }
+.mini:hover { background: #eef2f6; }
+.groupbar { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: #e8f1fd; border: 1px solid #bcd6f5; font-size: 14.5px; color: #17427e; line-height: 1.8; }
+.groupbar .gbtn { font-size: 14px; padding: 8px 14px; background: #1a66d6; color: #fff; border: none; border-radius: 9px; cursor: pointer; font-family: inherit; font-weight: 700; }
+.groupbar .ghint { color: #5a7ba6; font-size: 13px; margin-left: 8px; }
+textarea { width: 100%; height: 64px; margin-top: 12px; font-size: 14px; padding: 10px; border: 1px solid #d3dce4; border-radius: 9px; font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script>
+const QUIZ = {"title": "第五章", "questions": [{"type": "单选", "stem": "下面关于安全生产决策机构的说法,不正确的是 （　）", "options": ["安全生产决策机构可以是安全生产委员会或安全生产决策岗位", "安全生产决策机构的负责人是企业主要负责人", "安全生产决策机构的负责人是企业的实际控制人", "安全生产决策机构的负责人应为安全生产管理机构的负责人"], "answer": "D", "why": ""}, {"type": "单选", "stem": "施工单位应当在（　）的领导下开展安全生产管理。", "options": ["企业主要负责人", "项目负责人", "企业技术负责人", "企业专职安全管理人员"], "answer": "A", "why": ""}, {"type": "单选", "stem": "关于中央施工企业安全生产委员会的有关规定,说法正确的是（　）", "options": ["各类企业均应成立安全生产委员会", "董事长、党组书记、总经理对本企业安全生产工作共同承担领导责任", "董事长承担领导责任", "总经理承担领导责任"], "answer": "B", "why": ""}, {"type": "单选", "stem": "关于安全生产委员会的组成,正确的是 （　）", "options": ["应由企业管理层人员及其直接领导下的各职能部门负责人组成", "必须由企业管理层人员组成", "必须由企业各部门负责人组成", "应由安全生产管理机构的成员组成"], "answer": "A", "why": ""}, {"type": "单选", "stem": "通信施工企业的安全生产委员会每年度应有 （　）次以上安委会会议,并有安排、部署和记录", "options": ["3", "4", "5"], "answer": "A", "why": ""}, {"type": "单选", "stem": "施工企业设置的负责安全生产管理工作的独立职能部门是 （　）", "options": ["企业安全生产决策机构", "企业安全生产管理机构", "企业安全生产参与机构", "企业安全生产委员会"], "answer": "B", "why": ""}, {"type": "单选", "stem": "关于安全生产管理机构的设置,正确的是（　）", "options": ["各类企业均应设置", "各种规模的企业均应设置", "施工企业均应设置", "中央施工企业必须设置"], "answer": "D", "why": ""}, {"type": "单选", "stem": "安全生产管理机构必须依法配齐配强 （　）等专业安全管理人员", "options": ["注册建筑师", "注册项目管理师", "注册安全工程师", "高级工程师"], "answer": "C", "why": ""}, {"type": "单选", "stem": "下面关于工程项目安全管理领导小组的说法,错误的是 （　）", "options": ["工程项目需要分包的,应成立项目安全管理领导小组", "项目安全管理小组应配备考核合格的项目专职安全生产管理人员", "总承包、专业承包和劳务分包单位的管理人员应为安全管理领导小组成员", "劳务分包单位的技术员应为安全管理领导小组的成员"], "answer": "D", "why": ""}, {"type": "单选", "stem": "企业最基本、最核心的安全生产管理制度是 （　）", "options": ["安全生产管理制度", "安全生产检查制度", "安全生产责任制度", "安全隐患排查制度"], "answer": "C", "why": ""}, {"type": "单选", "stem": "企业建立健全安全生产管理制度,应以企业的 （　）为核心。", "options": ["职业健康", "经济责任制", "安全生产责任制", "质量管理体系"], "answer": "C", "why": ""}, {"type": "单选", "stem": "下面关于企业安全生产隐患排查与治理的要求,错误的是 （　）", "options": ["企业应建立健全生产安全事故隐患排查治理制度", "发现一般事故隐患时,排查人员应立即上报,等待处理", "企业应采取技术、管理措施,及时发现并消除事故隐患", "企业记录的安全生产隐患应向从业人员通报"], "answer": "B", "why": ""}, {"type": "多选", "stem": "施工单位应当将施工现场的 （　）与作业区分开设置,并保持安全距离。", "options": ["绿化区", "试验区", "办公区", "动火区", "生活区"], "answer": "CE", "why": ""}, {"type": "单选", "stem": "下面的安全生产责任制编制原则中,正确的是（　）", "options": ["应与工程项目的现场情况相适应", "应突出重点、兼顾一般、抓住关键", "在一定时期内应保持内容、要求不变", "应满足建设单位、监理单位的要求"], "answer": "B", "why": ""}, {"type": "多选", "stem": "企业安全生产责任制涉及的内容,一般应包括 （　）", "options": ["企业的安全生产岗位", "企业的安全生产责任人员", "安全生产责任范围", "安全生产检查制度", "安全生产考核标准"], "answer": "BCE", "why": ""}, {"type": "单选", "stem": "下述职责中,属于企业安全生产决策机构的是（　）。", "options": ["制定企业安全生产检查计划", "研究解决企业安全生产工作中的重大问题", "监督在建工程项目安全生产费用的使用情况", "参加生产安全事故的调查和处理工作"], "answer": "B", "why": ""}, {"type": "单选", "stem": "下述职责中,属于企业安全生产决策机构的是 （　）。", "options": ["研究决定企业安全生产方面的奖惩事项", "制定企业安全生产检查计划", "监督在建项目安全生产费用的使用", "参加生产安全事故的调查和处理工作"], "answer": "A", "why": ""}, {"type": "单选", "stem": "下述职责中,属于企业安全生产管理部门的是（　）", "options": ["研究决定企业安全生产方面的奖惩事项", "监督在建工程项目安全生产费用的使用", "研究解决企业安全生产工作中的重大问题", "确定企业的安全生产管理方针"], "answer": "B", "why": ""}, {"type": "单选", "stem": "下述职责中,属于企业安全生产管理部门的是 （　）", "options": ["研究决定企业安全生产方面的奖惩事项", "制订企业安全生产考核计划", "研究解决企业安全生产工作中的重大问题", "确定企业的安全生产管理方针"], "answer": "B", "why": ""}, {"type": "单选", "stem": "按照《施工企业安全生产管理规范》GB50656-2011) 的条文说明的规定,下列职责中,属于技术管理部门的是（　）", "options": ["协调配置安全生产所需的各项资源", "监督检查机械设备和仪表的合规性", "参与设备、仪表施工组织设计的会审", "组织编制、审查专项安全施工方案"], "answer": "D", "why": ""}, {"type": "单选", "stem": "按照《施工企业安全生产管理规范》GB50656-2011) 的条文说明的规定,下列职责中,属于设备仪表管理部门的是 （　）", "options": ["协调配置安全生产所需的各项资源", "制订安全技术措施和安全操作规程", "参与机械设备施工组织设计的会审", "组织编制、审查专项安全施工方案"], "answer": "C", "why": ""}, {"type": "单选", "stem": "按照《施工企业安全生产管理规范》GB50656-2011) 的条文说明的规定,下列职责中,属于物资管理部门的是 （　）。", "options": ["协调配置安全生产所需的各项资源", "监督检查机械设备和仪表的合规性", "负责劳动防护用品的安全管理工作", "组织编制、审查专项安全施工方案"], "answer": "C", "why": ""}, {"type": "单选", "stem": "按照《施工企业安全生产管理规范》(GB50656-2011) 的条文说明的规定,其他职能部门的安生产职责,人力资源部门的是 （　）", "options": ["审查安全管理人员资格", "负责劳动防护用品的安全管理", "审查劳务分包人员资格", "协助办理安全奖、罚手续"], "answer": "A", "why": ""}, {"type": "多选", "stem": "下列安全生产职责中,属于建筑施工企业安全生产领导小组的主要职责的是（　）", "options": ["编制并适时更新安全生产管理制度并监督实施", "编制项目生产安全事故应急救援预案并组织实施", "参加生产安全事故的调查和处理工作", "协调配备项目专职安全生产管理人员", "组织编制危险性较大工程安全专项施工方案"], "answer": "BE", "why": ""}, {"type": "判断", "stem": "安全生产责任制涉及的人员范围为企业主要负责人到基层管理岗位人员。（　）", "options": [], "answer": "错", "why": ""}, {"type": "单选", "stem": "不属于施工企业主要负责人安全生产主要管理工作的是 （　）", "options": ["领导企业安全生产管理工作", "组织制定企业中长期安全管理目标和制度", "做好施工现场的安全生产检查工作", "审议、决策重大安全事项"], "answer": "C", "why": ""}, {"type": "单选", "stem": "下列安全生产管理职责中,属于企业主要负责人安全生产管理职责的是 （　）", "options": ["实施企业安全生产规章制度", "实施企业制定安全生产操作规程", "参加企业组织的安全生产教育培训", "与现场施工人员签订安全生产责任书"], "answer": "A", "why": ""}, {"type": "多选", "stem": "主要负责人与项目负责人签订的安全生产责任书的内容必须包括（　）。", "options": ["项目安全生产考核目标", "项目安全生产奖惩措施", "项目部应采购的劳动保护用品", "项目承包额", "企业为项目提供的安全管理和技术保障措施"], "answer": "ABE", "why": ""}, {"type": "多选", "stem": "企业与项目负责人签订的安全生产责任书的内容必须包括 （　）", "options": ["项目安全生产考核目标", "项目安全生产奖惩措施", "项目部应采购的劳动保护用品", "项目的施工费承包额", "企业为项目提供的安全管理和技术保障措施"], "answer": "ABE", "why": ""}, {"type": "单选", "stem": "关于通信施工企业主要负责人的安全职责,下面表述中错误的是（　）", "options": ["主要负责人对本企业安全生产工作全面负责", "主要负责人应督促检查本企业安全生产工作", "消除安全事故隐患由专职安全生产管理人员和项目负责人,企主要负责人分别负责", "主要负责人应当与项目负责人签订安全生产责任书"], "answer": "C", "why": ""}, {"type": "单选", "stem": "关于通信施工企业主要负责人的安全职责,下面表述中错误的是（　）", "options": ["主要负责人应当按规定检查企业所承担的工程项目", "主要负责人应当考核项目负责人安全生产管理能力", "必要时,主要负责人可以调整项目负责人", "主要负责人应当明确项目管理人员的安全职责"], "answer": "D", "why": ""}, {"type": "单选", "stem": "下列职责中,属于企业主管安全生产负责人的安全生产职责的是（　）", "options": ["审批施工组织设计和专项施工方案", "监督、检查安全生产费用使用情况", "组织实施安全工作规划及实施计划", "组织审查新工艺实施过程的安全性"], "answer": "C", "why": ""}, {"type": "单选", "stem": "下列职责中,属于企业技术负责人的安全生产职责的是 （　）。", "options": ["审批施工组织设计和专项施工方案", "监督、检查安全生产费用使用情况", "组织实施安全工作规划及实施计划", "监督企业安全生产教育工作开展情况"], "answer": "A", "why": ""}, {"type": "单选", "stem": "企业的安全生产管理人员不包括（　）", "options": ["企业安全生产管理机构的人员", "分支机构专职从事安全生产管理工作的人员", "工程项目专职从事安全生产管理工作的人员", "工程项目的兼职安全巡查人员"], "answer": "D", "why": ""}, {"type": "单选", "stem": "下列关于企业专职安全生产管理人员的安全生产管理职责,说法错误的是 （　）。", "options": ["检查在建项目安全生产管理情况", "发现安全事故隐患,应及时向政府有关机构报告", "对达到一定规模的危险性较大的分部分项工程进行现场监督", "对工程施工的重点部位和关键环节进行现场监督"], "answer": "B", "why": ""}, {"type": "单选", "stem": "下列安全生产要求中,不属于企业对项目负责人的安全生产要求是（　）", "options": ["项目负责人应取得相应的执业资格", "项目负责人应经安全生产考核合格", "企业应与项目负责人签订安全生产责任书", "企业应与项目负责人签订承包合同"], "answer": "D", "why": ""}, {"type": "多选", "stem": "企业与项目负责人签订的安全生产责任书的内容必须包括 （　）", "options": ["项目安全生产考核目标", "项目安全生产奖惩措施", "项目部应采购的劳动防护用品", "项目部的施工费承包额", "企业为项目提供的安全管理和技术保障措施"], "answer": "ABE", "why": ""}, {"type": "单选", "stem": "工程项目施工现场安全生产第一责任人是 （　）", "options": ["企业法人", "企业主管安全生产的负责人", "项目负责人", "项目专职安全生产管理人员"], "answer": "C", "why": ""}, {"type": "单选", "stem": "下列工程项目负责人的安全生产职责中,描述错误的是 （　）", "options": ["应当建立项目安全生产管理体系", "负责编制工程项目施工组织设计", "负责组织落实企业的安全生产责任制", "负责组织落实企业安全生产规章制度"], "answer": "B", "why": ""}, {"type": "单选", "stem": "下列工程项目负责人的安全生产职责中,描述错误的是（　）", "options": ["负责编制项目的施工组织设计", "监控危险性较大分部分项工程", "及时排查处理现场安全事故隐患", "与分包企业签订安全生产协议书"], "answer": "A", "why": ""}, {"type": "多选", "stem": "项目负责人应当按照规定实施项目安全生产管理,（　） 隐患排查处理情况应当记入项目安全管理档案。", "options": ["监控危险性较大分部分项工程", "定期考核分包企业安全生产管理情况", "每天在施工现场开展安全生产检查", "及时排查处理施工现场安全事故隐患", "建立健全企业安全生产管理体系"], "answer": "ABD", "why": ""}, {"type": "多选", "stem": "施工安全技术交底应向施工作业班组、作业人员进行详细说明的内容有（　）", "options": ["施工安全重点部位", "施工安全重点环节", "安全施工所需费用", "安全施工技术要求", "安全施工技术措施"], "answer": "ABDE", "why": ""}, {"type": "单选", "stem": "必须在安全技术交底记录上签字的人员是 （　）", "options": ["项目负责人", "项目设计人员", "项目技术人员", "项目监理人员"], "answer": "A", "why": ""}, {"type": "单选", "stem": "下列施工现场班组长的安全生产职责中,描述错误的是 （　）", "options": ["负责进行项目施工组织设计交底工作", "贯彻执行企业的安全生产的规定和要求", "督促本班组的工人遵守安全生产规章", "督促本班组的工人遵守安全操作规程"], "answer": "A", "why": ""}, {"type": "多选", "stem": "施工企业不参加安全生产考核的人员是 （　）", "options": ["各管理层的主要负责人", "安全生产相关职能部门及岗位的管理人员", "工程项目的管理人员", "施工现场的作业人员"], "answer": "ABC", "why": ""}, {"type": "单选", "stem": "下列行为中,不属于安全生产处罚范围的是 （　）", "options": ["偶尔出现安全生产考核成绩不达标的问题", "没有及时对提出的问题进行整改", "在生产安全事故中不积极抢救,而导致事故扩大化", "在抢险活动中,项目负责人冒险作业导致身体残疾"], "answer": "D", "why": ""}, {"type": "多选", "stem": "应受到安全生产处罚的行为是 （　）", "options": ["强令职工冒险作业", "冒险抢修损毁设施", "重复发生安全事故", "破坏或伪造事故现场", "瞒报、谎报或不及时上报安全事故"], "answer": "ACDE", "why": ""}, {"type": "单选", "stem": "通信建设工程安全生产涉及工程的规划设计、建设安装、生产调试、生产运行、技术改造等系列活动。因此,企业建立安全生产管理制度应遵循 （　）", "options": ["安全第一,预防为主,综合治理原则", "主要负责人的原则", "系统性原则", "规范化和标准化原则"], "answer": "C", "why": ""}, {"type": "单选", "stem": "企业建立安全生产管理制度应坚持规范化和标准化原则,这是因为（　）", "options": ["要保证有效调动和使用企业的所有资源", "要保证制度的目的明确,流程清晰,标准准确", "制度涉及企业经的每个环节、岗位"], "answer": "B", "why": ""}, {"type": "多选", "stem": "按照标准化工作体系建立的安全生产管理制度,一般把安全生产管理制度分为（　）等几类体系。", "options": ["规范标准 C 工作标准", "工作标准 B 技术标准", "管理标准", "系统标准"], "answer": "BCD", "why": ""}, {"type": "单选", "stem": "下列安全生产管理制度中,属于综合管理类管理制度的是 （　）", "options": ["安全教育培训制度", "定期巡视检查制度", "安全技术管理制度", "职业卫生管理制度"], "answer": "C", "why": ""}, {"type": "单选", "stem": "下列综合管理类安全管理制度中,属于安全技术管理制度的是（　）", "options": ["施工组织设计编制、审核和审批制度", "隐患排查和治理制度", "劳动防护用品发放、使用和管理制度", "安全生产监督检查制度"], "answer": "A", "why": ""}, {"type": "单选", "stem": "安全管理定期例行工作不包括（　）", "options": ["定期安全分析会议", "定期安全学习制度", "定期进度报表制度", "定期安全生产检查"], "answer": "C", "why": ""}, {"type": "单选", "stem": "不属于承包、分包与发包工程安全管理制度内容的是（　）", "options": ["参与各方的安全责任", "安全生产管理协议 D 施工安全的组织措施", "施工安全的组织措施 C 费用变更索赔条款"], "answer": "C", "why": ""}, {"type": "单选", "stem": "不属于安全生产监督检查制度内容的是（　）", "options": ["安全检查的人员", "安全检查执行的标准", "安全检查的费用标准", "安全检查的内容、方式"], "answer": "C", "why": ""}, {"type": "多选", "stem": "安全防护用品发放、使用和管理制度应明确（　）", "options": ["用品的种类", "用品的使用范围", "用品合格标准", "用品领用程序", "用品寿命周期"], "answer": "ABDE", "why": ""}, {"type": "多选", "stem": "安全生产管理持证上岗制度应明确（　）", "options": ["安全生产管理岗位、证件名称", "持证人员资格条件", "持证上岗考核内容", "持证上岗考核费用", "所持证书的有效期"], "answer": "AE", "why": ""}, {"type": "单选", "stem": "企业设备设施安全管理定期检测、检验制度不明确 （　）", "options": ["企业必须进行定期检测的设备种类、名称、数量", "有权进行检测的部门或人员", "检测、检验费用的执行标准", "监测的标准及检测结果管理"], "answer": "C", "why": ""}, {"type": "单选", "stem": "企业安全生产管理制度的制定步骤应为 （　）", "options": ["起草一征求意见一签发一审核一发布一培训一反馈一持续改进", "反锁一起草一征求意见一签发一审核一发布一培训一持续改进", "起草一征求意见-审核一签发一发布一培训一反馈一持续改进", "反馈一起草一征求意见一审核一签发一发布一持续改进一培训"], "answer": "C", "why": ""}, {"type": "单选", "stem": "企业制定安全生产管理制度的准备过程中,审核工作的正确做法是（　）", "options": ["制度在征求意见时,不能达成一致,则应由分管领导组织讨论", "涉及规范标准的制度,应由企业负责法务的部门进行合规性审查", "涉及全员性的制度,应经过职工代表大会或职工代表进行审核", "专业技术性较强的管理制度,应由企业安全主管部门负责审核"], "answer": "C", "why": ""}, {"type": "单选", "stem": "涉及全局性综合管理的安全生产管理制度,应由企业 （　）签发", "options": ["主要负责人", "主管生产的领导或总工程师", "安全主管部门", "技术管理部门"], "answer": "A", "why": ""}]};
+const KEY = 'quiz_' + QUIZ.title;
+const GROUP = 5;
+let idx = 0, answers = [], sel = [], locked = [];
+const app = document.getElementById('app');
+
+function copyGroup(gstart) {
+  let text = [];
+  for (let i = gstart; i < Math.min(gstart + GROUP, QUIZ.questions.length); i++) {
+    if (answers[i]) text.push(`${i+1}${answers[i].mine}`);
+  }
+  text = text.join(' ') || '（本组还没答题）';
+  const done = () => { const b = document.getElementById('gbtn' + gstart); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(done);
+  else done();
+}
+
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ answers, sel, locked })); } catch(e) {} }
+function loadSaved() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s && s.answers) { answers = s.answers; sel = s.sel; locked = s.locked; }
+  } catch(e) {}
+}
+
+function answeredText() {
+  return answers.map((a,i)=>a?`${i+1}${a.mine}`:null).filter(Boolean).join(' ');
+}
+function copyResult() {
+  const text = answeredText() || '（还没答任何题）';
+  const done = () => { const b = document.getElementById('copybtn'); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; setTimeout(()=>{ const x=document.getElementById('copybtn'); if(x) x.textContent='📋 复制已答成绩'; }, 2000); } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); });
+  else { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); }
+}
+function clearProgress() {
+  if (confirm('确定清空本章答题记录，从头再做吗？')) { localStorage.removeItem(KEY); location.reload(); }
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function letters(n){ return 'ABCDE'.slice(0, n).split(''); }
+
+function render() {
+  if (idx >= QUIZ.questions.length) { renderResult(); return; }
+  const q = QUIZ.questions[idx];
+  let html = `<div class="progress">第 <b>${idx+1}</b> / ${QUIZ.questions.length} 题 · 已做对 ${answers.filter((a,i)=>a && a.ok).length}
+    <span style="float:right"><button class="mini" id="copybtn" onclick="copyResult()">📋 复制已答成绩</button> <button class="mini" onclick="clearProgress()">清空重做</button></span></div>`;
+  html += `<span class="badge">${q.type}</span><div class="stem">${esc(q.stem)}</div>`;
+  if (q.type === '判断') {
+    html += `<div class="tf">` + ['对','错'].map(t =>
+      `<button class="opt ${locked[idx] ? (t===q.answer?'right':(sel[idx]===t?'wrong':'')) : ''}" ${locked[idx]?'disabled':''} onclick="pick('${t}')">${t}</button>`).join('') + `</div>`;
+  } else {
+    html += letters(q.options.length).map((L,i) =>
+      `<button class="opt ${locked[idx] ? (q.answer.includes(L)?'right':((sel[idx]||[]).includes(L)?'wrong':'')) : ((sel[idx]||[]).includes(L)?'sel':'')}" ${locked[idx]?'disabled':''} onclick="pick('${L}')"><b>${L}</b>　${esc(q.options[i])}</button>`).join('');
+    if (q.type === '多选' && !locked[idx]) html += `<button class="confirm" ${sel[idx] && sel[idx].length ? '' : 'disabled'} onclick="confirmMulti()">确　认</button>`;
+  }
+  if (locked[idx]) {
+    const ok = answers[idx].ok;
+    html += `<div class="why"><div class="verdict ${ok?'ok':'no'}">${ok ? '✅ 答对了' : '❌ 答错了，正确答案 ' + q.answer}</div>${q.why ? esc(q.why) : ''}</div>`;
+  }
+  // 每完成一组（GROUP 题）弹出复制提示
+  if (locked[idx] && (idx + 1) % GROUP === 0 && idx + 1 < QUIZ.questions.length) {
+    const gs = idx + 1 - GROUP;
+    html += `<div class="groupbar">✅ 第 ${gs+1}~${idx+1} 题完成（对 ${answers.slice(gs, idx+1).filter(a=>a&&a.ok).length} / ${GROUP}）<br>
+      <button class="mini gbtn" id="gbtn${gs}" onclick="copyGroup(${gs})">📋 复制这 ${GROUP} 题成绩发给我</button>
+      <span class="ghint">粘贴到聊天后，点「下一题 →」继续</span></div>`;
+  }
+  html += `<div class="nav"><button onclick="prev()" ${idx===0?'disabled':''}>← 上一题</button><button onclick="next()" ${locked[idx]?'':'disabled'}>${idx===QUIZ.questions.length-1?'看成绩 →':'下一题 →'}</button></div>`;
+  app.innerHTML = html;
+}
+
+function pick(v) {
+  if (locked[idx]) return;
+  const q = QUIZ.questions[idx];
+  if (q.type === '判断' || q.type === '单选') { submit([v]); }
+  else { // 多选 toggle
+    sel[idx] = sel[idx] || [];
+    const i = sel[idx].indexOf(v);
+    i >= 0 ? sel[idx].splice(i,1) : sel[idx].push(v);
+    render();
+  }
+}
+function confirmMulti() { if (sel[idx] && sel[idx].length) submit([...sel[idx]].sort()); }
+
+function submit(vals) {
+  const q = QUIZ.questions[idx];
+  const std = q.type === '判断' ? q.answer : q.answer.split('').sort().join('');
+  const mine = q.type === '判断' ? vals[0] : vals.join('');
+  const ok = mine === std;
+  answers[idx] = { mine, ok };
+  locked[idx] = true;
+  save();
+  render();
+}
+
+function prev() { if (idx > 0) { idx--; render(); } }
+function next() { if (locked[idx]) { idx++; render(); } }
+
+function renderResult() {
+  const total = QUIZ.questions.length;
+  const right = answers.filter(a => a && a.ok).length;
+  const wrongs = QUIZ.questions.map((q,i) => ({q,i,a:answers[i]})).filter(x => x.a && !x.a.ok);
+  let html = `<div class="result"><div class="progress">${QUIZ.title}</div><div class="score">${right}<small> / ${total}</small></div>`;
+  if (wrongs.length) {
+    html += `<div class="wronglist"><b>❌ 错题（已记入待重测）：</b><br>` + wrongs.map(x =>
+      `第${x.i+1}题 你答 ${x.a.mine} · 正确 ${x.q.answer}<br>　${esc(x.q.why)}`).join('<br>') + `</div>`;
+  } else {
+    html += `<div class="wronglist">🎉 全对！没有错题。</div>`;
+  }
+  html += `<button class="copy" onclick="copyResult()">📋 复制成绩（发给 ZCode 记错题本）</button>`;
+  html += `<textarea id="ta" readonly>${answeredText()}</textarea>`;
+  html += `<button class="redo" onclick="clearProgress()">🗑 清空本章记录，从头再做</button></div>`;
+  app.innerHTML = html;
+}
+
+function copyResult() {
+  copyResultBtn();  // 顶栏按钮复用同一函数
+}
+function copyResultBtn() {}  // 占位（顶栏直接用 copyResult）
+
+answers = new Array(QUIZ.questions.length).fill(null);
+sel = new Array(QUIZ.questions.length).fill(null);
+locked = new Array(QUIZ.questions.length).fill(false);
+loadSaved();
+// 续做：跳到第一个未答的题；全答完则直接看成绩
+idx = locked.findIndex(l => !l);
+if (idx === -1) idx = QUIZ.questions.length;
+render();
+</script>
+</body>
+</html>

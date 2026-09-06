@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6天冲刺计划 · 打卡</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; padding: 26px 14px 60px; }
+.wrap { max-width: 880px; margin: 0 auto; }
+h1 { text-align: center; font-size: 24px; margin-bottom: 4px; }
+.sub { text-align: center; color: #7a8694; font-size: 13.5px; margin-bottom: 20px; }
+.sub b { color: #d64545; }
+.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.metric { background: #fff; border-radius: 12px; box-shadow: 0 1px 8px #0000000e; padding: 14px; text-align: center; }
+.metric b { display: block; font-size: 24px; font-weight: 800; color: #1a66d6; }
+.metric span { font-size: 12.5px; color: #7a8694; }
+.day { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 18px 20px; margin-bottom: 14px; }
+.day.today { outline: 2.5px solid #1a66d6; }
+.day.past { opacity: .82; }
+.dh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; flex-wrap: wrap; gap: 6px; }
+.dh b { font-size: 16.5px; }
+.dh .goal { font-size: 12.5px; color: #d64545; font-weight: 700; }
+.dh .pct { font-size: 12.5px; color: #8a95a1; }
+.theme { font-size: 13px; color: #5a6572; margin-bottom: 10px; line-height: 1.6; }
+.blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 9px; }
+.t { display: flex; align-items: flex-start; gap: 9px; padding: 10px 12px; background: #f7f9fb; border: 1px solid #e4eaf0; border-radius: 10px; cursor: pointer; }
+.t:hover { border-color: #9ec2ee; }
+.t input { margin-top: 3px; }
+.t .tt { font-size: 13.8px; line-height: 1.5; }
+.t .tt small { display: block; color: #8a95a1; font-size: 12px; margin-top: 2px; }
+.t.done { background: #e9f7ef; border-color: #bfe3cd; }
+.t.done .tt { color: #7ba98c; text-decoration: line-through; }
+.t.done .tt small { color: #a8cbb6; text-decoration: none; }
+.t a { color: #1a66d6; font-weight: 600; text-decoration: none; }
+.note { background: #fff8e6; border-radius: 10px; padding: 11px 14px; font-size: 12.8px; color: #6b5416; line-height: 1.8; margin-top: 10px; }
+.daytip { background: #f0f6ff; border-radius: 10px; padding: 11px 14px; font-size: 12.8px; color: #17427e; line-height: 1.8; margin-top: 10px; }
+.reset { text-align: center; margin-top: 16px; }
+.reset button { font-size: 12.5px; padding: 8px 18px; border: 1.5px solid #d3dce4; border-radius: 9px; background: #fff; cursor: pointer; font-family: inherit; color: #8a95a1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>安全员考试 · 6天冲刺计划</h1>
+  <div class="sub">9/5 开始 → 9/11 考试 · 打卡数据只存在本机浏览器 · 勾选即保存</div>
+  <div class="metrics">
+    <div class="metric"><b id="mToday"></b><span>今日任务完成</span></div>
+    <div class="metric"><b id="mAll"></b><span>总进度</span></div>
+    <div class="metric"><b id="mDays"></b><span>距考试</span></div>
+  </div>
+  <div id="app"></div>
+  <div class="reset"><button onclick="if(confirm('确定清空全部打卡记录？')){localStorage.removeItem('plan_v1');location.reload();}">清空打卡重来</button></div>
+</div>
+<script>
+'use strict';
+const DATA = [{"file":"00绪论","title":"绪论","count":3},{"file":"01第一章","title":"第一章","count":109},{"file":"02第二章","title":"第二章","count":64},{"file":"03第三章","title":"第三章","count":84},{"file":"04第四章","title":"第四章","count":28},{"file":"05第五章","title":"第五章","count":61},{"file":"06第六章","title":"第六章","count":61},{"file":"07第七章","title":"第七章","count":55},{"file":"08第八章","title":"第八章","count":28},{"file":"09第九章","title":"第九章","count":40},{"file":"10第十章","title":"第十章","count":34},{"file":"11第十一章","title":"第十一章","count":94},{"file":"12第十二章","title":"第十二章","count":45},{"file":"13第十三章","title":"第十三章","count":66},{"file":"14第十四章","title":"第十四章","count":16},{"file":"15第十五章","title":"第十五章","count":15},{"file":"16综合题库","title":"综合题库","count":131}];
+
+const PLAN_KEY = 'plan_v1';
+const EXAM = new Date(2026, 8, 11);
+const NOW = new Date();
+const CH = DATA.reduce((m,c) => (m[c.title] = c, m), {});
+
+function chLink(ch){ return '../刷题/精讲-' + ch.file + '.html'; }
+function reciteLink(ch){ return '../刷题/背诵-' + ch.file + '.html'; }
+
+const days = [
+  {
+    label: '9/5（周六）· 法规根基日', theme: '第一、二章是整个考试的地基，法律数字最多。今天不贪多，把这两章吃透。',
+    goal: '173 题 · 完成第一遍',
+    blocks: [
+      { t: '精讲听课：第一章（安生法）+ 第二章（建设工程条例）', s: '浏览器朗读版，1.5倍速，路上/吃饭时可听', link: '../刷题/听课-第一章（浏览器朗读）.html', linkText: '听第一章' },
+      { t: '刷题：第一章 109 题（做题模式，错题看解析）', s: '目标正确率 > 70%，做完立刻回错题本扫一遍', link: chLink(CH['第一章']), linkText: '开刷' },
+      { t: '刷题：第二章 64 题', s: '同上，注意机械安装验收/多单位共管这些高频坑', link: chLink(CH['第二章']), linkText: '开刷' },
+      { t: '晚自习：错题本看今日错题 + 背诵页过第一、二章', s: '背诵页可以遮答案自测', link: '错题本.html', linkText: '错题本' },
+    ]
+  },
+  {
+    label: '9/6（周日）· 法规收尾日', theme: '啃完法规篇最后两块硬骨头。第三章是通信行业专属条例，考试占比高，多留半小时。',
+    goal: '115 题 · 法规篇第一遍完成',
+    blocks: [
+      { t: '刷题：第三章 84 题（通信工程安全生产管理条例）', s: '安全员职责/专职配备是必考点', link: chLink(CH['第三章']), linkText: '开刷' },
+      { t: '刷题：第四章 28 题 + 绪论 3 题', s: '量少，半小时内解决', link: chLink(CH['第四章']), linkText: '开刷' },
+      { t: '背诵页：法规篇 5 个章节全部过一遍', s: '重点看错题对应章节，遮答案自测', link: reciteLink(CH['第三章']), linkText: '背诵第三章' },
+      { t: '错题本：法规篇错题重做一轮，全对的标记掌握', s: '目标：法规篇错题清零', link: '错题本.html', linkText: '进错题本' },
+    ]
+  },
+  {
+    label: '9/7（周一）· 管理制度日', theme: '进入管理篇。工作日只有晚上，安排轻一点，但别断。',
+    goal: '116 题 · 管理篇前段',
+    blocks: [
+      { t: '碎片时间：听课第五、六章（朗读版）', s: '通勤时听', link: '../刷题/听课-第五章（浏览器朗读）.html', linkText: '听课' },
+      { t: '刷题：第五章 61 题（安全机构与职责）', s: '主要负责人职责是必考点', link: chLink(CH['第五章']), linkText: '开刷' },
+      { t: '刷题：第六章 61 题（许可/教育培训）', s: '三类人员证书、农民工培训高频', link: chLink(CH['第六章']), linkText: '开刷' },
+      { t: '错题本：扫今日错题', s: '睡前 10 分钟', link: '错题本.html', linkText: '进错题本' },
+    ]
+  },
+  {
+    label: '9/8（周二）· 危险源与应急日', theme: '管理篇中段。这几章偏理解，做题时把「为什么错」看明白比速度重要。',
+    goal: '157 题 · 管理篇中段',
+    blocks: [
+      { t: '刷题：第七章 55 题（危险源辨识）', s: 'LEC法/重大危险源判定', link: chLink(CH['第七章']), linkText: '开刷' },
+      { t: '刷题：第八章 28 题（应急预案）+ 第九章 40 题（现场管理）', s: '交底/隐患排查', link: chLink(CH['第八章']), linkText: '开刷' },
+      { t: '刷题：第十章 34 题（安全标志）', s: '红禁止黄警告蓝指令绿提示，秒杀题别丢分', link: chLink(CH['第十章']), linkText: '开刷' },
+      { t: '错题本：扫今日错题 + 重做前天遗留', s: '睡前 10 分钟', link: '错题本.html', linkText: '进错题本' },
+    ]
+  },
+  {
+    label: '9/9（周三）· 技术硬核日', theme: '最重的两天。第十一章 94 题是全库第二大章，今天主攻它。',
+    goal: '139 题 · 管理篇后段',
+    blocks: [
+      { t: '刷题：第十一章 94 题（消防/用电/现场细节）', s: '三懂三会、安全距离、电流值，数字多，错题重点看解析', link: chLink(CH['第十一章']), linkText: '开刷' },
+      { t: '刷题：第十二章 45 题（防护用品/有限空间）', s: '安全帽颜色、五类防护，好拿分', link: chLink(CH['第十二章']), linkText: '开刷' },
+      { t: '错题本：扫今日错题', s: '睡前 10 分钟', link: '错题本.html', linkText: '进错题本' },
+    ]
+  },
+  {
+    label: '9/10（周四）· 实操+二刷启动日', theme: '白天照常上班，晚上完成管理篇收尾，并启动综合题库（它就是模拟卷）。',
+    goal: '243 题 · 第一遍全部完成',
+    blocks: [
+      { t: '刷题：第十三章 66 题（管道/光缆施工）', s: '有限空间、吹缆、沟槽开挖', link: chLink(CH['第十三章']), linkText: '开刷' },
+      { t: '刷题：第十四、十五章 31 题（事故处理/线路作业）', s: '事故等级四档背熟', link: chLink(CH['第十四章']), linkText: '开刷' },
+      { t: '刷题：综合题库 131 题（当模拟卷做，一次做完）', s: '掐时间 60 分钟，感受真题节奏', link: chLink(CH['综合题库']), linkText: '开考' },
+      { t: '错题本：全库错题重做一轮', s: '第一遍收官，错题清多少是多少', link: '错题本.html', linkText: '进错题本' },
+    ]
+  },
+  {
+    label: '9/10 深夜 - 9/11 早晨 · 二刷冲刺', theme: '第二遍刷题不打全量 —— 只刷错题和薄弱章。考前提分全靠这一步。',
+    goal: '错题二刷 + 弱点清零',
+    blocks: [
+      { t: '错题本「错题重做」：全部未掌握错题刷到清零', s: '答对自动移出，答错继续留', link: '错题本.html', linkText: '开始二刷' },
+      { t: '薄弱章二刷：打开错题本总览，错误率 >15% 的章节整章重做', s: '做题页先「清空重做」再刷', link: '错题本.html', linkText: '看诊断' },
+      { t: '背诵页快速通刷全部章节', s: '只看标红数字和口诀', link: reciteLink(CH['第一章']), linkText: '背诵' },
+      { t: '考前晚 23:30 前睡觉，早晨正常吃早饭', s: '考试拼的是状态，别熬夜', link: null },
+    ]
+  },
+];
+
+function loadPlan(){ try { const s = JSON.parse(localStorage.getItem(PLAN_KEY)); if (s && s.done) return s; } catch(e){} return { done:{} }; }
+let plan = loadPlan();
+function savePlan(){ try { localStorage.setItem(PLAN_KEY, JSON.stringify(plan)); } catch(e){} }
+
+function currentDayIndex(){
+  const t = new Date();
+  if (t.getFullYear() === 2026 && t.getMonth() === 8) {
+    const d = t.getDate();
+    if (d <= 5) return 0;
+    if (d === 6) return 1;
+    if (d === 7) return 2;
+    if (d === 8) return 3;
+    if (d === 9) return 4;
+    if (d === 10) return 5;
+  }
+  return 6;
+}
+const dayIndex = currentDayIndex();
+function render(){
+  const totalBlocks = days.reduce((n,d) => n + d.blocks.length, 0);
+  const doneBlocks = days.reduce((n,d) => n + d.blocks.filter((b,bi) => plan.done[d.label+'#'+bi]).length, 0);
+  document.getElementById('mAll').textContent = Math.round(doneBlocks/totalBlocks*100) + '%';
+  const diff = Math.round((EXAM - NOW) / 86400000);
+  document.getElementById('mDays').textContent = diff + ' 天';
+  let h = '';
+  days.forEach((d, di) => {
+    const doneN = d.blocks.filter((b,bi) => plan.done[d.label+'#'+bi]).length;
+    const isToday = di === dayIndex;
+    h += '<div class="day' + (isToday ? ' today' : '') + (di < dayIndex ? ' past' : '') + '">'
+      + '<div class="dh"><b>' + d.label + '</b><span class="goal">目标：' + d.goal + '</span><span class="pct">' + doneN + '/' + d.blocks.length + '</span></div>'
+      + '<div class="theme">' + d.theme + '</div>'
+      + '<div class="blocks">'
+      + d.blocks.map((b, bi) => {
+          const key = d.label + '#' + bi;
+          const on = !!plan.done[key];
+          return '<label class="t' + (on ? ' done' : '') + '"><input type="checkbox"' + (on ? ' checked' : '') + ' onchange="tg(\'' + di + '\',\'' + bi + '\')">'
+            + '<span class="tt">' + b.t
+            + (b.link ? '　<a href="' + b.link + '" onclick="event.stopPropagation()">' + b.linkText + ' →</a>' : '')
+            + '<small>' + b.s + '</small></span></label>';
+        }).join('')
+      + '</div>';
+    if (d.tip) h += '<div class="daytip">💡 ' + d.tip + '</div>';
+    h += '</div>';
+  });
+  document.getElementById('app').innerHTML = h;
+  const todayDone = days[dayIndex].blocks.filter((b,bi) => plan.done[days[dayIndex].label+'#'+bi]).length;
+  document.getElementById('mToday').textContent = todayDone + '/' + days[dayIndex].blocks.length;
+}
+function tg(di, bi){
+  const key = days[di].label + '#' + bi;
+  if (plan.done[key]) delete plan.done[key]; else plan.done[key] = 1;
+  savePlan(); render();
+}
+render();
+</script>
+</body>
+</html>

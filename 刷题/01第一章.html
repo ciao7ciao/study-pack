@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>第一章</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; display: flex; justify-content: center; padding: 30px 16px; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 2px 14px #00000012; max-width: 640px; width: 100%; padding: 26px 28px; }
+.progress { font-size: 13px; color: #8a95a1; margin-bottom: 14px; }
+.progress b { color: #1a66d6; }
+.badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #e3edfb; color: #1a66d6; margin-bottom: 12px; }
+.stem { font-size: 19px; line-height: 1.65; font-weight: 600; margin-bottom: 18px; }
+.opt { display: block; width: 100%; text-align: left; font-size: 16px; line-height: 1.5; padding: 13px 16px; margin: 8px 0; border: 1.5px solid #dbe3ea; border-radius: 11px; background: #fbfcfe; cursor: pointer; font-family: inherit; color: #22303e; }
+.opt:hover { border-color: #9ec2ee; background: #f2f7fd; }
+.opt.sel { border-color: #1a66d6; background: #e8f1fd; }
+.opt.right { border-color: #2e9e5b; background: #e9f7ef; }
+.opt.wrong { border-color: #d64545; background: #fdecec; }
+.opt:disabled { cursor: default; }
+.tf { display: flex; gap: 14px; } .tf .opt { text-align: center; font-size: 18px; font-weight: 600; }
+.confirm { margin-top: 14px; width: 100%; padding: 13px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.confirm:disabled { background: #b9c6d4; cursor: default; }
+.why { margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; line-height: 1.6; background: #fff8e6; color: #6b5416; }
+.verdict { font-weight: 800; margin-bottom: 4px; }
+.verdict.ok { color: #2e9e5b; } .verdict.no { color: #d64545; }
+.nav { display: flex; justify-content: space-between; margin-top: 20px; }
+.nav button { padding: 10px 22px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 9px; background: #fff; cursor: pointer; font-family: inherit; }
+.nav button:disabled { opacity: .35; cursor: default; }
+.result { text-align: center; }
+.score { font-size: 46px; font-weight: 800; margin: 10px 0; }
+.score small { font-size: 18px; color: #8a95a1; font-weight: 600; }
+.wronglist { text-align: left; font-size: 14.5px; line-height: 1.7; background: #f7f9fb; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+.copy { width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.redo { margin-top: 10px; width: 100%; padding: 12px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 11px; background: #fff; cursor: pointer; font-family: inherit; }
+.mini { font-size: 12px; padding: 4px 10px; border: 1px solid #d3dce4; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; color: #4a5560; }
+.mini:hover { background: #eef2f6; }
+.groupbar { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: #e8f1fd; border: 1px solid #bcd6f5; font-size: 14.5px; color: #17427e; line-height: 1.8; }
+.groupbar .gbtn { font-size: 14px; padding: 8px 14px; background: #1a66d6; color: #fff; border: none; border-radius: 9px; cursor: pointer; font-family: inherit; font-weight: 700; }
+.groupbar .ghint { color: #5a7ba6; font-size: 13px; margin-left: 8px; }
+textarea { width: 100%; height: 64px; margin-top: 12px; font-size: 14px; padding: 10px; border: 1px solid #d3dce4; border-radius: 9px; font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script>
+const QUIZ = {"title":"第一章","questions":[{"type":"单选","stem":"我国最早的一部《安全生产法》是 （　） 年制定的。","options":["1999 年","2002 年","2014 年","2016 年"],"answer":"B","why":""},{"type":"单选","stem":"现行的《安全生产法》自（　）起施行。","options":["2020 年 12 月 1 日","2021 年 6 月 10 日","2021 年 9 月 1 日","2021 年 12 月 1 日"],"answer":"C","why":""},{"type":"单选","stem":"有关《安全生产法》的适用范围,下面表述最准确的是 （　）。","options":["具有独立法人资格的单位","在工商部门注册的单位","在我国领域内从事生产经营活动的单位","对具有危险作业的单位"],"answer":"C","why":""},{"type":"判断","stem":"安全生产工作应当以人为本,坚持安全发展,坚持安全第一预防为主、科技创新的方针,强化和落实生产经营单位的主体责任。（　）","options":[],"answer":"错","why":""},{"type":"多选","stem":"下面关于安全生产工作机制的内容,说法正确的是 （　）。","options":["生产经营单位负责","职工参与","政府监管","行业自律","社会共享"],"answer":"ABCD","why":""},{"type":"多选","stem":"根据《安全生产法》要求,生产经营单位在生产经营过程中必须（　）","options":["贯彻“管安全必须管生产”理念","遵守有关安全生产的法律、法规","加强安全生产管理,提高安全生产水平,确保安全生产","建立、健全安全生产责任制和安全生产规章制度","改善安全生产条件,加强安全生产标准化、信息化建设"],"answer":"BCDE","why":""},{"type":"单选","stem":"生产经营单位的（　）是本单位的安全生产第一责任人。","options":["专职安全生产分管负责人","安全总监","主要负责人","注册安全工程师"],"answer":"C","why":""},{"type":"多选","stem":"依据《安全生产法》,生产经营单位的工会组织在安全生产方面的职责包括（　）","options":["依法组织职工参加本单位安全生产工作的民主管理","对本单位落实职工的安全防护情况负责","依法组织职工参加本单位安全生产工作的民主监督","对本单位的安全生产工作进行管理","维护职工在安全生产方面的合法权益"],"answer":"ACE","why":""},{"type":"判断","stem":"乡、镇人民政府以及街道办事处等地方人民政府的派出机关有权对本行政区域内生产经营单位安全生产状况进行监督检查。 （　）","options":[],"answer":"错","why":""},{"type":"多选","stem":"乡镇人民政府和街道办事处等应当（　）","options":["按照职责对本行政区域或者管理区域内生产经营单位安全生产状况进行监督检查","按照授权依法履行安全生产监督管理职责","协助人民政府有关部门","实施综合监督管理","地方人民政府具有安全生产执法权"],"answer":"ABC","why":""},{"type":"判断","stem":"安全生产监管部门对安全生产进行专业监管、行业管理和指导。（　）","options":[],"answer":"错","why":""},{"type":"判断","stem":"应急管理部门和对有关行业、领域的安全生产工作实施监督管理的部门,统称负有安全生产监督管理职责的部门。（　）","options":[],"answer":"对","why":""},{"type":"多选","stem":"生产经营单位应当具备的安全生产条件所必须的资金投入,应有（　）予以保证。","options":["生产经营单位的安全生产管理机构","生产经营单位的决策机构","生产经营单位的主要负责人","个人经营的投资人","生产经营单位的项目负责人"],"answer":"BCD","why":""},{"type":"判断","stem":"生产经营单位应当按照规定提取和使用安全生产费用,主要用于改善安全生产条件。 （　）","options":[],"answer":"错","why":""},{"type":"多选","stem":"根据相关法律法规,下列单位中需要配备专职安全生产管理人员的有（　）","options":["建筑施工企业","餐饮企业","通信施工企业","客运公司","烟花销售公司"],"answer":"ACDE","why":""},{"type":"判断","stem":"从业人员少于一百人的建筑施工企业,应当设置安全生产管理机构或者配备专职安全生产管理人员。（　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"“矿山、金属冶炼、建筑施工、运输单位和危险物品的生产、经营、储存、装卸单位”以外的其他生产经营单位规模在 （　）的生产经营单位应当配备专职或者兼职安全生产管理人员。","options":["100 人以下","150 人以下","200 人以下","300 人以下"],"answer":"A","why":""},{"type":"判断","stem":"生产经营单位作出涉及安全生产的经营决策,应当听取安全生产管理机构以及安全生产管理人员的意见。（　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"生产经营单位的主要负责人和安全生产管理人员必须具备与本单位所从事的生产经营活动相应的安全生产知识和（　）。","options":["管理经历","相关学历","救援能力","管理能力"],"answer":"D","why":""},{"type":"多选","stem":"生产经营单位的主要负责人和安全生产管理人员必须具备与本单位所从事的生产经营活动相应的 （　）。","options":["管理经历","管理能力","救援能力","相关学历","安全生产知识"],"answer":"BE","why":""},{"type":"单选","stem":"关于生产经营单位的安全生产管理机构以及安全生产管理人员的表述,错误的是（　）。","options":["生产经营单位做出涉及安全生产的经营决策,应当听取安全生产管理人员的意见","生产经营单位不得因安全生产管理人员依法履行职责而降低其工资、福利等待通","建筑设施单位的安全生产管理人员的任免,应当经应急管理部门批准","安全生产管理人员必须具备与本单位所从事的生产经营活动相应的安全生产知识和管理能力"],"answer":"C","why":""},{"type":"单选","stem":"依照《安全生产法》规定,生产经营单位必须保证上岗的从业人员都经过（　）,否则,生产经营单位要承担法律责任。","options":["安全生产教育和培训","安全审查","安全生产高等教育","安全和保密培训"],"answer":"A","why":""},{"type":"多选","stem":"生产经营单位应当对从业人员进行安全生产教育和培训,保证从业人员（　）","options":["具备必要的安全生产知识","熟悉有关的安全生产规章制度和安全操作规程","掌握本岗位的安全操作技能,了解事故应急处理措施","知悉自身在安全生产方面的权利和义务","具备应急管理部门的考核合格证"],"answer":"ABCD","why":""},{"type":"判断","stem":"企业应对被派遣劳动者纳入本单位从业人员统一管理,进行岗位安全操作规程和安全操作技能的教育和培训。 （　）","options":[],"answer":"对","why":""},{"type":"判断","stem":"施工企业的被派遣劳动者应当和本企业从业人员分别管理。（　）","options":[],"answer":"错","why":""},{"type":"多选","stem":"对被派遣劳动者具有教育和培训义务的单位有 （　）负责","options":["安全生产监督管理部门","使用被派遣劳动者的单位","特种作业培训机构","劳务派遣单位","劳动就业指导中心"],"answer":"BD","why":""},{"type":"单选","stem":"《中华人民共和国安全生产法》规定生产经营单位应当建立健全生产安全事故隐患排查治理制度,采取技术、管理措施,及时发现并消除事故隐患。事故隐患排查治理情况应当如实记录,并向 （　）通报。","options":["安管机构","监督机构","从业人员","管理人员"],"answer":"C","why":""},{"type":"单选","stem":"《安全生产法》规定,重大事故隐患排查治理情况应当及时向负有安全生产监督管理职责的部门和（　）报告。","options":["职工大会","党员大会股东大会","股东大会","全体员工"],"answer":"A","why":""},{"type":"判断","stem":"生产、经营、储存、使用危险品的车间、商店、仓库周边的安全防护应当符合国家有关规定,不得与员工宿舍在同一座建筑物内,并与员工宿舍保持安全距离。（　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"依据《安全生产法》要求,下列作业中需要安排专门人员进行现场安全管理的是 （　）。","options":["土方开挖","设备安装","临时用电","消防设施安装"],"answer":"C","why":""},{"type":"判断","stem":"生产经营单位应依法为从业人员提供劳动防护用品,并监督教育其正确佩戴和使用。（　）","options":[],"answer":"对","why":""},{"type":"判断","stem":"生产经营单位将生产经营项目、场所、设备发包或者出租是一种民事行为,生产经营单位可以随意发包或出租。（　）","options":[],"answer":"错","why":""},{"type":"单选","stem":"关于项目发包安全管理的说法,正确的是（　）","options":["不得将生产经营项目发包给不具备安全生产条件或者相应资质的单位或者个人","将项目发包给不具备相应资质的个人时,发包单位必须对该项目进行统一管理,确保安全","招标时可以约定将项目的安全生产管理责任整体发包","项目发包给多个单位时,可以约定由其中某个分包方统一进行安全管理并承担全部责任"],"answer":"A","why":""},{"type":"单选","stem":"生产经营单位发生生产安全事故时,单位的主要负责人应当（　）井不得在事故调查期间擅离职守。","options":["立即组织调查","立即封锁事故消息","立即查处责任人","立即组织抢救"],"answer":"D","why":""},{"type":"单选","stem":"下列保险中,生产经营单位必须依法参加并为从业人员缴纳保险费的是（　）.","options":["重大疾病险","意外伤害保险","工伤保险","安全生产责任保险"],"answer":"C","why":""},{"type":"单选","stem":"施工企业必须依法为从业人员投保的险种是（　）","options":["工伤社会保险","意外伤害保险","安全生产责任保险","工程一切险"],"answer":"A","why":""},{"type":"单选","stem":"依据《安全生产法》,国家 （　） 生产经营单位投保安全生产责任保险,","options":["强制","反对","不要求","鼓励"],"answer":"D","why":""},{"type":"多选","stem":"生产经营单位与从业人员订立的劳动合同,应载明的事项有 （　）","options":["劳动安全","晋升时限","工伤保险","工作地点","职业病防护"],"answer":"ACDE","why":""},{"type":"单选","stem":"依照《生产安全法》的规定,企业（　） 与从业人员订立协议,免除或者减轻其对从业人员因生产安全事故伤亡依法应承担的责任。","options":["在民法的范围内可以","经有关部门批准可以","不得","一般不得"],"answer":"C","why":""},{"type":"单选","stem":"生产经营单位不得因从业人员（　）而降低其工资、福利等待遇或者解除与其订立的劳动合同。","options":["选择性地履行安全生产义务","拒绝安全生产义务","行使安全生产权力","行使安全生产法外特权"],"answer":"C","why":""},{"type":"单选","stem":"安全生产从业人员不享有的权力是 （　）","options":["了解其作业场所和工作岗位存在的危险因素","对本单位的安全生产工作提出建议","本单位生产管理工作中存在的问题提出批评、检举、控告","发现直接危及人身安全的紧急情况时立即撤离作业现场"],"answer":"D","why":""},{"type":"多选","stem":"在生产经营活动中,从业人员必须履行一定的义务,同时也依法享有定的权力,下列属于从业人员依法享有的安全生产权力的是 （　）。","options":["了解工作岗位危险因素和应急措施的权力","拒绝超级指挥和垂直管理的权力","获得安全保障、工伤保险和民事赔偿的权力","紧急情况下停止作业和撤离现场的权力","拒绝佩戴劳动防护用品的权力"],"answer":"ACD","why":""},{"type":"多选","stem":"施工作业人员应当享有的安全生产权力有 （　）。","options":["获得防护用品的权力","获得工伤保险赔偿的权力","拒绝违章指挥的权力","拒绝教育培训的权力","紧急避险的权力"],"answer":"ABCE","why":""},{"type":"多选","stem":"依据《安全生产法》,下列属于从业人员安全生产基本义务的有（　）","options":["落实岗位安全责任","接受安全生产教育和培训","保证安全生产投入的有效实施","遵守规章制度","遵从管理人员的一切指挥"],"answer":"ABD","why":""},{"type":"多选","stem":"按照安全生产从业人员享有义务的规定,从业人员有义务（　）。","options":["正确佩戴和使用劳动防护用品","严格遵守本单位的安全生产规章制度","严格遵守本单位的安全生产操作规程","拒绝违章作业和强令冒险作业","接受安全生产教育和培训"],"answer":"ABCE","why":""},{"type":"判断","stem":"工会是维护职工权益的组织,无权干涉和监督建设项目安全设施的“三同时”情况。 （　）","options":[],"answer":"错","why":""},{"type":"多选","stem":"依据《安全生产法》,下列属于工会安全权力的有 （　）。","options":["监督建设项目的安全设施与主体工程同时设计、同时施工、同时投入生产和使用情况","要求追究安全生产事故中有关人员的责任","发现危及从业人员生命安全的情况时,决定保证人员安全撤离危险场所","发现事故隐患时,作解决的决定","依法参加事故调查,向有关部门提出处理意见"],"answer":"ABE","why":""},{"type":"单选","stem":"应急管理部门在开展安全生产行政执法时,对检查中发现的事故隐患,下列处理方式合适的是 （　）。","options":["应当责令撤出作业人员","应当责令立即排除","应当责令立即停产停业","应当立即该单位进行罚款"],"answer":"B","why":""},{"type":"判断","stem":"应急管理部门和其他负有安全生产监督管理职责的部门在对生产经营单位进行监督检查时不得影响被检查单位的正常生产经营活动。 （　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"安全生产监督检查人员执行监督检查任务时,必须出示 （　）","options":["有效的行政执法文件","有效的个人身份证件","全国统一的监察证件","有效的行政执法证件"],"answer":"D","why":""},{"type":"单选","stem":"某地级市应急管理部门负责监管的执法人员孙某,深入该市某企业检查,孙某在检查过程中的正确的做法是 （　）","options":["检查前,向企业负责人出示执法证件","忘带执法证件时,可以出示有效身份证件代替","指定使用某大品牌的安全帽替换不合格的安全帽","以抽查方式查验时可以不要求被检查单位负责人签字"],"answer":"A","why":""},{"type":"单选","stem":"安全生产监督检查人员应当将检查的时间、地点、内容、发现的问题及其处理情况,作出书面记录,并由检查人员和（　）签字。","options":["被检查单位的负责人","检查单位的负责人","被检查现场的作业人员","检查现场的见证人员"],"answer":"A","why":""},{"type":"多选","stem":"负有安全生产监督管理职贵的部门应当建立安全生产违法行为信息库,如实记录生产经营单位及其从业人员的安全生产违法行为信息;对违法行为情节严重的生产经营单位及其有关从业人员,应当及时向社会并通报 （　）等单位。","options":["交通主管部门","行业主管部门","投资主管部门","自然资源主管部门","证券监督管理机构以及有关金融机构"],"answer":"BCDE","why":""},{"type":"单选","stem":"根据《安全生产法》的相关规定,关于生产安全事故应急救援预案,以下表述错误的是（　）。","options":["县级以上地方各级人民政府应当组织有关部门制定本行政区域内生产安全事故应急救援预案","人数较少的小型建筑施工单位可以不制定生产安全事故应急救援预案","生产经营单位的生产安全事故应急救援预案,应当与所在地县级以上地方人民政府组织制定的生产安全事故应急救援预案衔接","生产经营单位应当定期组织应急预案演练"],"answer":"B","why":""},{"type":"多选","stem":"生产经营规模较小的建筑施工单位（　）","options":["必须建立应急救援组织","不必建立应急救援组织","必须指定专职的应急救援人员","应当配备必要的应急救援器材","可以不建立应急救援组织,但应当指定兼职的应急救援人品"],"answer":"BDE","why":""},{"type":"单选","stem":"依据《安全生产法》,生产经营单位发生生产安全事故后,事故现场有关人员应当立即报告 （　）。","options":["应急管理部门","行业主管部门","本单位负责人","本单位工会负责人"],"answer":"C","why":""},{"type":"单选","stem":"事故发生后,应由（　）负贵向安全生产监督管理部门上报事故情。","options":["法定代表人","技术负责人","项目负责人","吊车司机况"],"answer":"A","why":""},{"type":"单选","stem":"生产经营单位主要负责人未履行《安全生产法》规定的安全生产管理职责,导致发生生产安全事故,尚不构成刑事处罚的,给予撤职处分,并在（　）年内不得担任任何生产经营单位的主要负责人。","options":["5","7","终身"],"answer":"A","why":"依据《安全生产法》，主要负责人未履行安全管理职责导致事故、尚不构成犯罪的，给予撤职处分，并在五年内不得担任任何生产经营单位的主要负责人；原题库答案“7年”无法律依据，正确为5年。顺带记：受刑事处罚或撤职处分期满后同样5年禁任，重大/特别重大事故责任人终身禁任本行业。"},{"type":"判断","stem":"生产经营单位的主要负责人违反《安全生产法》规定受刑事处罚或者撤职处分的,自刑罚执行完毕或者受处分之日起,五年内不得担任何生产经营单位的主要负责人;对重大、特别重大生产安全事故负有责任的,终身不得担任任何生产经营单位的主要负责人。（　）","options":[],"answer":"错","why":"错在「终身不得担任任何生产经营单位」——法律规定对重大、特别重大事故负有责任的，终身不得担任本行业生产经营单位的主要负责人，前半句「五年内不得担任任何单位主要负责人」是对的。「本行业」与「任何」一字之差就是命题点。"},{"type":"单选","stem":"根据《生产安全法》,生产经营单位的主要负责人因未履行安全生产管理职责,生产安全事故被判处有期徒刑的,自刑期执行完毕之日起（　）","options":["2 年内不得担任本施工企业的中层管理人员","3 年内不得担任监理单位的主要负责人","5 年内不得担任任何生产经营单位的主要负责人","专业技术性较强的管理制度,应由企业安全主管部门负责审核"],"answer":"C","why":""},{"type":"单选","stem":"根据《生产安全法》,生产经营单位的主要负责人因未履行安全生产管理职责,导致发生一般安全生产事故被判处有期徒刑的,自刑期执行完毕之日起 （　）。","options":["2 年内不得担任本施工企业的中层管理人员","3 年内不得担任监理单位的主要负责人","5 年内不得担任任何生产经营单位的主要负责人","终身不得担任本行业生产经营单位的主要负责人"],"answer":"C","why":""},{"type":"单选","stem":"某生产经营单位发生了较大生产安全事故,该单位主要负责人可能受到的处罚有 （　）。","options":["处上一年年收入百分之三十的罚款","处上一年年收入百分之六十的罚款","处上一年年收入百分之九十的罚款","处上一年年收入百分之一百的罚款"],"answer":"B","why":""},{"type":"单选","stem":"生产经营单位的其他负责人和安全生产管理人员未履行《安全生产法》规定的安全生产管理职责,尚未构成犯罪的,可能受到的处罚是（　）","options":["批评教育","贵令限期改正并处罚款","暂停或者吊销其安全生产有关的资格","处上一年年收入百分之二十以上百分之五十以下的罚款"],"answer":"B","why":""},{"type":"多选","stem":"生产经营单位的其他负责人和安全生产管理人员未履行《安全生产法》规定的安全生产管理职贵,构成犯罪的,可能受到的处罚有 （　）","options":["罚款","限期改正","批评教育","追究刑事责任","暂停或撤销其与安全生产有关的资格"],"answer":"ADE","why":""},{"type":"单选","stem":"依据《安全生产法》,生产经营单位与从业人员订立协议,免除或者减轻其对从业人员因生产安全事故伤亡依法应承担的责任的,该协议无效对生产经营单位（　）","options":["责令停止生产","责令停产整顿","降低资质等级","主要负责人予以罚款"],"answer":"D","why":""},{"type":"单选","stem":"某公司与临时招聘的农民工订立书面协议,施工过程中如出现个人违章而导致生产安全伤亡事故,一切责任后果均由个人自负,与公司无关。对于该协议说法错误的 （　）。","options":["该协议是双方意愿的体现,双方都应严格遵守","该协议违反了《安全生产法》,该约定无效","应急管理部门可以对该公司的主要负责人处二万元以上十万元以下的罚款","生产经营单位不得以任何形式与从业人员订立协议,免除或者减轻其对从业人员因生产安全事故伤亡依法应承担的责任的"],"answer":"A","why":""},{"type":"单选","stem":"依据《安全生产法》,高危行业、领域的生产经营单位未按照国家规定投保安全生产责任保险的,可能承担的法律责任是（　）。","options":["责令停止生产","责令停产整顿","责令限期改正并处以罚款","追究刑事责任"],"answer":"C","why":""},{"type":"多选","stem":"下列情形中可以对生产经营单位予以关闭处罚的有（　）","options":["经停产停业整顿,仍不具备法律、行政法规和国家标准或者行业标准规定的安全生产条件的","存在重大事故隐患,一年内三次受到《安全生产法》规定的行政处罚","存在重大事故隐患,一百八十日内二次受到《安全生产法》规定的行政处罚","拒不执行负有安全生产监督管理职责的部门作出的停产停业整顿决定的","不具备法律、行政法规和国家标准或者行业标准规定的安全生产条件,导致发生重大、特别重大生产安全事故的"],"answer":"ADE","why":""},{"type":"单选","stem":"某事故导致一人死亡,依据事故等级情况,安监部门可以对事故发生单位处以 （　）罚款。","options":["200 万元以上、1000 万元以下","10 万元以上、20 万元以下","30 万元以上、100 万元以下","100 万元以上、200 万元以下"],"answer":"C","why":"死亡一人属一般事故，依据现行《安全生产法》对负有责任的事故发生单位处三十万元以上一百万元以下罚款（选C）。罚款档次联动记忆：一般30万～100万、较大100万～200万、重大200万～1000万、特别重大1000万～2000万；B的10万～20万是2007年旧条例口径，别混用。"},{"type":"单选","stem":"某事故导致三人死亡,该起事故中施工企业可能被处于 （　）罚款","options":["10-20 万元","30-100 万元","100-200 万元","200-1000 万元"],"answer":"C","why":""},{"type":"单选","stem":"依据《安全生产法》,应急管理部门对发生生产安全事故且负有责任的生产经营单位处以罚款的最高限额是 （　）。","options":["一千万元","二千万元","四千万元","一亿元"],"answer":"D","why":""},{"type":"单选","stem":"生产经营单位发生生产安全事故造成人员伤亡、他人财产损失的,应当依法承担赔偿责任,拒不承担或者其负责人逃匿的,由 （　）依法强制执行。","options":["应急管理部门","公安机关","劳动行政主管部门","人民法院"],"answer":"D","why":""},{"type":"单选","stem":"关于建筑施工企业编制施工组织设计的要求,下列说法正确的是（　）","options":["可以用公司的安全计划来代替项目施工组织设计中的安全计划","对专业性较强的工程项目,如果规模较小,可以只编写施工方案","对专业性较强的工程项目,应当编制专项安全施工组织设计,并采取安全技术措施","所有的工程项目,都必须编制专项安全施工组织设计,并采取安全技术措施"],"answer":"C","why":""},{"type":"单选","stem":"依据《建筑法》规定,对专业性较强的工程项目,应当编制（　）,并采取安全技术措施。","options":["专项安全施工组织设计","专项应急预案","适宜的安全管理制度","专项安全资金预算"],"answer":"A","why":""},{"type":"多选","stem":"建筑施工企业应当在施工现场采取 （　）等措施,有条件的,应当对施工现场实行封闭管理。","options":["维护安全","防范危险","预防火灾","警民联动","以包代管"],"answer":"ABC","why":""},{"type":"单选","stem":"建筑施工企业必须依法加强对建筑安全生产的管理,执行安全生产责任制。实行施工总承包的建筑工程,施工现场安全由 （　）负责。","options":["建设单位","总承包单位","监理单位","相应的分包单位"],"answer":"B","why":""},{"type":"单选","stem":"关于施工现场的安全管理,下列说法错误的是 （　）","options":["实行施工总承包的,由总承包单位负责","分包单位向总承包单位负责","分包单位向建设单位负责","分包单位应服从总承包单位的安全生产管理"],"answer":"C","why":""},{"type":"单选","stem":"建筑法规定,施工企业必须按照工程设计图纸和施工技术标准施工,不得偷工减料。如施工单位发现工程设计不合理需要修改的,应由（　）负责修改。","options":["施工单位","原设计单位","建设单位","总包单位"],"answer":"B","why":""},{"type":"单选","stem":"建筑施工企业违反《建筑法》规定,对建筑安全事故隐患不采取措施予以消除,情节一般的,可对其（　）","options":["责令停业整顿","降低资质等级或者吊销资质证书","追究刑事责任","责令改正,可以处以罚款"],"answer":"D","why":""},{"type":"单选","stem":"在施工过程中,施工人员发现设计图纸不符合技术标准,施工单位技术负责人采取的正确做法（　）","options":["继续按照工程设计图纸施工","按照技术标准修改工程设计","追究设计单位违法责任","及时提出意见和建议"],"answer":"D","why":""},{"type":"单选","stem":"《中华人民共和国消防法》规定,对建筑消防设施每年至少进行（　）次全面检测,确保完好有效。","options":["一","二","三","四"],"answer":"A","why":""},{"type":"单选","stem":"施工现场应当制定的消防安全管理制度不包括（　）等。","options":["社区联防制度","用火用电作业及使用易燃易爆危险物品的管理制度","消防设施维护保养制度","消防安全检查制度"],"answer":"A","why":""},{"type":"单选","stem":"《消防法》规定,进行（　）等具有火灾危险的作业人员和自动消系统的操作人员,必须持证上岗,并严格遵守消防安全操作规程。","options":["木工","电焊","油漆","防水"],"answer":"B","why":""},{"type":"单选","stem":"《中华人民共和国消防法》规定,消防产品必须符合（　）","options":["地方标准","国际标准","国家标准","社团标准"],"answer":"C","why":""},{"type":"多选","stem":"依法实行强制性产品认证的消防产品,由具有法定资质的认证机构按照国家标准、行业标准的强制性要求认证合格后,方可 （　）。","options":["设计","生产","销售","使用","销毁"],"answer":"BCD","why":""},{"type":"单选","stem":"《消防法》规定了建筑构件和建筑材料的（　）必须符合国家标或行业标准。","options":["保湿性能","力学性能","防火性能","防水性能"],"answer":"C","why":""},{"type":"判断","stem":"没有国家防火性能标准的建筑构件、建筑材料和室内装修、装饰术料,防火性能必须符合行业标准。 （　）","options":[],"answer":"对","why":""},{"type":"单选","stem":"施工企业拒不执行公安机关消防机构作出的停止施工处罚决定由（　）负责强制执行。","options":["公安机关","作出决定的部门或者机构","人民法院","安监部门"],"answer":"B","why":""},{"type":"单选","stem":"在道路上施工作作业时,施工单位应当在经批准的路段和时间内施工作业,并在距离施工地点（　）方向安全更离处设置安全警示标志","options":["四周","会车","背离","来车"],"answer":"D","why":""},{"type":"多选","stem":"未经批准,擅自挖据道路、占用道路施工影响道路下通安全活动的,停止违法行为。可以由（　）责令停止违法行为。","options":["应急管理部门","公安机关交通管理部门","市政监管部门","城市综合管理部门","道路主管部门"],"answer":"BE","why":""},{"type":"单选","stem":"未经批准,擅自挖掘道路、占用道路施工影响交通安全活动的,由道路主管部门责令停止违法行为,并恢复原状,并可以依法给予责任单位或人员（　）处罚。","options":["罚款","警告","记过","停业整顿"],"answer":"A","why":""},{"type":"多选","stem":"用人单位由于生产经营需要,经与（　）协商后可适长工作时间。","options":["所在部门领导","人力资源部","工会","现场管理人","劳动者本人"],"answer":"CE","why":""},{"type":"单选","stem":"正常情况下,用人单位因特珠原因需要加班的,在保障劳动者身体健康的条件下超长工作时间每日不得超过（　）小时","options":["1","2","3","4"],"answer":"C","why":"依据《劳动法》，加班时长三档记法：一般每日不超过1小时；特殊原因在保障劳动者身体健康的条件下每日不超过3小时；每月总计不超过36小时。口诀「一、三、三十六」。B的2小时是凑数干扰项；原题库只给了2/3/4且答案标成4小时，已订正为3小时。"},{"type":"单选","stem":"某企业因赶工安排职工周末加班且无法安全补休,依据《劳动法》规定该企业应支付加斑职工不低于工资的（　） 的工资报酬。","options":["100%","150%","200%","300%"],"answer":"C","why":""},{"type":"单选","stem":"《劳动法》规定,用人单位必须建立健全劳动安全卫生制度,产格力安全卫生教育卫生规程和标准,对劳动者进行安全卫生教育,防止劳动过程中的事故,减少（　）","options":["人身伤害","职业危售","财产损失","经济损失"],"answer":"B","why":""},{"type":"单选","stem":"《劳动法》规定,用人单位必须对从事有职业危遇作业的劳动者定期进行（　）","options":["专门培训","健康检查","安全教育","资格复审"],"answer":"B","why":""},{"type":"单选","stem":"在劳动安全卫生方面,下列用人单位的做法中错误的是 （　）","options":["用人单位补习建立、健全劳动安全卫生制度","对劳动者进行劳动安全卫生教育,防止劳动过程中的事故,减少职业危害","用人单位必须为劳动者提供符合国家规定的劳动安全卫生条件和必要的劳动防护用品。","对从事有职业危害作业的劳动者应当在结束劳动合同时进行健康检查,合同期间再进行一次健康检查。"],"answer":"D","why":""},{"type":"多选","stem":"依据《劳动法》规定,用人单位必须对劳动者履行的义务包括（　）","options":["提供晋升机会","提供劳动安全卫生条件","提供意外伤害保险","不得延长劳动时间","提供必要的劳动防护用品。"],"answer":"BE","why":""},{"type":"多选","stem":"《劳动法》规定,国家对其实行特殊劳动保护的有（　）","options":["学生","女职工","老人","未成年工","儿童"],"answer":"BD","why":""},{"type":"单选","stem":"根据《劳动法》规定,国家对女职工和未成年工实行特殊劳动保护,下列做法合法的是（　）","options":["安排女职工从事矿山井下劳动","安排女职工在经期从事高处作业","安排怀孕 8 个月的女职工加班","安排未成年工定期进行健康检查"],"answer":"D","why":""},{"type":"多选","stem":"根据《劳动法》规定,用人单位应当对其定期进行健康检查的人员（　）","options":["未成年工","专职安全员","从事有职业危害作业的劳动者","女职工","业务骨干"],"answer":"AC","why":""},{"type":"单选","stem":"关于劳动合同与劳动关系说法以下正确的是（　）","options":["建立劳动关系就应当订立书面劳动合同","提交工伤申请时应当提供劳动合同","双方劳动关系在劳动合同签订时确立","先工作后签合同的最迟不超过 1 个月"],"answer":"A","why":""},{"type":"单选","stem":"在生产、作业中违反有关安全管理的规定,因而发生重大伤亡事故者造成其他严重后果的,属 （　）。","options":["重大责任事故罪","重大劳动安全事故罪","强今违章冒险罪","工程重大安全事犯罪"],"answer":"A","why":""},{"type":"单选","stem":"施工单位的现场负责人违反有关安全管理的规定,发生了事故,现场责人可能遭受（　）的刑事处罚。","options":["3 年以下","5 年以下","3-7 年","5 年以上"],"answer":"A","why":"依据《刑法》重大责任事故罪：在生产作业中违反安全管理规定，因而发生重大伤亡事故的，处三年以下有期徒刑或者拘役；情节特别恶劣的，处三年以上七年以下有期徒刑。题目问基本情形，选「3 年以下」。记忆：基本档3年以下，恶劣档3-7年。"},{"type":"单选","stem":"在生产、作业中强令他人违章冒险作业,因而发生重大伤亡事故或者造成其他严重后果的,处（　） 年以下有期徒刑或者拘役","options":["一","三","五","七"],"answer":"C","why":""},{"type":"多选","stem":"依据《中华人民共和国刑法修正案(十一)》,下列行为中可能构成“危险作业罪”的有 （　）","options":["篡改、隐瞒、销毁直接关系生产安全的监控相关数据、信息的","未经依法批准或者许可,擅自从事交通运输的","涉及安全生产的事项未经依法批准,擅自从事建筑施工的","未经依法批准或者许可,擅自从事危险物品生产、经营、储存等高度危险的生产作业活动的","因存在重大事故隐患被依法责令立即采取排除危险的整改措施拒不执行的"],"answer":"ACDE","why":""},{"type":"单选","stem":"在施工过程中,某施工企业的安全生产条件不符合国家规定,致使多人重伤、死亡,那么该事故责任人可能构成（　）","options":["重大责任事故罪","重大劳动安全事故罪","强令、组织他人违章冒险作业罪","工程重大安全事故罪"],"answer":"B","why":""},{"type":"单选","stem":"某施工单位为降低造价,在施工中偷工减料,故意使用不合格建筑材料、构配件和设备,降低工程质量,导致建筑工程坍塌,致多人重伤、死亡该施工单位的行为构成（　）","options":["重大劳动安全事故罪","强令冒险作业罪","重大责任事故罪","工程重大安全事故罪"],"answer":"D","why":""},{"type":"单选","stem":"某施工企业施工中偷工减料,降低工程质标准,造成但尚未达到后果特别严重的程度。事故处理应追究直除了罚金还应该处（　）有期徒刑。","options":["1 年以上 3 年以下","5 年以下","3 年以上 5 年以下","5 年以上"],"answer":"B","why":""}]};
+const KEY = 'quiz_' + QUIZ.title;
+const GROUP = 5;
+let idx = 0, answers = [], sel = [], locked = [];
+const app = document.getElementById('app');
+
+function copyGroup(gstart) {
+  let text = [];
+  for (let i = gstart; i < Math.min(gstart + GROUP, QUIZ.questions.length); i++) {
+    if (answers[i]) text.push(`${i+1}${answers[i].mine}`);
+  }
+  text = text.join(' ') || '（本组还没答题）';
+  const done = () => { const b = document.getElementById('gbtn' + gstart); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(done);
+  else done();
+}
+
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ answers, sel, locked })); } catch(e) {} }
+function loadSaved() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s && s.answers) { answers = s.answers; sel = s.sel; locked = s.locked; }
+  } catch(e) {}
+}
+
+function answeredText() {
+  return answers.map((a,i)=>a?`${i+1}${a.mine}`:null).filter(Boolean).join(' ');
+}
+function copyResult() {
+  const text = answeredText() || '（还没答任何题）';
+  const done = () => { const b = document.getElementById('copybtn'); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; setTimeout(()=>{ const x=document.getElementById('copybtn'); if(x) x.textContent='📋 复制已答成绩'; }, 2000); } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); });
+  else { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); }
+}
+function clearProgress() {
+  if (confirm('确定清空本章答题记录，从头再做吗？')) { localStorage.removeItem(KEY); location.reload(); }
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function letters(n){ return 'ABCDE'.slice(0, n).split(''); }
+
+function render() {
+  if (idx >= QUIZ.questions.length) { renderResult(); return; }
+  const q = QUIZ.questions[idx];
+  let html = `<div class="progress">第 <b>${idx+1}</b> / ${QUIZ.questions.length} 题 · 已做对 ${answers.filter((a,i)=>a && a.ok).length}
+    <span style="float:right"><button class="mini" id="copybtn" onclick="copyResult()">📋 复制已答成绩</button> <button class="mini" onclick="clearProgress()">清空重做</button></span></div>`;
+  html += `<span class="badge">${q.type}</span><div class="stem">${esc(q.stem)}</div>`;
+  if (q.type === '判断') {
+    html += `<div class="tf">` + ['对','错'].map(t =>
+      `<button class="opt ${locked[idx] ? (t===q.answer?'right':(sel[idx]===t?'wrong':'')) : ''}" ${locked[idx]?'disabled':''} onclick="pick('${t}')">${t}</button>`).join('') + `</div>`;
+  } else {
+    html += letters(q.options.length).map((L,i) =>
+      `<button class="opt ${locked[idx] ? (q.answer.includes(L)?'right':((sel[idx]||[]).includes(L)?'wrong':'')) : ((sel[idx]||[]).includes(L)?'sel':'')}" ${locked[idx]?'disabled':''} onclick="pick('${L}')"><b>${L}</b>　${esc(q.options[i])}</button>`).join('');
+    if (q.type === '多选' && !locked[idx]) html += `<button class="confirm" ${sel[idx] && sel[idx].length ? '' : 'disabled'} onclick="confirmMulti()">确　认</button>`;
+  }
+  if (locked[idx]) {
+    const ok = answers[idx].ok;
+    html += `<div class="why"><div class="verdict ${ok?'ok':'no'}">${ok ? '✅ 答对了' : '❌ 答错了，正确答案 ' + q.answer}</div>${q.why ? esc(q.why) : ''}</div>`;
+  }
+  // 每完成一组（GROUP 题）弹出复制提示
+  if (locked[idx] && (idx + 1) % GROUP === 0 && idx + 1 < QUIZ.questions.length) {
+    const gs = idx + 1 - GROUP;
+    html += `<div class="groupbar">✅ 第 ${gs+1}~${idx+1} 题完成（对 ${answers.slice(gs, idx+1).filter(a=>a&&a.ok).length} / ${GROUP}）<br>
+      <button class="mini gbtn" id="gbtn${gs}" onclick="copyGroup(${gs})">📋 复制这 ${GROUP} 题成绩发给我</button>
+      <span class="ghint">粘贴到聊天后，点「下一题 →」继续</span></div>`;
+  }
+  html += `<div class="nav"><button onclick="prev()" ${idx===0?'disabled':''}>← 上一题</button><button onclick="next()" ${locked[idx]?'':'disabled'}>${idx===QUIZ.questions.length-1?'看成绩 →':'下一题 →'}</button></div>`;
+  app.innerHTML = html;
+}
+
+function pick(v) {
+  if (locked[idx]) return;
+  const q = QUIZ.questions[idx];
+  if (q.type === '判断' || q.type === '单选') { submit([v]); }
+  else { // 多选 toggle
+    sel[idx] = sel[idx] || [];
+    const i = sel[idx].indexOf(v);
+    i >= 0 ? sel[idx].splice(i,1) : sel[idx].push(v);
+    render();
+  }
+}
+function confirmMulti() { if (sel[idx] && sel[idx].length) submit([...sel[idx]].sort()); }
+
+function submit(vals) {
+  const q = QUIZ.questions[idx];
+  const std = q.type === '判断' ? q.answer : q.answer.split('').sort().join('');
+  const mine = q.type === '判断' ? vals[0] : vals.join('');
+  const ok = mine === std;
+  answers[idx] = { mine, ok };
+  locked[idx] = true;
+  save();
+  render();
+}
+
+function prev() { if (idx > 0) { idx--; render(); } }
+function next() { if (locked[idx]) { idx++; render(); } }
+
+function renderResult() {
+  const total = QUIZ.questions.length;
+  const right = answers.filter(a => a && a.ok).length;
+  const wrongs = QUIZ.questions.map((q,i) => ({q,i,a:answers[i]})).filter(x => x.a && !x.a.ok);
+  let html = `<div class="result"><div class="progress">${QUIZ.title}</div><div class="score">${right}<small> / ${total}</small></div>`;
+  if (wrongs.length) {
+    html += `<div class="wronglist"><b>❌ 错题（已记入待重测）：</b><br>` + wrongs.map(x =>
+      `第${x.i+1}题 你答 ${x.a.mine} · 正确 ${x.q.answer}<br>　${esc(x.q.why)}`).join('<br>') + `</div>`;
+  } else {
+    html += `<div class="wronglist">🎉 全对！没有错题。</div>`;
+  }
+  html += `<button class="copy" onclick="copyResult()">📋 复制成绩（发给 ZCode 记错题本）</button>`;
+  html += `<textarea id="ta" readonly>${answeredText()}</textarea>`;
+  html += `<button class="redo" onclick="clearProgress()">🗑 清空本章记录，从头再做</button></div>`;
+  app.innerHTML = html;
+}
+
+function copyResult() {
+  copyResultBtn();  // 顶栏按钮复用同一函数
+}
+function copyResultBtn() {}  // 占位（顶栏直接用 copyResult）
+
+answers = new Array(QUIZ.questions.length).fill(null);
+sel = new Array(QUIZ.questions.length).fill(null);
+locked = new Array(QUIZ.questions.length).fill(false);
+loadSaved();
+// 续做：跳到第一个未答的题；全答完则直接看成绩
+idx = locked.findIndex(l => !l);
+if (idx === -1) idx = QUIZ.questions.length;
+render();
+</script>
+</body>
+</html>

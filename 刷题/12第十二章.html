@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>第十二章</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; display: flex; justify-content: center; padding: 30px 16px; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 2px 14px #00000012; max-width: 640px; width: 100%; padding: 26px 28px; }
+.progress { font-size: 13px; color: #8a95a1; margin-bottom: 14px; }
+.progress b { color: #1a66d6; }
+.badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #e3edfb; color: #1a66d6; margin-bottom: 12px; }
+.stem { font-size: 19px; line-height: 1.65; font-weight: 600; margin-bottom: 18px; }
+.opt { display: block; width: 100%; text-align: left; font-size: 16px; line-height: 1.5; padding: 13px 16px; margin: 8px 0; border: 1.5px solid #dbe3ea; border-radius: 11px; background: #fbfcfe; cursor: pointer; font-family: inherit; color: #22303e; }
+.opt:hover { border-color: #9ec2ee; background: #f2f7fd; }
+.opt.sel { border-color: #1a66d6; background: #e8f1fd; }
+.opt.right { border-color: #2e9e5b; background: #e9f7ef; }
+.opt.wrong { border-color: #d64545; background: #fdecec; }
+.opt:disabled { cursor: default; }
+.tf { display: flex; gap: 14px; } .tf .opt { text-align: center; font-size: 18px; font-weight: 600; }
+.confirm { margin-top: 14px; width: 100%; padding: 13px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.confirm:disabled { background: #b9c6d4; cursor: default; }
+.why { margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; line-height: 1.6; background: #fff8e6; color: #6b5416; }
+.verdict { font-weight: 800; margin-bottom: 4px; }
+.verdict.ok { color: #2e9e5b; } .verdict.no { color: #d64545; }
+.nav { display: flex; justify-content: space-between; margin-top: 20px; }
+.nav button { padding: 10px 22px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 9px; background: #fff; cursor: pointer; font-family: inherit; }
+.nav button:disabled { opacity: .35; cursor: default; }
+.result { text-align: center; }
+.score { font-size: 46px; font-weight: 800; margin: 10px 0; }
+.score small { font-size: 18px; color: #8a95a1; font-weight: 600; }
+.wronglist { text-align: left; font-size: 14.5px; line-height: 1.7; background: #f7f9fb; border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+.copy { width: 100%; padding: 14px; font-size: 16px; font-weight: 700; border: none; border-radius: 11px; background: #1a66d6; color: #fff; cursor: pointer; font-family: inherit; }
+.redo { margin-top: 10px; width: 100%; padding: 12px; font-size: 14px; border: 1px solid #d3dce4; border-radius: 11px; background: #fff; cursor: pointer; font-family: inherit; }
+.mini { font-size: 12px; padding: 4px 10px; border: 1px solid #d3dce4; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; color: #4a5560; }
+.mini:hover { background: #eef2f6; }
+.groupbar { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: #e8f1fd; border: 1px solid #bcd6f5; font-size: 14.5px; color: #17427e; line-height: 1.8; }
+.groupbar .gbtn { font-size: 14px; padding: 8px 14px; background: #1a66d6; color: #fff; border: none; border-radius: 9px; cursor: pointer; font-family: inherit; font-weight: 700; }
+.groupbar .ghint { color: #5a7ba6; font-size: 13px; margin-left: 8px; }
+textarea { width: 100%; height: 64px; margin-top: 12px; font-size: 14px; padding: 10px; border: 1px solid #d3dce4; border-radius: 9px; font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script>
+const QUIZ = {"title":"第十二章","questions":[{"type":"判断","stem":"通信工程施工现场一般就选用塑料壳一般作业类 (Y 类) 安全帽。（　）","options":[],"answer":"错","why":""},{"type":"单选","stem":"通信工程中选用的安全帽通常有效期通常为 （　）年。","options":["2 年","3 年","5 年","6 年"],"answer":"A","why":""},{"type":"单选","stem":"戴安全帽时,头顶和帽体内顶部的空间垂直距离正确的是 （　）","options":["5","35","55","75"],"answer":"B","why":""},{"type":"单选","stem":"在铁塔上作业应选用（　）安全带","options":["电信工围杆绳单腰带式","电信工悬挂单腰带式","通用悬挂双背带式(有腿带)","通用悬挂自锁式"],"answer":"C","why":""},{"type":"单选","stem":"攀登独杆塔时应选用 （　） 安全带","options":["电信工围杆绳单腰带式A 电信工围杆绳单腰带式","电信工悬挂单腰带式","通用悬挂双背带式(有腿带)","通用悬挂自锁式"],"answer":"D","why":""},{"type":"单选","stem":"人孔作业应选用 （　） 安全带","options":["电信工围杆绳单腰带式","电信工悬挂单腰带式","全身式","半身式"],"answer":"C","why":""},{"type":"单选","stem":"进入人井作业,作业人员应该佩戴 （　）安全带。","options":["带缓冲器的绳式","全身式","围杆作业","悬空坠挂"],"answer":"B","why":""},{"type":"单选","stem":"塔上作业时,应使用有后备保护绳的双背带式或全身式安全带,当后备保护绳超过（　）时,应使用缓冲器","options":["1 米","2 米","3 米","4 米"],"answer":"C","why":""},{"type":"单选","stem":"安全带使用 （　）后,应按批量购入情况检查一次。","options":["半年","1 年","2 年","3 年"],"answer":"C","why":""},{"type":"单选","stem":"高处作业,在选择安全带挂点时应当 （　）,注意防止摆动碰撞","options":["高挂低用","低挂高用","低挂低用","高挂高用"],"answer":"A","why":""},{"type":"单选","stem":"通信施工企业采购的耐压测试 5KV 的电绝缘鞋在工频 (50~60HZ)通常使用在范围 （　）的作业环境中。","options":["20V 以下","380V 以下","1KV 以下","5KV 以下"],"answer":"C","why":""},{"type":"多选","stem":"在工程 1KV 以上的作业环境中施工作业,可穿着的绝缘鞋有 （　）。","options":["电绝缘皮鞋","布面电绝缘鞋","电绝缘胶靴","聚合材料的靴","以上都可以"],"answer":"CD","why":""},{"type":"单选","stem":"在高速公路上作业时,以下做法错误的是 （　）","options":["施工作业方案报请高速公路管理部门审批","施工机具、材料放置在施工作业区内","要求上级检查人员穿戴专用的交通警示服装","安全警示标志的摆放顺序和摆放相同"],"answer":"D","why":""},{"type":"单选","stem":"建设工程工地四周应按规定设置连续、密闭的围挡;在市区主路段和市容景观道路及机场、码头、车站广场设置的围栏其高度不得低于（　）。","options":["1.5m","1.8m","2m","2.5m"],"answer":"B","why":""},{"type":"单选","stem":"道路上施工作业前,应设量安全警示标志。标志设置对应 （　）","options":["从警示区开始,直到终止区结束","从警告区开始,直到作业区结束","从作业区开始,往警告区起点处","从缓冲区开始。直到作业区结束"],"answer":"A","why":""},{"type":"单选","stem":"木杆堆放层数最多为（　）层。","options":["2","3","4"],"answer":"A","why":""},{"type":"单选","stem":"木杆堆放层数最多为（　） 层。","options":["4","6","8"],"answer":"C","why":""},{"type":"单选","stem":"水泥杆堆放层数最多为（　）层。","options":["1","2","3","4"],"answer":"B","why":""},{"type":"单选","stem":"用跳板装卸车时,要使用没有木结的坚实木板做跳板,木板厚度最小（　） MM。","options":["0","50","60","80"],"answer":"C","why":""},{"type":"单选","stem":"人工搬运设备时,男工每人负重不得超过（　）公斤。","options":["0","30","40","50"],"answer":"C","why":""},{"type":"单选","stem":"人工搬运设备时,女工每人负重不得超过（　）公斤。","options":["0","30","40","50"],"answer":"A","why":""},{"type":"多选","stem":"关于器材搬运做法正确的有 （　）","options":["将光缆盘直接从车上推下时,车下人员要远离缆盘落下位置","当在地面上滚动光缆盘时,要按光缆的盘绕方向进行;","人工搬运器材时,女工负重不得超过 20 公斤","搬运设备上下楼必须使用货梯","在使用叉车进行搬运时,离地面高度不宜过高"],"answer":"BCE","why":""},{"type":"单选","stem":"有限空间作业往往事故频发,作业时必须有人监护。以下不属于有限空间的是 （　）。","options":["地下室","隧道","人井","架空交接箱平台"],"answer":"D","why":""},{"type":"单选","stem":"国家标准《缺氧危险作业安全规程》 (GB8958-2006) 规定缺氧浓度为（　）,低于该值的工作场所为缺氧。","options":["0.5%","15.5%","19.5%","23.5%"],"answer":"C","why":""},{"type":"单选","stem":"国家标准将作业场所空气中氧含量低于 （　）的状态定义为“缺”","options":["7.5%","18.5%","19.5%","21.5%"],"answer":"C","why":""},{"type":"单选","stem":"以下物质中,（　）有剧毒。","options":["氧气","硫化氢","甲烷","二氧化碳"],"answer":"B","why":""},{"type":"单选","stem":"进入人孔等有限空间内作业前必须进行气体检测,当硫化氢的浓度超过（　）严禁有限空间进行长时间作业。","options":["5.6mg/m3","10mg/m3","15mg/m3","30mg/m3"],"answer":"B","why":""},{"type":"判断","stem":"高浓度二氧化碳本身具有刺激和麻醉作用且能使肌体发生缺氧室息。（　）","options":[],"answer":"对","why":""},{"type":"多选","stem":"以下人井气体浓度,可以下井施工的有 （　）","options":["0。:20%,其他气体浓度正常","CO:3%,其他气体浓度正常","HS:12mg/m3,其他气体浓度正常","CO: 28mg/m3,其他气体浓度正常","CH: 10%,其他气体浓度正常"],"answer":"ADE","why":""},{"type":"判断","stem":"在检测有限空间内的气体浓度时,应沿垂直方向检测 2 个点的气体浓度。 （　）","options":[],"answer":"错","why":""},{"type":"单选","stem":"下列有毒有害气体中,存在于通信人孔下部的气体为 （　）。","options":["硫化氢","一氧化碳","天然气","沼气"],"answer":"A","why":""},{"type":"多选","stem":"检测通信人孔内气体浓度时,选用的气体检测仪应具备的功能包括（　）","options":["停泵警报功能","内置泵吸功能","多气体检测功能","氧检测功能","固定式仪器"],"answer":"ABCD","why":""},{"type":"单选","stem":"容易引发高处坠落事故的主观原因有 （　）","options":["风力超过 5 级的天气","作业时接听手机","地面不平","寒冷天气作业"],"answer":"B","why":""},{"type":"多选","stem":"按照国家标准《高处作业分级》(GB3608- 2008)的说法,以下属于直接引起高处坠落的客观危险因素的有 （　）。","options":["阵风风力四级","平均气温等于 5°","的作业环境C 接触温度等于 10°C 的水温进行作业","作业场所光线不足,能见度差","作业活动范围距离 380V 电力线 2m"],"answer":"BCD","why":""},{"type":"单选","stem":"按照高处作业分级,线路需要绑扎到 5.5 米高的位置作业,属于（　）","options":["一级","二级","三级","四级"],"answer":"B","why":""},{"type":"单选","stem":"按照《高处作业分级》(GB3608-2008)标准,当基础高度为 10m 时,可能坠落范围半径为（　） m。","options":["4","5","6"],"answer":"B","why":""},{"type":"单选","stem":"按照《高处作业分级》(GB3608-2008)标准,当基础高度为 20m 时,可能坠落范围半径为（　） m。","options":["4","5","6"],"answer":"C","why":""},{"type":"单选","stem":"低温或高温环境下进行高处作业,应采取保暖和防暑降温措施,作业时间 （　）过长。","options":["禁止","严禁","不宜","不得"],"answer":"C","why":""},{"type":"单选","stem":"不属于安全三宝的是 （　）","options":["安全帽","安全鞋","安全带","安全网"],"answer":"B","why":""},{"type":"多选","stem":"以下关于塔上作业的做法中,正确的有（　）","options":["制定有高处作业安全技术措施","塔下工作人员头戴安全帽,塔上人员没有戴安全帽","在 5 级风气候条件下上塔作业","在 39 高温天气上塔作业","两个相距 2 米的人在慢速爬塔"],"answer":"ACD","why":""},{"type":"判断","stem":"上下左右不同层面作业可以安排立体交叉作业。（　）","options":[],"answer":"错","why":""},{"type":"单选","stem":"吊装作业中,夜间应有足够的照明,室外作业遇到大雪、暴雨、大雾及 （　） 以上大风时,应停止作业。","options":["四级","五级","六级","八级"],"answer":"C","why":""},{"type":"单选","stem":"梯子架设在吊线上时应高出吊线（　）","options":["0cm","30cm","40cm","50cm"],"answer":"B","why":""},{"type":"单选","stem":"使用人字梯时,两梯夹角宜为 （　）","options":["0°","40°","50°","60°"],"answer":"B","why":""},{"type":"单选","stem":"楼顶没有围栏或围栏不牢固时,应在距离边沿（　）M 处,围上 1M 高的警戒线,以防施工人员过于靠近楼顶边沿。","options":["0.5","1.0","1.2","1.5"],"answer":"D","why":""}]};
+const KEY = 'quiz_' + QUIZ.title;
+const GROUP = 5;
+let idx = 0, answers = [], sel = [], locked = [];
+const app = document.getElementById('app');
+
+function copyGroup(gstart) {
+  let text = [];
+  for (let i = gstart; i < Math.min(gstart + GROUP, QUIZ.questions.length); i++) {
+    if (answers[i]) text.push(`${i+1}${answers[i].mine}`);
+  }
+  text = text.join(' ') || '（本组还没答题）';
+  const done = () => { const b = document.getElementById('gbtn' + gstart); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(done);
+  else done();
+}
+
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ answers, sel, locked })); } catch(e) {} }
+function loadSaved() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s && s.answers) { answers = s.answers; sel = s.sel; locked = s.locked; }
+  } catch(e) {}
+}
+
+function answeredText() {
+  return answers.map((a,i)=>a?`${i+1}${a.mine}`:null).filter(Boolean).join(' ');
+}
+function copyResult() {
+  const text = answeredText() || '（还没答任何题）';
+  const done = () => { const b = document.getElementById('copybtn'); if (b) { b.textContent = '✅ 已复制，去聊天粘贴'; setTimeout(()=>{ const x=document.getElementById('copybtn'); if(x) x.textContent='📋 复制已答成绩'; }, 2000); } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); });
+  else { const t=document.getElementById('ta'); if(t){t.select();document.execCommand('copy');} done(); }
+}
+function clearProgress() {
+  if (confirm('确定清空本章答题记录，从头再做吗？')) { localStorage.removeItem(KEY); location.reload(); }
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function letters(n){ return 'ABCDE'.slice(0, n).split(''); }
+
+function render() {
+  if (idx >= QUIZ.questions.length) { renderResult(); return; }
+  const q = QUIZ.questions[idx];
+  let html = `<div class="progress">第 <b>${idx+1}</b> / ${QUIZ.questions.length} 题 · 已做对 ${answers.filter((a,i)=>a && a.ok).length}
+    <span style="float:right"><button class="mini" id="copybtn" onclick="copyResult()">📋 复制已答成绩</button> <button class="mini" onclick="clearProgress()">清空重做</button></span></div>`;
+  html += `<span class="badge">${q.type}</span><div class="stem">${esc(q.stem)}</div>`;
+  if (q.type === '判断') {
+    html += `<div class="tf">` + ['对','错'].map(t =>
+      `<button class="opt ${locked[idx] ? (t===q.answer?'right':(sel[idx]===t?'wrong':'')) : ''}" ${locked[idx]?'disabled':''} onclick="pick('${t}')">${t}</button>`).join('') + `</div>`;
+  } else {
+    html += letters(q.options.length).map((L,i) =>
+      `<button class="opt ${locked[idx] ? (q.answer.includes(L)?'right':((sel[idx]||[]).includes(L)?'wrong':'')) : ((sel[idx]||[]).includes(L)?'sel':'')}" ${locked[idx]?'disabled':''} onclick="pick('${L}')"><b>${L}</b>　${esc(q.options[i])}</button>`).join('');
+    if (q.type === '多选' && !locked[idx]) html += `<button class="confirm" ${sel[idx] && sel[idx].length ? '' : 'disabled'} onclick="confirmMulti()">确　认</button>`;
+  }
+  if (locked[idx]) {
+    const ok = answers[idx].ok;
+    html += `<div class="why"><div class="verdict ${ok?'ok':'no'}">${ok ? '✅ 答对了' : '❌ 答错了，正确答案 ' + q.answer}</div>${q.why ? esc(q.why) : ''}</div>`;
+  }
+  // 每完成一组（GROUP 题）弹出复制提示
+  if (locked[idx] && (idx + 1) % GROUP === 0 && idx + 1 < QUIZ.questions.length) {
+    const gs = idx + 1 - GROUP;
+    html += `<div class="groupbar">✅ 第 ${gs+1}~${idx+1} 题完成（对 ${answers.slice(gs, idx+1).filter(a=>a&&a.ok).length} / ${GROUP}）<br>
+      <button class="mini gbtn" id="gbtn${gs}" onclick="copyGroup(${gs})">📋 复制这 ${GROUP} 题成绩发给我</button>
+      <span class="ghint">粘贴到聊天后，点「下一题 →」继续</span></div>`;
+  }
+  html += `<div class="nav"><button onclick="prev()" ${idx===0?'disabled':''}>← 上一题</button><button onclick="next()" ${locked[idx]?'':'disabled'}>${idx===QUIZ.questions.length-1?'看成绩 →':'下一题 →'}</button></div>`;
+  app.innerHTML = html;
+}
+
+function pick(v) {
+  if (locked[idx]) return;
+  const q = QUIZ.questions[idx];
+  if (q.type === '判断' || q.type === '单选') { submit([v]); }
+  else { // 多选 toggle
+    sel[idx] = sel[idx] || [];
+    const i = sel[idx].indexOf(v);
+    i >= 0 ? sel[idx].splice(i,1) : sel[idx].push(v);
+    render();
+  }
+}
+function confirmMulti() { if (sel[idx] && sel[idx].length) submit([...sel[idx]].sort()); }
+
+function submit(vals) {
+  const q = QUIZ.questions[idx];
+  const std = q.type === '判断' ? q.answer : q.answer.split('').sort().join('');
+  const mine = q.type === '判断' ? vals[0] : vals.join('');
+  const ok = mine === std;
+  answers[idx] = { mine, ok };
+  locked[idx] = true;
+  save();
+  render();
+}
+
+function prev() { if (idx > 0) { idx--; render(); } }
+function next() { if (locked[idx]) { idx++; render(); } }
+
+function renderResult() {
+  const total = QUIZ.questions.length;
+  const right = answers.filter(a => a && a.ok).length;
+  const wrongs = QUIZ.questions.map((q,i) => ({q,i,a:answers[i]})).filter(x => x.a && !x.a.ok);
+  let html = `<div class="result"><div class="progress">${QUIZ.title}</div><div class="score">${right}<small> / ${total}</small></div>`;
+  if (wrongs.length) {
+    html += `<div class="wronglist"><b>❌ 错题（已记入待重测）：</b><br>` + wrongs.map(x =>
+      `第${x.i+1}题 你答 ${x.a.mine} · 正确 ${x.q.answer}<br>　${esc(x.q.why)}`).join('<br>') + `</div>`;
+  } else {
+    html += `<div class="wronglist">🎉 全对！没有错题。</div>`;
+  }
+  html += `<button class="copy" onclick="copyResult()">📋 复制成绩（发给 ZCode 记错题本）</button>`;
+  html += `<textarea id="ta" readonly>${answeredText()}</textarea>`;
+  html += `<button class="redo" onclick="clearProgress()">🗑 清空本章记录，从头再做</button></div>`;
+  app.innerHTML = html;
+}
+
+function copyResult() {
+  copyResultBtn();  // 顶栏按钮复用同一函数
+}
+function copyResultBtn() {}  // 占位（顶栏直接用 copyResult）
+
+answers = new Array(QUIZ.questions.length).fill(null);
+sel = new Array(QUIZ.questions.length).fill(null);
+locked = new Array(QUIZ.questions.length).fill(false);
+loadSaved();
+// 续做：跳到第一个未答的题；全答完则直接看成绩
+idx = locked.findIndex(l => !l);
+if (idx === -1) idx = QUIZ.questions.length;
+render();
+</script>
+</body>
+</html>
