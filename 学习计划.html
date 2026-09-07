@@ -53,7 +53,7 @@ h1 { text-align: center; font-size: 24px; margin-bottom: 4px; }
 </div>
 <script>
 'use strict';
-const DATA = [{"file":"00绪论","title":"绪论","count":3},{"file":"01第一章","title":"第一章","count":109},{"file":"02第二章","title":"第二章","count":64},{"file":"03第三章","title":"第三章","count":84},{"file":"04第四章","title":"第四章","count":28},{"file":"05第五章","title":"第五章","count":61},{"file":"06第六章","title":"第六章","count":61},{"file":"07第七章","title":"第七章","count":55},{"file":"08第八章","title":"第八章","count":28},{"file":"09第九章","title":"第九章","count":40},{"file":"10第十章","title":"第十章","count":34},{"file":"11第十一章","title":"第十一章","count":94},{"file":"12第十二章","title":"第十二章","count":45},{"file":"13第十三章","title":"第十三章","count":66},{"file":"14第十四章","title":"第十四章","count":16},{"file":"15第十五章","title":"第十五章","count":15},{"file":"16综合题库","title":"综合题库","count":131}];
+const DATA = [{"file":"00绪论","title":"绪论","count":3},{"file":"01第一章","title":"第一章","count":109},{"file":"02第二章","title":"第二章","count":64},{"file":"03第三章","title":"第三章","count":84},{"file":"04第四章","title":"第四章","count":28},{"file":"05第五章","title":"第五章","count":61},{"file":"06第六章","title":"第六章","count":61},{"file":"07第七章","title":"第七章","count":55},{"file":"08第八章","title":"第八章","count":28},{"file":"09第九章","title":"第九章","count":40},{"file":"10第十章","title":"第十章","count":34},{"file":"11第十一章","title":"第十一章","count":94},{"file":"12第十二章","title":"第十二章","count":45},{"file":"13第十三章","title":"第十三章","count":66},{"file":"14第十四章","title":"第十四章","count":16},{"file":"15第十五章","title":"第十五章","count":15}];
 
 const PLAN_KEY = 'plan_v1';
 const EXAM = new Date(2026, 8, 11);
@@ -114,12 +114,12 @@ const days = [
     ]
   },
   {
-    label: '9/10（周四）· 实操+二刷启动日', theme: '白天照常上班，晚上完成管理篇收尾，并启动综合题库（它就是模拟卷）。',
-    goal: '243 题 · 第一遍全部完成',
+    label: '9/10（周四）· 实操+二刷启动日', theme: '白天照常上班，晚上完成管理篇收尾，并启动案例题实战（案例题就是模拟卷）。',
+    goal: '250 题 · 第一遍全部完成',
     blocks: [
       { t: '刷题：第十三章 66 题（管道/光缆施工）', s: '有限空间、吹缆、沟槽开挖', link: chLink(CH['第十三章']), linkText: '开刷' },
       { t: '刷题：第十四、十五章 31 题（事故处理/线路作业）', s: '事故等级四档背熟', link: chLink(CH['第十四章']), linkText: '开刷' },
-      { t: '刷题：综合题库 131 题（当模拟卷做，一次做完）', s: '掐时间 60 分钟，感受真题节奏', link: chLink(CH['综合题库']), linkText: '开考' },
+      { t: '刷题：案例题 14 案例共 153 小题（当模拟卷做）', s: '掐时间做，感受案例题节奏', link: '案例题.html', linkText: '开考' },
       { t: '错题本：全库错题重做一轮', s: '第一遍收官，错题清多少是多少', link: '错题本.html', linkText: '进错题本' },
     ]
   },
