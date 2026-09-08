@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>教材预习 · 考点速览（四篇十五章）</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; padding: 0 0 60px; }
+#topbar { position: sticky; top: 0; z-index: 20; background: #ffffffee; backdrop-filter: blur(8px); border-bottom: 1px solid #e0e6ec; padding: 10px 16px 8px; }
+#topbar .row1 { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; max-width: 940px; margin: 0 auto; }
+#topbar .ttl { font-size: 15.5px; font-weight: 800; color: #1a66d6; }
+#topbar .prog { font-size: 13px; color: #5a6572; font-weight: 700; }
+#topbar .prog b { color: #2e9e5b; }
+#topbar label { font-size: 13.5px; color: #4a5560; cursor: pointer; user-select: none; }
+#topbar a.mini { font-size: 13px; color: #1a66d6; text-decoration: none; font-weight: 600; }
+#nav { display: flex; gap: 7px; overflow-x: auto; padding: 10px 16px 2px; max-width: 940px; margin: 0 auto; }
+#nav .grp { flex: 0 0 auto; font-size: 11px; font-weight: 800; color: #8a95a1; align-self: center; padding: 0 2px 0 6px; }
+#nav button { flex: 0 0 auto; padding: 7px 13px; border: 1.5px solid #d3dce4; border-radius: 18px; background: #fff; cursor: pointer; font-size: 13px; color: #4a5560; font-family: inherit; white-space: nowrap; }
+#nav button:hover { border-color: #9ec2ee; }
+#nav button.on { background: #1a66d6; color: #fff; border-color: #1a66d6; }
+#nav button .dn { color: #2e9e5b; font-weight: 800; margin-right: 2px; }
+#nav button.on .dn { color: #b8f0cd; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 16px 14px 0; }
+.intro { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 18px 20px; margin-bottom: 14px; }
+.intro p { font-size: 13.8px; color: #5a6572; line-height: 1.9; }
+.card { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 20px 22px; margin-bottom: 14px; }
+.hrow { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+h2 { font-size: 19px; }
+.idline { font-size: 13px; color: #7a8694; line-height: 1.8; }
+.st { display: inline-block; font-size: 12px; font-weight: 800; border-radius: 6px; padding: 2px 9px; }
+.st.done { background: #e9f7ef; color: #217a45; }
+.st.part { background: #fff8e6; color: #9a7a1a; }
+.st.next { background: #e3edfb; color: #1a66d6; }
+.golinks { margin: 10px 0 4px; display: flex; gap: 10px; flex-wrap: wrap; }
+.golinks a { font-size: 13.5px; font-weight: 700; text-decoration: none; border-radius: 9px; padding: 7px 16px; }
+.golinks a.b1 { background: #1a66d6; color: #fff; }
+.golinks a.b2 { background: #2e9e5b; color: #fff; }
+.big { background: #f0f6ff; border: 1px solid #cfe0f7; border-radius: 10px; padding: 12px 15px; font-size: 14.5px; line-height: 1.9; margin: 12px 0; }
+.big b { color: #14539a; }
+h3 { font-size: 15px; color: #17427e; margin: 18px 0 6px; border-left: 4px solid #1a66d6; padding-left: 9px; }
+.k { background: #fbfcfe; border: 1.5px solid #dbe6f2; border-radius: 10px; padding: 11px 14px; margin-bottom: 6px; font-size: 14.2px; line-height: 1.85; }
+.k ul { margin: 3px 0 3px 19px; }
+.k li { margin: 3px 0; }
+.k b { color: #0f4c9c; }
+.k .t { font-weight: 800; color: #17427e; }
+.mn { background: #e9f7ef; border-left: 4px solid #2e9e5b; border-radius: 8px; padding: 10px 14px; margin: 8px 0; font-size: 13.8px; line-height: 1.85; color: #1f4a33; }
+.mn b { color: #1f7a44; }
+.tip { background: #fdf3f3; border: 1px solid #eec9c9; border-radius: 10px; padding: 9px 13px; margin: 8px 0; font-size: 13.2px; line-height: 1.8; color: #7a3b3b; }
+.tip b { color: #b93535; }
+.warn { background: #fff8e6; border: 1px solid #eee0ae; border-radius: 10px; padding: 9px 13px; margin: 8px 0; font-size: 13.2px; line-height: 1.8; color: #6b5416; }
+.warn b { color: #8a6d1a; }
+table.t { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13.4px; background: #fff; }
+table.t th { background: #e3edfb; color: #17427e; padding: 7px 8px; border: 1px solid #d5e2f0; line-height: 1.5; text-align: left; }
+table.t td { padding: 7px 8px; border: 1px solid #e4eaf0; line-height: 1.6; vertical-align: top; }
+table.t td.c { text-align: center; white-space: nowrap; }
+.n { display: inline-block; background: #e9f7ef; color: #217a45; font-weight: 800; border-radius: 7px; padding: 0 7px; }
+.donebar { text-align: center; margin: 8px 0 4px; }
+.donebar button { font-size: 14px; font-weight: 700; padding: 10px 26px; border: none; border-radius: 10px; background: #2e9e5b; color: #fff; cursor: pointer; font-family: inherit; }
+.donebar button.off { background: #b9c6d4; }
+.foot { text-align: center; color: #a8b2bd; font-size: 12.5px; margin-top: 26px; line-height: 1.9; }
+body.hideans .k, body.hideans .big { display: none; }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div class="row1">
+    <span class="ttl">📚 教材预习 · 考点速览</span>
+    <span class="prog" id="prog"></span>
+    <label><input type="checkbox" onchange="document.body.classList.toggle('hideans', this.checked)"> 遮住要点自测</label>
+    <a class="mini" href="学习中心.html">← 回学习中心</a>
+  </div>
+  <div id="nav"></div>
+</div>
+<div class="wrap">
+  <div class="intro">
+    <p><b style="color:#22303e">用法：</b>按<b>老师进度</b>预习——上课前点开当天要讲的章，把考点卡过一遍（10分钟），听课就等于二刷；听完课点「✅ 标记已读」再去刷题。绿色口诀条是记忆抓手，红框是丢分重灾区。<b>我每天会根据课堂录音更新对应章节</b>（补老师强调的重点、标注「课堂讲过」）。</p>
+    <p style="color:#8a95a1">《信息通信工程建设安全生产用书（第2版）》四篇十五章 + 绪论，与题库 934 题一一对应。</p>
+  </div>
+  <div id="app"></div>
+  <div class="foot">督学学长 · 阿严 · 2026-09-08 建立 · 每日随课堂录音更新<br>预习 → 听课 → 刷题 → 错题本，一条龙</div>
+</div>
+<script>
+'use strict';
+const SECTIONS = [
+{ id:'x0', tab:'绪论', grp:'绪论', done:false, status:['done','已结课'], title:'绪论 · 安全生产改革意见',
+  law:'3 题 · 2016年《中共中央、国务院关于推进安全生产领域改革发展的意见》',
+  links:false, html: `
+<div class="k"><span class="t">基本原则（多选5条）：</span>坚持<b>安全发展、改革创新、依法监管、源头防范、系统治理</b>。干扰项套路：「过程防范」（应为<b>源头</b>防范）、「重点治理」（应为<b>系统</b>治理）——改一个词就是坑。</div>
+<div class="k"><span class="t">责任制十字：</span>党政同责、<b>一岗双责</b>、齐抓共管、失职追责。</div>
+<div class="k"><span class="t">举报电话：</span>安全生产举报投诉专线 <span class="n">12350</span>（12306火车票、12315打假、12335商务——四号码一起记）。</div>
+` },
+
+{ id:'c1', tab:'①安法', grp:'法律法规篇', done:false, status:['done','已讲 9/6'], title:'第一章 · 安全生产法等法律',
+  law:'109 题（全库第一大章）· 安法 + 消防法 + 道交法 + 劳动法 + 刑法',
+  links:['精讲-01第一章.html','第一章'], html: `
+<div class="big">全库的地基章：<b>谁管安全</b>（监管体系）、<b>单位干什么</b>（主体责任）、<b>出事罚多少</b>（四档罚款+刑期）、<b>工人有什么权</b>。你错了45题，主要栽在监管分工和数字上。</div>
+<div class="k"><span class="t">监管体系：</span>应急管理部门＝<b>综合监管</b>；行业主管部门（交通、住建等）＝专项监管；乡镇/街道＝<b>可监督检查、协助，无执法权</b>；工会＝<b>监督</b>（提意见、参加事故调查），无决定权。</div>
+<div class="k"><span class="t">报告链条：</span>现场人员<b>立即</b>→本单位负责人→负责人<b>1小时内</b>报政府部门→逐级上报<b>每级≤2小时</b>；紧急时现场人员可<b>越级直报</b>。伤亡变化<b>30日内</b>补报（道路交通/火灾<b>7日</b>）。</div>
+<div class="k"><span class="t">单位罚款四档（联动事故等级）：</span>一般 <span class="n">30~100万</span>｜较大 <span class="n">100~200万</span>｜重大 <span class="n">200~1000万</span>｜特别重大 <span class="n">1000~2000万</span>。</div>
+<div class="k"><span class="t">刑期三兄弟：</span>重大责任事故罪 <b>3年以下/情节恶劣3-7年</b>；强令违章冒险作业罪 <b>5年以下起</b>；工程重大安全事故罪 <b>5年以下/特别严重5-10年</b>。危险作业罪（关闭破坏安全系统/拒不整改/无证擅产）<b>1年以下</b>。</div>
+<div class="k"><span class="t">保险：</span>工伤保险＝<b>强制</b>全员缴；安责险＝国家鼓励（高危未投→限期改正+罚款）；意外险＝施工单位为危险作业人员办。</div>
+<div class="k"><span class="t">劳动法数字：</span>每日≤8h、周均≤44h；加班一般每日1h、特殊3h、<b>每月36h</b>；加班费工作日<b>150%</b>、休息日不能补休<b>200%</b>、法定假日<b>300%</b>。女职工禁矿山井下+四级体力；经期禁高处低温冷水+三级；孕期7个月以上禁延时+夜班；哺乳未满1岁禁三级+延时+夜班。未成年工=16-18岁。</div>
+<div class="k"><span class="t">从业人员：</span>派遣工<b>纳入统一管理</b>（「分别管理」即错）；权利有知情建议、批评检举控告、拒绝违章指挥强令冒险、紧急停工撤离、保险赔偿。</div>
+<div class="tip"><b>你的坑（45错）：</b>「社会共享」是干扰词，法条是「社会监督」；多选漏选=错——先剔明显错的，拿不准的也选上。</div>
+` },
+
+{ id:'c2', tab:'②条例法规', grp:'法律法规篇', done:false, status:['done','已讲 9/7'], title:'第二章 · 建设工程安全生产管理条例（393号）等',
+  law:'64 题 · 393号全文引用 + 消防/道交/劳动/刑法关联条款',
+  links:['精讲-02第二章.html','第二章'], html: `
+<div class="k"><span class="t">393号骨架：</span>8章71条；方针八字「<b>安全第一、预防为主</b>」（+综合治理是12字，别混）；适用新建扩建改建<b>拆除</b>；建设工程含线路管道设备安装+装修。</div>
+<div class="k"><span class="t">建设单位：</span>提供地下管线/气象水文/毗邻建筑资料（真实准确完整）；不得违标要求、<b>不得压缩工期</b>；概算定安全费；开工报告批后<b>15日内备案</b>、拆除施工<b>15日前备案</b>；拆除发包给有资质单位。</div>
+<div class="k"><span class="t">监理三权：</span>①审查施组安措/专项方案（对照<b>强制性标准</b>）②一般隐患要求整改③严重要求停工+报建设单位；拒不整改→报主管部门。</div>
+<div class="k"><span class="t">总分包：</span>总包<b>负总责</b>＋自行完成<b>主体结构</b>；分包合同明确权责；总分包<b>连带责任</b>；分包<b>服从</b>管理，不服从致事故→分包<b>主要责任</b>。</div>
+<div class="k"><span class="t">专项方案：</span>危大七类（基坑降水/土方/模板/吊装/脚手架/拆爆/其他）；经<b>施工单位技术负责人+总监理工程师</b>双签字实施；深基坑、暗挖、高模板加<b>专家论证</b>——<span class="n">3米编方案、5米加论证</span>。</div>
+<div class="k"><span class="t">四方验收：</span>承租设备＝<b>总包+分包+出租+安装</b>（无建设单位、无监理）；验收合格<b>30日内登记</b>。</div>
+<div class="k"><span class="t">意外险：</span>施工单位付（总包时总包付），期限<b>开工之日起至竣工验收合格止</b>。</div>
+<div class="k"><span class="t">罚款：</span>建设20-50万；设计监理10-30万；出租安拆5-10万；设备提供合同价1-3倍；挪用安全费罚挪用额20%-50%；负责人未履职2-20万+5年禁任。</div>
+<div class="tip"><b>你的坑（20错）：</b>交底主体＝项目<b>技术负责人</b>（不是安全员）；防护用具进场「前」查验；特种设备事故多报特种设备安全监管部门；分包事故分包单位自己上报并告知总包。</div>
+` },
+
+{ id:'c3', tab:'③部门规章', grp:'法律法规篇', done:false, status:['done','已讲 9/7-9/8'], title:'第三章 · 部门规章（51号新规/255号/128号/预案办法/处罚办法）',
+  law:'84 题 · 你错了24题的一章，配套「法规背诵」页背数字',
+  links:['精讲-03第三章.html','第三章'], html: `
+<div class="big">细节最多的章：<b>五方责任＋ABC证＋许可证＋预案＋事故报告＋处罚程序</b>。数字背诵已做进「📖法规背诵」页（③~⑦+③⁺），这里只放骨架。</div>
+<div class="k"><span class="t">五方责任一句话：</span>建设管钱管合同不压工期；勘察设计真实准确管防灾；施工按标准施工管制度；监理巡视+审方案+审措施。<b>交底和组织检查是施工方的活</b>。</div>
+<div class="k"><span class="t">ABC证：</span>A=主要负责人（不限60岁）、B=项目负责人、C=专职安全员；条件大专3年/中专2年、<b>1年内无事故责任</b>；证<b>3年</b>有效、届满<b>前3个月</b>延续、20个工作日办结；换类别重新考、一人一类。</div>
+<div class="k"><span class="t">专职安全员配备：</span>企业资质口诀「<b>二三四</b>」（劳务2/一级4/二级3）；项目按合同价「<b>1-2-3</b>」（5000万/1亿两道坎）；劳务分包50人/200人两档，200人以上再加<b>5‰</b>。</div>
+<div class="k"><span class="t">许可证：</span>12条件取证；有效期3年、变更<b>10日内</b>；撤销＝滥超程条4种；<b>重大事故暂扣</b>、不具备条件且严重<b>吊销</b>；虚假材料1年禁申、欺骗贿赂3年。</div>
+<div class="k"><span class="t">通信事故报告：</span>负责人<b>1小时</b>报安监+<b>省通管局</b>；较大及以上通管局<b>2小时</b>报工信部；一般事故按月汇总<b>5个工作日</b>书面报；现场无建设单位人员→告知建设单位由其报通管局。</div>
+<div class="k"><span class="t">2024罚款新线：</span>擅离职守/瞒报谎报/不抢救 <b>60%~80%</b>（贻误抢救80%~100%）；漏报<b>40%~60%</b>；单位四档各分三小档（一般30-50万起…特大1500-2000万封顶）。</div>
+<div class="tip"><b>你的坑（24错）：</b>五方责任连错5题；「不包括」类反选题（公安机关不在安监序列）；证书延续是届满「前」；应急预案主要负责人编制签发；送达必须有<b>回执</b>。第8、33题答案键存疑，先按题库口径。</div>
+` },
+
+{ id:'c4', tab:'④管理概述', grp:'管理篇', done:false, status:['done','已讲 9/8'], title:'第四章 · 安全生产管理概述',
+  law:'28 题 · 你已做完：14对14错（50%）——概念题要抠字',
+  links:['精讲-04第四章.html','第四章'], html: `
+<div class="k"><span class="t">概念：</span>安全＝状态（无伤亡无损失）；危险＝可能性超出承受度（要有具体对象）；<b>本质安全</b>＝人机环管四要素（传统仅指设备）；所有事故<b>都可预防避免</b>。</div>
+<div class="k"><span class="t">四大管理法「戴检险目」：</span>戴明循环PDCA、安全检查法、风险预控法、安全目标管理法——「强制比例法」是干扰项。</div>
+<div class="k"><span class="t">PDCA八步：</span>P四步（分析现状找问题→查原因→查<b>主因</b>→拟定计划）、D一步（执行）、C一步（检查效果）、A两步（<b>总结经验纳入标准＋重大遗留转下期</b>）。<b>「纳入标准」「遗留转下期」都属处理阶段</b>。</div>
+<div class="k"><span class="t">风险预控：</span>基础＝<b>危险源辨识+风险评估</b>（不是事故分析）；7步：辨识→评估→找对象定标准措施→监测→预警→控制→信息沟通。</div>
+<div class="k"><span class="t">方针演变：</span>1983前「生产必须安全」→84-04「安全第一预防为主」→<b>2005至今+综合治理</b>（十二字）。安全第一=冲突时安全优先；预防为主=关口前移；综合治理=抓主要矛盾、经济法律行政多管齐下、标本兼治重在治本。</div>
+<div class="k"><span class="t">机制五块：</span>单位负责（<b>基础</b>）+职工参与（60%以上事故因人的违章）+政府监管+行业自律+社会监督。</div>
+<div class="k"><span class="t">六原则：</span>方针＋主要负责人全面负责＋<b>谁主管谁负责</b>＋管业务管生产经营必须管安全＋全员参与＋<b>持续改进</b>（动态管理）。</div>
+<div class="tip"><b>你的坑（14错）：</b>目标管理三坑——依据<b>自身状况</b>（非国家目标）、严格按目标执行（非「参考」）、<b>重视人激励人</b>（非「客观规律性」）；检查法数据来源广泛；「控制」不能偷换成「规划」。</div>
+` },
+
+{ id:'c5', tab:'⑤组织制度', grp:'管理篇', done:false, status:['part','9/8讲大半·明天收尾'], title:'第五章 · 企业安全生产组织制度保障',
+  law:'61 题 · 9/8课堂重点章，速记卡已预置错题本',
+  links:['精讲-05第五章.html','第五章'], html: `
+<div class="big">回答三个问题：<b>谁构成组织体系</b>（安委会/管理机构/项目部/工会/救援组织）、<b>责任制怎么建</b>、<b>管理制度怎么立</b>。</div>
+<div class="k"><span class="t">安委会＝最高决策机构：</span>可以是安委会<b>或</b>决策岗位（「必须成立安委会」表述错）；<b>央企必须成立</b>，董事长或总经理担任；<b>党政同责</b>＝董事长、党组织书记、总经理共同承担领导责任。管理机构＝<b>独立职能部门</b>，央企配注册安全工程师。</div>
+<div class="k"><span class="t">项目部：</span>常设项目部参照较大分支机构配安全员；单项工程项目部对本项目<b>负全责</b>；作业人员「<b>四不伤害</b>」：不伤害自己、不伤害他人、不被他人伤害、不使他人受伤害。</div>
+<div class="k"><span class="t">责任制＝最基本最核心制度：</span>明确<b>责任人员、责任范围、考核标准</b>；「横向到边、纵向到底」；<b>主要负责人</b>组织建立；四原则：合法合规、与实际适应、突出重点兼顾一般、动态调整。</div>
+<div class="k"><span class="t">领导小组：</span>总承包时由总包/专业承包/劳务分包三单位的<b>项目经理+技术负责人+专职安全员</b>组成（三类×三人，施工员质量员不在内）。职责九条：落实法规/制度/预案演练/安全费专款专用/专项方案/教育培训/检查排查/档案/如实报告。</div>
+<div class="k"><span class="t">各类人员：</span>主要负责人=第一责任人（签责任书：考核目标+奖惩+企业保障措施；检查项目、不胜任就换）；分管安全负责人=<b>直接责任</b>；技术负责人=<b>技术领导责任</b>；财务=监督安全费；班组长=本班组；施工人员=本岗位直接责任。</div>
+<div class="k"><span class="t">安管人员7条职责（安法25条）：</span>组织/参与拟制度规程预案、组织/参与培训并记录、组织应急救援演练、<b>危险源辨识评估+督促重大危险源管控</b>、检查状况排查隐患提建议、<b>制止纠正违章</b>、督促整改。企业不得因履责降低其待遇。</div>
+<div class="k"><span class="t">管理制度：</span>四类＝综合/人员/设备设施/环境安全管理；内容＝工作内容+职责权限+程序标准；全局性制度<b>主要负责人签发</b>，技术性强的由<b>主管生产领导或总工签发</b>；<b>每3-5年全面修订</b>。</div>
+<div class="k"><span class="t">考核奖惩：</span>对象全员；内容＝目标实现/职责落实/安全行为/安全业绩；原则＝<b>谁主管谁负责、谁出问题谁担责</b>。</div>
+` },
+
+{ id:'c6', tab:'⑥技术保障', grp:'管理篇', done:false, status:['next','待讲·预计9/9'], title:'第六章 · 企业安全生产技术保障',
+  law:'61 题 · 特种作业+培训学时+安全费+保险+防护用品+特种设备',
+  links:['精讲-06第六章.html','第六章'], html: `
+<div class="big">数字密集章：<b>证的有效期、培训学时、钱的基数、赔偿倍数</b>——全是硬背诵。</div>
+<div class="k"><span class="t">特种作业：</span>电工、登高（<b>2米</b>即高处作业）、焊割、制冷空调等；操作证<b>6年有效、全国有效、每3年复审</b>；<b>离岗6个月</b>以上重新实际操作考核。机动车辆驾驶＝特种设备作业（另一套证，别混）。</div>
+<div class="k"><span class="t">动火动土：</span>动火「<b>一点一证</b>」不得共用、不得涂改转让、超期重办；<b>局站场地内</b>挖沟、埋地网要办<b>动土审批</b>（野外杆坑不算）。</div>
+<div class="k"><span class="t">安全技术措施分类（多选高频）：</span><b>防发生</b>＝消除危险源、限制能量、隔离、减少故障失误；<b>减损失</b>＝设置薄弱环节、个体防护、避难救援；<b>隔离</b>攻防兼备两用。</div>
+<div class="k"><span class="t">培训学时：</span>新上岗一般<b>24学时</b>；<b>通信施工企业新员工三级教育≥32学时</b>；高危行业新职工72学时、再培训20学时；主要负责人/安管人员初次<b>32学时</b>、每年再培训<b>12学时</b>。<b>考核不合格不得上岗</b>（无「先上岗后补考」）。</div>
+<div class="k"><span class="t">安全费：</span>按<b>建安费1.5%</b>提取（⚠题库口径1.5%，2022新规及51号令课堂讲2%——以教材1.5%答题、以课堂2%记忆新规）；专款专用不得挪用；投入=「人机护金」四类（工程材料不算）。</div>
+<div class="k"><span class="t">工伤：</span>强制全员（含农民工派遣工）；单位<b>30日内</b>申请认定（个人1年）；停工留薪≤<b>12个月</b>可延12个月、原待遇不变；工亡补助＝<b>上年度全国城镇居民人均可支配收入×20倍</b>。安责险死亡赔付≥<b>30万</b>、全员同待遇。</div>
+<div class="k"><span class="t">防护用品：</span>必须符合<b>国标或行标</b>；<b>谁用工谁配备</b>（分包人员分包单位配，总包只监督）；进口不低于国标可用；进场就要戴（不分高温与否）。</div>
+<div class="k"><span class="t">特种设备：</span>定期检验提前<b>1个月</b>申请；配「管、检、作」三类人员；起重机械<b>司机/指挥司索</b>要持特种设备作业证（项目负责人不要）；安全管理<b>负责人</b>管预案、<b>管理员</b>管档案登记等具体事。</div>
+` },
+
+{ id:'c7', tab:'⑦管理保障', grp:'管理篇', done:false, status:['next','待讲·预计9/9'], title:'第七章 · 企业安全管理保障',
+  law:'55 题 · 危险源LEC+隐患分级+安全检查+标准化+安全文化',
+  links:['精讲-07第七章.html','第七章'], html: `
+<div class="k"><span class="t">危险源辨识：</span>两原则——<b>全面性</b>（不遗漏）、<b>预测性</b>（分析潜在危险性、存在条件、触发事件）；方法：安全检查表＝<b>对照分析法</b>的具体运用。</div>
+<div class="k"><span class="t">LEC法：</span><span class="n">D=L×E×C</span>，L=事故发生<b>可能性</b>、E=人体<b>暴露频繁程度</b>、C=后果<b>严重程度</b>、D=风险等级值。字母含义一一对应，别记混。</div>
+<div class="k"><span class="t">风险防范三类：</span><b>组织</b>（一岗双责、配人员）、<b>管理</b>（检查、责任制、培训）、<b>技术</b>（防护用品、技防）。「处罚措施」「合同措施」是干扰。</div>
+<div class="k"><span class="t">隐患分级：</span>一般（危害小，现场负责人关注）vs <b>重大</b>（危害大整改难、需局部停产、<b>外部因素致自身难排除也算重大</b>；<b>主要负责人</b>组织制定治理方案）。</div>
+<div class="k"><span class="t">隐患整改「五定」：</span>定责任人、定措施、定完成时间、定完成单位及人员、定验收人。</div>
+<div class="k"><span class="t">安全检查：</span>软件系统查思想/制度/事故处理/整改；硬件查设备设施。时间维度＝<b>定期、季节性、特殊时期</b>（经常性是组织方式、现场远程是地点手段）。频次：班组日检、<b>项目周检</b>、公司月检。评分<b>90优/80良/70合格</b>；项目达标抽<b>4个以上</b>合格率100%；现场检查<b>专职安全员权重最大</b>。</div>
+<div class="k"><span class="t">职业健康体系：</span>战略和<b>经营决策</b>；成功关键＝领导作用+最高管理者承诺+全职能参与；证书要<b>外部审核</b>（第三方认证）；增加内审情形：机构大变动/重大事故/重大投诉。文件＝手册+作业指导书+处置方案记录+制度（质量手册不算）。</div>
+<div class="k"><span class="t">标准化：</span>十二字方针；<b>16个一级要素</b>；<b>每年至少一次自评</b>；证书一二三级（一级最高）。</div>
+<div class="k"><span class="t">安全文化：</span>承诺由<b>主要负责人</b>代表企业作出；<b>行为规范</b>是承诺的体现和文化基础；程序建立首要环节＝<b>识别并说明主要风险</b>；员工参与＝微小差错报告/改进小组/自查自评；传播手段＝宣传、教育、激励、感化。</div>
+` },
+
+{ id:'c8', tab:'⑧应急管理', grp:'管理篇', done:false, status:['next','待讲·预计9/9'], title:'第八章 · 应急管理',
+  law:'28 题 · 四阶段+预案结构+演练分类（与背诵页②⑦联动）',
+  links:['精讲-08第八章.html','第八章'], html: `
+<div class="k"><span class="t">四阶段：</span><b>预防、准备、响应、恢复</b>（防备响恢）。响应＝事故后立即采取的应急与救援行动；救援系统重心＝<b>应急救援中心</b>。</div>
+<div class="k"><span class="t">预案三层：</span>综合/专项/现场处置（「施工组织预案」不存在）。编制程序：成立工作组→收集资料→风险评估和资源调查→编制→桌面推演/评审→批准发布。</div>
+<div class="k"><span class="t">评审签发：</span>施工单位<b>自行组织评审</b>，<b>主要负责人</b>签署发布（监理、建设单位不组织）。制定要求：科学性、针对性、可操作性（+合规衔接）；「系统性」是干扰项。</div>
+<div class="k"><span class="t">综合预案应急响应部分：</span>信息报告、应急处置、应急支援、<b>响应终止</b>（条件、要求、责任人）——<b>不含「响应分级」</b>（分级在总则）。</div>
+<div class="k"><span class="t">现场处置方案：</span>事故风险分析+应急工作职责+应急处置+注意事项（+附件）。注意事项管救援装备/自救互救/防护，<b>不管施工机具</b>。</div>
+<div class="k"><span class="t">附件三样：</span>联系方式、物资装备清单、关键路线标识图纸（公司管理制度不算附件）。</div>
+<div class="k"><span class="t">演练：</span>本质＝<b>模拟</b>；按内容＝<b>单项、综合</b>；按形式＝<b>桌面（会议室图面沙盘）、现场</b>（动用真实设备场所）；练的是响应能力不是知识水平；评估报告的改进建议→<b>预案编制部门</b>修订。</div>
+` },
+
+{ id:'c9', tab:'⑨项目现场', grp:'管理篇', done:false, status:['next','待讲·预计9/9'], title:'第九章 · 通信工程项目施工现场安全管理',
+  law:'40 题 · 交底+临电+割接+总分包现场协调',
+  links:['精讲-09第九章.html','第九章'], html: `
+<div class="k"><span class="t">安全员委派：</span>施工单位现场的专职安全员由<b>施工单位</b>委派；分包现场的由<b>分包单位自行</b>委派（谁用工谁负责）。</div>
+<div class="k"><span class="t">施组与专项：</span>施工组织设计以<b>单位工程</b>为对象；专项方案是<b>单独编制</b>（不是施组基础上衍生）；安全保证措施＝组织保障+技术+<b>监测监控</b>（不含事故处理方法）；周边环境（居民区/交通路口/铁路/变电站）要编安全技术措施。</div>
+<div class="k"><span class="t">交底：</span>时间＝<b>开工前+作业班组进场前</b>（多次，一次不够）；对象＝<b>全体</b>管理+作业人员；形式不宜<b>远程视频</b>；内容不含事故处理报告；双方签字。</div>
+<div class="k"><span class="t">临电铁三角：</span><b>TN-S三相五线</b>＋<b>三级配电</b>＋<b>两级漏电保护</b>；一机一闸一漏一箱；开关箱距设备≤<b>4米</b>；箱底距地≥<b>1.3米</b>；行灯≤<b>36V</b>（人孔天花板竖井）；照明开关串<b>相线</b>；断线<b>先相后零</b>。</div>
+<div class="k"><span class="t">带电割接：</span>必须<b>双人监护</b>（监护人要有资格+实践经验）；穿绝缘鞋戴绝缘手套；直流割接<b>先接备用端子</b>；测电流用<b>钳形电流表</b>。</div>
+<div class="k"><span class="t">多单位同场：</span><b>建设单位</b>协调（可委托监理）；不能指定某施工单位统一管理；多分包由<b>总包</b>统一协调管理；总包对分包安全审核（资质/机构/安全员比例）与定期考核（机构/人员资格/违章记录/绩效——质量进度不算）。</div>
+<div class="k"><span class="t">三点控制：</span>危险点、危害点、<b>事故多发点</b>（质量控制点不算）。拆除遇<b>六级</b>大风停工；土方支撑护土板四情形（临车道/沟交叉/临建筑/不稳定土质）。</div>
+` },
+
+{ id:'c10', tab:'⑩色标急救', grp:'技术篇', done:false, status:['next','待讲·预计9/9-9/10'], title:'第十章 · 安全色/安全标志/应急急救',
+  law:'34 题 · 送分章——颜色对应+生命体征+触电急救',
+  links:['精讲-10第十章.html','第十章'], html: `
+<div class="mn"><b>四色口诀：</b><span style="color:#c0392b;font-weight:800">红</span>＝禁止停止危险消防紧急停；<span style="color:#1a66d6;font-weight:800">蓝</span>＝指令必须遵守；<span style="color:#b8860b;font-weight:800">黄</span>＝警告注意；<span style="color:#1f7a44;font-weight:800">绿</span>＝提示安全通行启动。</div>
+<div class="k"><span class="t">对比色：</span>黄色对比色＝<b>黑</b>（黄黑警戒线）；绿色对比色＝<b>白</b>（绿底白字安全出口）。</div>
+<div class="k"><span class="t">标志四类：</span>禁止＝红圈红斜杠；警告＝<b>黄底黑边</b>三角形；指令＝<b>蓝底白图</b>圆形（必须戴安全帽）；提示＝<b>绿底白图</b>方形（安全出口、避难所）。文字辅助横写：禁止红底白字、警告<b>白底黑字</b>、指令蓝底白字。</div>
+<div class="k"><span class="t">按钮颜色：</span>停止/急停＝<b>红</b>；启动＝<b>绿</b>。消防设备涂红；机器警戒线黄；交通指示（指路）蓝。</div>
+<div class="k"><span class="t">生命四体征：</span>呼吸、体温、脉搏、血压。呼吸<b>14~18次/分</b>；体温36~37℃；脉搏60~100次/分；舒张压约60~90mmHg。</div>
+<div class="k"><span class="t">电话：</span>火警<b>119</b>、急救<b>120</b>、交通事故122、报警110。</div>
+<div class="k"><span class="t">创伤急救：</span><b>先抢救、后固定、再搬运</b>。触电：第一步<b>脱离电源</b>；呼吸停→人工呼吸，心跳停→胸外按压，全停→<b>CPR同时</b>（按压<b>100~120次/分</b>、深度5~6cm）；神志清醒有心跳者<b>不能</b>CPR；畅通气道<b>严禁垫枕头</b>。中毒：查明原因做好防护再移至通风处；神志不清<b>头偏向一侧</b>防误吸。</div>
+` },
+
+{ id:'c11', tab:'⑪消防用电', grp:'技术篇', done:false, status:['next','待讲·预计9/10'], title:'第十一章 · 消防安全与施工用电（全库第二大章94题）',
+  law:'94 题 · 燃烧灭火+电流阈值+临电系统+工器具',
+  links:['精讲-11第十一章.html','第十一章'], html: `
+<div class="big">数字轰炸章。分四块背：<b>燃烧与灭火</b>、<b>电流对人体</b>、<b>临时用电</b>、<b>工器具距离</b>。</div>
+<div class="k"><span class="t">燃烧：</span>特征＝发光、发热、生成新物质；三要素＝可燃物+<b>氧化剂</b>（助燃物，氧气）+引火源。四类形式：分解燃烧（<b>木材、纸</b>）、蒸发燃烧（酒精、油脂）、表面燃烧（<b>木炭、焦炭</b>）、烟雾燃烧。闪点越低越危险；扑救最佳＝<b>初起期</b>。</div>
+<div class="k"><span class="t">火灾分类：</span>A固体（木材）、B液体/可熔化固体（<b>石蜡</b>）、C气体（氢气）、D金属（铝镁合金）、F烹饪油脂。等级同493：死亡3/10/30三道线。</div>
+<div class="k"><span class="t">灭火四法：</span>冷却、窒息、隔离＝物理；<b>抑制＝化学</b>。灭火器选用：泡沫→AB（<b>不能</b>C气体/D金属/带电）；干粉→可灭<b>1kV以上带电</b>（不能轻金属）；CO2→<b>窒息</b>原理、限1kV以下；混合气体IG541＝氮+氩+CO2（<b>不含氧</b>；不能D类）。火灾报警系统＝触发器件+报警装置+警报装置+电源，核心＝<b>火灾报警控制器</b>。</div>
+<div class="k"><span class="t">气瓶：</span>氧气瓶<b>天蓝瓶黑字</b>、乙炔<b>白瓶红字</b>；氧气瓶距明火<b>≥15米</b>；乙炔距易燃易爆<b>≥10米</b>；瓶内气体<b>不得用尽</b>（留余压）。</div>
+<div class="k"><span class="t">电流阈值（工频）：</span>最危险频率<b>50Hz</b>；感知电流男<b>1.1mA</b>/女0.7mA；摆脱电流（50%概率）男16→女…记忆锚：男16/10.5、女9（99.5%档）；超过心脏周期室颤<b>50mA</b>；直流感觉阈值<b>2mA</b>。绝大部分触电死亡＝<b>电击</b>；电伤＝电烧伤、电烙印、<b>电光眼</b>。触电方式：单相/两相/跨步电压/接触电压（<b>无「三相触电」</b>）。户内远离落地点<b>10米</b>；1kV＝高低压分界。</div>
+<div class="k"><span class="t">防护：</span>防直接接触三件套＝<b>绝缘、屏护、间距</b>；气液绝缘击穿<b>可恢复</b>、固体不可；栅栏<b>内1.2外1.5米</b>；金属容器/隧道等狭窄潮湿环境用<b>24V</b>；漏保：防触电＝<b>高灵敏度</b>（6/15/30mA）、防漏电火灾/监视接地＝低灵敏度；不动作电流≥额定<b>1/2</b>。</div>
+<div class="k"><span class="t">相色：</span>A黄、B绿、C红、工作零线N＝<b>淡蓝</b>、保护零线PE＝<b>黄绿双色</b>（严禁挪用）。</div>
+<div class="k"><span class="t">工器具：</span>电焊机一次线≤5米、二次焊把线≤30米；砂轮切割机挡砂板<b>1.7米</b>；千斤顶行程≤丝杠<b>3/5</b>；推土机横坡<b>0°</b>（禁横坡）、停车刀铲离地0.2米；吊车与架空线：1kV以下1.5米、<b>10kV 2米、35kV 4米</b>。</div>
+` },
+
+{ id:'c12', tab:'⑫防护高处', grp:'技术篇', done:false, status:['next','待讲·预计9/10'], title:'第十二章 · 劳动防护用品/高处作业/有限空间',
+  law:'45 题 · 安全帽带靴+作业分级+气体标准',
+  links:['精讲-12第十二章.html','第十二章'], html: `
+<div class="k"><span class="t">安全帽：</span>通信现场<b>不能选Y类</b>一般作业帽；塑料帽有效期<b>3年</b>（编织2年、玻璃钢3年半）；戴帽头顶与帽内顶部留<b>35mm</b>缓冲空间。</div>
+<div class="k"><span class="t">安全带选用：</span>铁塔作业＝双背带式（带腿带）；攀登独杆塔＝<b>自锁式</b>；人井作业＝<b>全身式</b>（便于提拉救援）；后备保护绳超<b>3米</b>加缓冲器；使用<b>2年</b>抽检；挂点<b>高挂低用</b>。</div>
+<div class="k"><span class="t">绝缘鞋：</span>耐压5kV的绝缘鞋用于<b>1kV及以下</b>（耐压值≠使用值）；1kV以上穿<b>绝缘胶靴/聚合材料靴</b>。</div>
+<div class="k"><span class="t">道路作业：</span>高速六区顺序＝警告区→上游过渡→缓冲→作业→下游过渡→终止（各区规格<b>不同</b>）；标志从警示区摆到终止区。围挡：市区主路段≥<b>1.8米</b>、一般路段≥1.2米。</div>
+<div class="k"><span class="t">器材：</span>木杆露天堆放≤<b>2层</b>（库内垫木8层）、水泥杆≤2层；跳板≥<b>60mm</b>厚无木结；搬运负重<b>男40公斤/女20公斤</b>；缆盘按绕向滚、严禁推下车。</div>
+<div class="k"><span class="t">有限空间：</span>人井/地下室/隧道算，<b>架空交接箱平台不算</b>；氧含量<b>19.5%</b>红线（GB8958）；检测<b>上中下3点</b>（2点错）；硫化氢＝剧毒、比空气重沉人孔<b>下部</b>、超<b>10mg/m³</b>禁长时间作业；选泵吸式多气体检测仪（停泵报警）；先通风再检测后作业、监护全程、严禁盲目施救。</div>
+<div class="k"><span class="t">高处作业分级（GB3608）：</span>2~5米一级、5~15米二级、15~30米三级、30米+四级；坠落半径<b>3、4、5、6</b>米对应2~5/5~15/15~20/20+。客观危险因素：阵风<b>五级</b>以上、高温5℃/低温、水温10℃、能见度差。安全三宝＝帽、带、<b>网</b>；五级风禁塔上、<b>六级</b>风停吊装；禁立体交叉作业。</div>
+<div class="k"><span class="t">梯子：</span>梯顶高出吊线<b>30cm</b>；人字梯夹角<b>40°</b>＋防张开拉链；楼顶无围栏时距边沿<b>1.5米</b>围1米高警戒线。</div>
+` },
+
+{ id:'c13', tab:'⑬施工技术', grp:'技术篇', done:false, status:['next','待讲·预计9/10'], title:'第十三章 · 管道/架空线路/设备安装/铁塔施工',
+  law:'66 题 · 距离数字最多的一章',
+  links:['精讲-13第十三章.html','第十三章'], html: `
+<div class="k"><span class="t">管道：</span>堆料高≤<b>1.5米</b>；土石距沟边≥<b>60cm</b>；不得压<b>消防栓井</b>；流沙松土沟深超<b>1米</b>设挡土板；地下有电力/自来水/污水管段<b>禁机械开挖</b>；图纸未标高程→有经验工人<b>人工轻挖</b>；遇文物<b>停工报告</b>；拆挡土板先回填再拆；钢筋冷拉两侧<b>3米</b>禁区。</div>
+<div class="k"><span class="t">定向钻：</span>盯回转油压/泥浆压力/给进油压三表；拆管路前<b>先泄压</b>。砌筑：脚手架堆砖≤<b>3层侧砖</b>；起吊上覆时孔内无人。</div>
+<div class="k"><span class="t">立杆紧线：</span>拉牵引绳人<b>面对电杆</b>；吊绳拴<b>偏杆梢</b>；终端拉线比吊线<b>大一级</b>；紧线器规格匹配（禁以大代小）；扳紧线器<b>限两人</b>、站<b>后侧</b>；卡线处理站<b>后侧</b>；旧杆位换杆＝紧靠旧杆先立新杆。</div>
+<div class="k"><span class="t">吊板吹缆：</span>过吊线接头改用<b>梯子</b>；电杆与墙壁之间<b>不用吊板</b>；吹缆闻汽油味<b>停机</b>、严禁手摸。</div>
+<div class="k"><span class="t">电力线附近（数字重灾区）：</span>10kV附近人员及金属工具≥<b>2.5米</b>；合杆净距≥2.5米且<b>电信在电力线下部</b>；低压交越绝缘保护两端各延<b>1.5米</b>；防护四件＝安全帽+绝缘手套+绝缘鞋+绝缘工具。发现通信线碰电力线/电力线落地：停工+保护现场+报告（<b>禁手背验电</b>）。</div>
+<div class="k"><span class="t">机房设备：</span>配电屏中性线与机架<b>绝缘</b>；交直流/信号线<b>分开布放</b>；电源线中间<b>禁接头</b>；汇流排过墙用<b>软铜母线</b>、绝缘子固定、接头<b>错开</b>、<b>正红负蓝</b>；插拔机盘戴<b>防静电手环</b>；室内外走线架<b>不得连通</b>。</div>
+<div class="k"><span class="t">铁塔：</span>塔上有人时<b>指挥不得离场</b>；施工区半径＝<b>塔高×1.05倍</b>；两人上塔间距≥<b>3米</b>；上塔宜慢；吊物稍离地时复查<b>钢丝绳</b>；抱杆上<b>禁钻孔电焊</b>；馈线金属外护层<b>三点接地</b>（塔顶/离塔处/机房外侧）；塔高<b>超60米</b>中部加接地点。</div>
+<div class="k"><span class="t">拆除：</span>监理工程师全面监督；顺序<b>先线缆后设备</b>（先备用后主用）；拆接地线<b>先导体端后接地端</b>（装时相反）；电缆用铜芯、架空敷设。</div>
+` },
+
+{ id:'c14', tab:'⑭事故致因', grp:'案例篇', done:false, status:['next','待讲·预计9/10'], title:'第十四章 · 事故致因分析与调查',
+  law:'16 题 · 直接原因vs间接原因（案例题的理论基础）',
+  links:['精讲-14第十四章.html','第十四章'], html: `
+<div class="k"><span class="t">两大理论：</span>海因里希＝人的不安全行为+物的不安全状态；博德（现代）＝根源是<b>管理缺陷</b>。多因素互为因果、相互作用（非单一非并列）。</div>
+<div class="k"><span class="t">直接原因：</span>人的不安全行为（未通风下井、不戴帽、盲目施救）+物/环境的<b>不安全状态</b>（吊绳强度不足、梯子质量差、毒气超限）。间接原因＝管理缺陷（培训不足、无监护、无警示、知识缺乏）。</div>
+<div class="mn"><b>判定套路：</b>「现场当场引发的」＝直接；「制度培训管理层面的」＝间接。看见「安全教育不足/监护缺失/知识缺乏」→间接。</div>
+<div class="k"><span class="t">调查：</span>死亡事故<b>邀请检察院</b>参加；60日内提交调查报告；事故类别按《企业职工伤亡事故分类》20类——吊装断绳砸人＝<b>起重伤害</b>（不是物体打击/交通事故）。</div>
+` },
+
+{ id:'c15', tab:'⑮案例综合', grp:'案例篇', done:false, status:['next','待讲·预计9/10'], title:'第十五章 · 综合案例（全书知识混考）',
+  law:'15 题 · 前面十四章的随机组合，当小模拟卷做',
+  links:['精讲-15第十五章.html','第十五章'], html: `
+<div class="k"><span class="t">构成：</span>紧线站位（后侧）、触电先断电、总包编预案、建筑施工单位<b>每半年</b>演练、合法分包（专业承包→有资质劳务分包＝合法；劳务再分包/专业再分包/主体分包＝违法）、4人死亡＝较大事故、图纸有问题→提意见通过建设/监理转设计、绝缘防护四件、5kV绝缘鞋→1kV以下、交越绝缘1.5米、机房地面钻孔<b>不需</b>特种证、发现违章<b>先制止</b>、CO2窒息、电气着火<b>先断电</b>、三要素。</div>
+<div class="k"><span class="t">用法：</span>这一章+案例题.html（14案例153问）就是你的<b>模拟卷</b>——9/10 计划里安排了。做完把成绩发我。</div>
+` }
+];
+
+const LSKEY = 'yuxi_v1';
+let st = { read:{}, last:'c5' };
+try { const s = JSON.parse(localStorage.getItem(LSKEY)); if (s && s.read) st = s; } catch(e){}
+function save(){ try { localStorage.setItem(LSKEY, JSON.stringify(st)); } catch(e){} }
+
+function renderNav(){
+  const nav = document.getElementById('nav');
+  let h = ''; let lastGrp = '';
+  SECTIONS.forEach(s => {
+    if(s.grp !== lastGrp){ h += '<span class="grp">' + s.grp + '</span>'; lastGrp = s.grp; }
+    const d = st.read[s.id] ? '<span class="dn">✓</span>' : '';
+    h += '<button data-s="' + s.id + '" class="' + (s.id === st.last ? 'on' : '') + '">' + d + s.tab + '</button>';
+  });
+  nav.innerHTML = h;
+  nav.querySelectorAll('button').forEach(b => b.addEventListener('click', () => go(b.dataset.s)));
+}
+function go(id){ st.last = id; save(); renderNav(); renderSec(); window.scrollTo({ top: 0 }); }
+function renderSec(){
+  const s = SECTIONS.find(x => x.id === st.last) || SECTIONS[0];
+  let links = '';
+  if(s.links){
+    links = '<div class="golinks"><a class="b1" href="刷题/' + s.links[0] + '">✍️ 去做题（' + s.links[1] + '）</a><a class="b2" href="刷题/' + s.links[0].replace('精讲','背诵') + '">📖 背诵版</a></div>';
+  }
+  const r = !!st.read[s.id];
+  let h = '<div class="card"><div class="hrow"><h2>' + s.title + '</h2><span class="st ' + s.status[0] + '">' + s.status[1] + '</span></div>'
+    + '<div class="idline">' + s.law + '</div>' + links + s.html
+    + '<div class="donebar"><button class="' + (r ? 'off' : '') + '" onclick="toggleRead(\'' + s.id + '\')">' + (r ? '↩ 取消已读' : '✅ 预习完成，标记已读') + '</button></div></div>';
+  document.getElementById('app').innerHTML = h;
+}
+function toggleRead(id){ st.read[id] = !st.read[id]; save(); renderNav(); renderSec(); }
+function renderProg(){
+  const n = SECTIONS.filter(s => st.read[s.id]).length;
+  document.getElementById('prog').innerHTML = '已读 <b>' + n + '</b> / ' + SECTIONS.length + ' 章';
+}
+renderNav(); renderSec(); renderProg();
+</script>
+</body>
+</html>
