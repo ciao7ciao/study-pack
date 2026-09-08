@@ -60,6 +60,8 @@ table.t tr.hl td { background: #fff8e6; }
 .donebar button.off { background: #b9c6d4; }
 .foot { text-align: center; color: #a8b2bd; font-size: 12.5px; margin-top: 26px; line-height: 1.9; }
 body.hideans .k, body.hideans .big { display: none; }
+.tts { font-size: 13px; font-weight: 700; color: #fff; background: #2e9e5b; border: none; border-radius: 16px; padding: 6px 14px; cursor: pointer; font-family: inherit; }
+.tts:hover { opacity: .85; }
 </style>
 </head>
 <body>
@@ -68,6 +70,7 @@ body.hideans .k, body.hideans .big { display: none; }
     <span class="ttl">📖 全书背诵 · 四篇考点</span>
     <span class="prog" id="prog"></span>
     <label><input type="checkbox" onchange="document.body.classList.toggle('hideans', this.checked)"> 遮住要点自测</label>
+    <button class="tts" id="ttsBtn" onclick="if(speaking){stopSpeak()}else{speakSection()}">🔊 朗读本部</button>
     <a class="mini" href="../学习中心.html">← 回学习中心</a>
   </div>
   <div id="nav"></div>
@@ -1068,7 +1071,28 @@ function renderNav(){
   nav.innerHTML = h;
   nav.querySelectorAll('button').forEach(b => b.addEventListener('click', () => go(b.dataset.s)));
 }
-function go(id){ st.last = id; save(); renderNav(); renderSec(); window.scrollTo({ top: 0 }); }
+function go(id){ stopSpeak(); st.last = id; save(); renderNav(); renderSec(); window.scrollTo({ top: 0 }); }
+let speaking = false;
+function stopSpeak(){ speaking = false; try { speechSynthesis.cancel(); } catch(e){} const b = document.getElementById('ttsBtn'); if (b) b.textContent = '🔊 朗读本部'; }
+function speakSection(){
+  const app = document.getElementById('app');
+  const text = app.innerText.replace(/（点击遮住\/显示）/g, '');
+  const parts = text.split(/(?<=[。；！？])/);
+  const chunks = [];
+  let cur = '';
+  parts.forEach(p => { p = p.trim(); if (!p) return; if ((cur + p).length > 180) { if (cur) chunks.push(cur); cur = p; } else { cur += p; } });
+  if (cur) chunks.push(cur);
+  if (!chunks.length) return;
+  speaking = true;
+  const b = document.getElementById('ttsBtn'); if (b) b.textContent = '⏹ 停止朗读';
+  const u = new SpeechSynthesisUtterance();
+  u.lang = 'zh-CN'; u.rate = 1.05;
+  let i = 0;
+  u.onend = function(){ if (speaking && i < chunks.length) { u.text = chunks[i++]; speechSynthesis.speak(u); } else { stopSpeak(); } };
+  u.onerror = function(){ stopSpeak(); };
+  u.text = chunks[i++];
+  speechSynthesis.speak(u);
+}
 function renderSec(){
   const s = SECTIONS.find(x => x.id === st.last) || SECTIONS[0];
   const idx = SECTIONS.indexOf(s);
