@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>老师原文 · 案例篇</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; padding: 0 0 60px; }
+#topbar { position: sticky; top: 0; z-index: 20; background: #ffffffee; backdrop-filter: blur(8px); border-bottom: 1px solid #e0e6ec; padding: 10px 16px 8px; }
+#topbar .row1 { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; max-width: 940px; margin: 0 auto; }
+#topbar .ttl { font-size: 15.5px; font-weight: 800; color: #1a66d6; }
+#topbar .prog { font-size: 13px; color: #5a6572; font-weight: 700; }
+#topbar .prog b { color: #2e9e5b; }
+#topbar label { font-size: 13.5px; color: #4a5560; cursor: pointer; }
+#topbar a.mini { font-size: 13px; color: #1a66d6; text-decoration: none; font-weight: 600; }
+#topbar button.tts { font-size: 13px; font-weight: 700; color: #fff; background: #2e9e5b; border: none; border-radius: 16px; padding: 6px 14px; cursor: pointer; font-family: inherit; }
+#nav { display: flex; gap: 7px; overflow-x: auto; padding: 10px 16px 2px; max-width: 940px; margin: 0 auto; }
+#nav .grp { flex: 0 0 auto; font-size: 11px; font-weight: 800; color: #8a95a1; align-self: center; padding: 0 2px 0 6px; }
+#nav button { flex: 0 0 auto; padding: 7px 13px; border: 1.5px solid #d3dce4; border-radius: 18px; background: #fff; cursor: pointer; font-size: 13px; color: #4a5560; font-family: inherit; white-space: nowrap; }
+#nav button.on { background: #1a66d6; color: #fff; border-color: #1a66d6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 16px 14px 0; }
+.intro { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 16px 20px; margin-bottom: 14px; }
+.intro p { font-size: 13.6px; color: #5a6572; line-height: 1.9; }
+.card { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 20px 22px; margin-bottom: 14px; }
+h2 { font-size: 19px; }
+.day { display: inline-block; font-size: 12px; font-weight: 800; background: #e3edfb; color: #1a66d6; border-radius: 6px; padding: 2px 9px; margin-left: 8px; }
+.idline { font-size: 13px; color: #7a8694; margin: 4px 0 6px; line-height: 1.8; }
+h3 { font-size: 15px; color: #17427e; margin: 18px 0 6px; border-left: 4px solid #1a66d6; padding-left: 9px; }
+.blk { background: #fbfcfe; border: 1.5px solid #dbe6f2; border-radius: 10px; padding: 11px 14px; margin-bottom: 7px; font-size: 14.2px; line-height: 1.9; }
+.blk b { color: #0f4c9c; }
+.hl { color: #c0392b; font-weight: 800; }
+.n { display: inline-block; background: #e9f7ef; color: #217a45; font-weight: 800; border-radius: 7px; padding: 0 7px; }
+.case { background: #fff8e6; border: 1px solid #eee0ae; border-radius: 10px; padding: 9px 13px; margin: 7px 0; font-size: 13.2px; line-height: 1.8; color: #6b5416; }
+.case b { color: #8a6d1a; }
+.tip { font-size: 12px; color: #8a95a1; margin: 4px 0 0; }
+.golinks { margin: 12px 0 4px; }
+.golinks a { font-size: 13.5px; font-weight: 700; text-decoration: none; background: #1a66d6; color: #fff; border-radius: 9px; padding: 7px 16px; margin-right: 10px; }
+.navrow { display: flex; justify-content: space-between; margin-top: 14px; }
+.navrow button { font-size: 14px; font-weight: 700; padding: 10px 18px; border: 1.5px solid #cfe0f7; border-radius: 10px; background: #fff; color: #1a66d6; cursor: pointer; font-family: inherit; }
+.navrow button:disabled { color: #b9c6d4; border-color: #e4eaf0; cursor: default; }
+.donebar { text-align: center; margin: 10px 0 2px; }
+.donebar button { font-size: 14px; font-weight: 700; padding: 10px 26px; border: none; border-radius: 10px; background: #2e9e5b; color: #fff; cursor: pointer; font-family: inherit; }
+.donebar button.off { background: #b9c6d4; }
+.foot { text-align: center; color: #a8b2bd; font-size: 12.5px; margin-top: 26px; line-height: 1.9; }
+.kd { font-size:12.6px; color:#1a5fa8; background:#eef5fd; border-left:3px solid #7db4e8; border-radius:0 8px 8px 0; padding:7px 11px; margin:6px 0 10px; line-height:1.85; }
+.kd b { color:#155a96; }
+body.hideans .blk { display: none; }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div class="row1">
+    <span class="ttl">📜 老师原文 · 案例篇</span>
+    <span class="prog" id="prog"></span>
+    <label><input type="checkbox" onchange="document.body.classList.toggle('hideans', this.checked)"> 遮住原文自测</label>
+    <button class="tts" id="ttsBtn" onclick="if(speaking){stopSpeak()}else{speakSection()}">🔊 朗读本节</button>
+    <a class="mini" href="老师原文-划重点.html">总览</a><a class="mini" href="原文-法规篇.html">📖法规</a><a class="mini" href="原文-管理篇.html">📗管理</a><a class="mini" href="原文-技术篇.html">📘技术</a><a class="mini" style="color:#22303e;font-weight:800;text-decoration:underline" href="原文-案例篇.html">📙案例</a><a class="mini" href="学习中心.html">← 学习中心</a>
+  </div>
+  <div id="nav"></div>
+</div>
+<div class="wrap">
+  <div class="intro">
+    <p><b style="color:#22303e">这是老师四天课「照PPT念」的原文整理</b>，按讲课顺序分块，做题遇到不确定的知识点就回这里查老师原话。<span class="hl">红色</span>=老师明说必考/重点/容易搞混；<span class="n">绿色数字</span>=时限金额比例人数；黄框=老师讲的一线真实案例。内容不删减，与提纯的「全书背诵」页互补。</p>
+  </div>
+  <div id="app"></div>
+  <div class="foot">督学学长 · 阿严 · 2026-09-09 · 依据四天课堂录音转写整理（修正口语与转写错误）<br>预习 → 听课 → 刷题 → 错题本 → 背诵/原文回顾</div>
+</div>
+<script>
+'use strict';
+const SECTIONS = [
+{ id:'c14', tab:'事故致因', grp:'📙 案例篇', day:'9/10 下午 · 录音待发', title:'第十四章 事故致因分析（等老师下午场录音）',
+  law:'题库16题 · 海因里希＋现代因果连锁＋直接间接原因',
+  quiz:'14第十四章.html', html: `
+<div class="blk">录音发来后补原文。本章骨架先记住：<span class="hl">海因里希</span>——事故主因＝<span class="hl">人的不安全行为＋物的不安全状态</span>；<span class="hl">现代事故因果连锁（博德）</span>——根源是<span class="hl">管理失误</span>，控制管理缺陷最重要。<span class="hl">直接原因</span>＝人的不安全行为＋物（机械物质环境）的不安全状态；<span class="hl">间接原因</span>＝管理缺陷、教育培训不足（安全知识缺乏、监护缺失都算间接）。事故成因不是单一的也不是并列的，是<span class="hl">互为因果、相互作用</span>。事故调查报告<span class="n">60日</span>内提交（延长最长60日）；死亡事故应邀请<span class="hl">人民检察院</span>参加调查组。</div>
+<div class="kd">📌 考点：区分直接/间接是本章唯一考点——吊绳强度不足＝物的不安全状态；不戴安全帽/盲目施救/未通风进井＝人的不安全行为（直接）；未培训/无监护/安全知识缺乏＝间接。起重伤害（吊装断绳脱钩）≠物体打击。</div>
+` },
+{ id:'c15', tab:'综合案例', grp:'📙 案例篇', day:'9/10 下午 · 录音待发', title:'第十五章 综合案例（等老师下午场录音）',
+  law:'题库15题 · 全书知识点串烧',
+  quiz:'15第十五章.html', html: `
+<div class="blk">录音发来后补原文。这15题都是前面章节的综合应用：触电先脱离电源、电器着火先关电源、燃烧三要素、分包应急预案<span class="hl">由总承包单位统一编制</span>、建筑施工单位演练<span class="hl">每半年至少1次</span>、较大事故＝3~10人死亡、违法分包vs合法分包（<span class="hl">专业承包把劳务作业发包给有资质劳务企业＝合法</span>）、耐压5kV绝缘鞋用于1kV以下、机房地面钻孔不需要特种作业证。案例大题（153问）在<a href="案例题.html" style="color:#1a66d6">案例题.html</a>，考前把错题本过完再去做。</div>
+` },
+];
+
+const LSKEY = 'yuanwen_v1';
+let st = { read:{}, last:'x0' };
+try { const s = JSON.parse(localStorage.getItem(LSKEY)); if (s && s.read) st = s; } catch(e){}
+function save(){ try { localStorage.setItem(LSKEY, JSON.stringify(st)); } catch(e){} }
+
+function renderNav(){
+  const nav = document.getElementById('nav');
+  let h = ''; let lastGrp = '';
+  SECTIONS.forEach(s => {
+    if(s.grp !== lastGrp){ h += '<span class="grp">' + s.grp + '</span>'; lastGrp = s.grp; }
+    const d = st.read[s.id] ? '<span style="color:#b8f0cd;font-weight:800">✓</span>' : '';
+    h += '<button data-s="' + s.id + '" class="' + (s.id === st.last ? 'on' : '') + '">' + d + s.tab + '</button>';
+  });
+  nav.innerHTML = h;
+  nav.querySelectorAll('button').forEach(b => b.addEventListener('click', () => go(b.dataset.s)));
+}
+function go(id){ stopSpeak(); st.last = id; save(); renderNav(); renderSec(); window.scrollTo({ top: 0 }); }
+function renderSec(){
+  const s = SECTIONS.find(x => x.id === st.last) || SECTIONS[0];
+  const idx = SECTIONS.indexOf(s);
+  const r = !!st.read[s.id];
+  let links = s.quiz ? '<div class="golinks"><a href="刷题/精讲-' + s.quiz + '">✍️ 去刷对应章节题</a></div>' : '';
+  let h = '<div class="card"><h2>' + s.title + '<span class="day">' + s.day + '</span></h2><div class="idline">' + s.law + '</div>' + links + s.html;
+  h += '<div class="navrow"><button ' + (idx <= 0 ? 'disabled' : '') + ' onclick="go(SECTIONS[' + (idx-1) + '].id)">← 上一节</button><button ' + (idx >= SECTIONS.length-1 ? 'disabled' : '') + ' onclick="go(SECTIONS[' + (idx+1) + '].id)">下一节 →</button></div>';
+  h += '<div class="donebar"><button class="' + (r ? 'off' : '') + '" onclick="toggleRead(\'' + s.id + '\')">' + (r ? '↩ 取消已读' : '✅ 回顾完成，标记已读') + '</button></div></div>';
+  document.getElementById('app').innerHTML = h;
+}
+function toggleRead(id){ st.read[id] = !st.read[id]; save(); renderNav(); renderSec(); }
+function renderProg(){
+  const n = SECTIONS.filter(s => st.read[s.id]).length;
+  document.getElementById('prog').innerHTML = '已读 <b>' + n + '</b> / ' + SECTIONS.length + ' 节';
+}
+let speaking = false;
+function stopSpeak(){ speaking = false; try { speechSynthesis.cancel(); } catch(e){} const b = document.getElementById('ttsBtn'); if (b) b.textContent = '🔊 朗读本节'; }
+function speakSection(){
+  const app = document.getElementById('app');
+  const text = app.innerText;
+  const parts = text.split(/(?<=[。；！？])/);
+  const chunks = [];
+  let cur = '';
+  parts.forEach(p => { p = p.trim(); if (!p) return; if ((cur + p).length > 180) { if (cur) chunks.push(cur); cur = p; } else { cur += p; } });
+  if (cur) chunks.push(cur);
+  if (!chunks.length) return;
+  speaking = true;
+  const b = document.getElementById('ttsBtn'); if (b) b.textContent = '⏹ 停止朗读';
+  const u = new SpeechSynthesisUtterance();
+  u.lang = 'zh-CN'; u.rate = 1.05;
+  let i = 0;
+  u.onend = function(){ if (speaking && i < chunks.length) { u.text = chunks[i++]; speechSynthesis.speak(u); } else { stopSpeak(); } };
+  u.onerror = function(){ stopSpeak(); };
+  u.text = chunks[i++];
+  speechSynthesis.speak(u);
+}
+renderNav(); renderSec(); renderProg();
+</script>
+</body>
+</html>
