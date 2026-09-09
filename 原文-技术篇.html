@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>老师原文 · 技术篇</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; padding: 0 0 60px; }
+#topbar { position: sticky; top: 0; z-index: 20; background: #ffffffee; backdrop-filter: blur(8px); border-bottom: 1px solid #e0e6ec; padding: 10px 16px 8px; }
+#topbar .row1 { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; max-width: 940px; margin: 0 auto; }
+#topbar .ttl { font-size: 15.5px; font-weight: 800; color: #1a66d6; }
+#topbar .prog { font-size: 13px; color: #5a6572; font-weight: 700; }
+#topbar .prog b { color: #2e9e5b; }
+#topbar label { font-size: 13.5px; color: #4a5560; cursor: pointer; }
+#topbar a.mini { font-size: 13px; color: #1a66d6; text-decoration: none; font-weight: 600; }
+#topbar button.tts { font-size: 13px; font-weight: 700; color: #fff; background: #2e9e5b; border: none; border-radius: 16px; padding: 6px 14px; cursor: pointer; font-family: inherit; }
+#nav { display: flex; gap: 7px; overflow-x: auto; padding: 10px 16px 2px; max-width: 940px; margin: 0 auto; }
+#nav .grp { flex: 0 0 auto; font-size: 11px; font-weight: 800; color: #8a95a1; align-self: center; padding: 0 2px 0 6px; }
+#nav button { flex: 0 0 auto; padding: 7px 13px; border: 1.5px solid #d3dce4; border-radius: 18px; background: #fff; cursor: pointer; font-size: 13px; color: #4a5560; font-family: inherit; white-space: nowrap; }
+#nav button.on { background: #1a66d6; color: #fff; border-color: #1a66d6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 16px 14px 0; }
+.intro { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 16px 20px; margin-bottom: 14px; }
+.intro p { font-size: 13.6px; color: #5a6572; line-height: 1.9; }
+.card { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 20px 22px; margin-bottom: 14px; }
+h2 { font-size: 19px; }
+.day { display: inline-block; font-size: 12px; font-weight: 800; background: #e3edfb; color: #1a66d6; border-radius: 6px; padding: 2px 9px; margin-left: 8px; }
+.idline { font-size: 13px; color: #7a8694; margin: 4px 0 6px; line-height: 1.8; }
+h3 { font-size: 15px; color: #17427e; margin: 18px 0 6px; border-left: 4px solid #1a66d6; padding-left: 9px; }
+.blk { background: #fbfcfe; border: 1.5px solid #dbe6f2; border-radius: 10px; padding: 11px 14px; margin-bottom: 7px; font-size: 14.2px; line-height: 1.9; }
+.blk b { color: #0f4c9c; }
+.hl { color: #c0392b; font-weight: 800; }
+.n { display: inline-block; background: #e9f7ef; color: #217a45; font-weight: 800; border-radius: 7px; padding: 0 7px; }
+.case { background: #fff8e6; border: 1px solid #eee0ae; border-radius: 10px; padding: 9px 13px; margin: 7px 0; font-size: 13.2px; line-height: 1.8; color: #6b5416; }
+.case b { color: #8a6d1a; }
+.tip { font-size: 12px; color: #8a95a1; margin: 4px 0 0; }
+.golinks { margin: 12px 0 4px; }
+.golinks a { font-size: 13.5px; font-weight: 700; text-decoration: none; background: #1a66d6; color: #fff; border-radius: 9px; padding: 7px 16px; margin-right: 10px; }
+.navrow { display: flex; justify-content: space-between; margin-top: 14px; }
+.navrow button { font-size: 14px; font-weight: 700; padding: 10px 18px; border: 1.5px solid #cfe0f7; border-radius: 10px; background: #fff; color: #1a66d6; cursor: pointer; font-family: inherit; }
+.navrow button:disabled { color: #b9c6d4; border-color: #e4eaf0; cursor: default; }
+.donebar { text-align: center; margin: 10px 0 2px; }
+.donebar button { font-size: 14px; font-weight: 700; padding: 10px 26px; border: none; border-radius: 10px; background: #2e9e5b; color: #fff; cursor: pointer; font-family: inherit; }
+.donebar button.off { background: #b9c6d4; }
+.foot { text-align: center; color: #a8b2bd; font-size: 12.5px; margin-top: 26px; line-height: 1.9; }
+.kd { font-size:12.6px; color:#1a5fa8; background:#eef5fd; border-left:3px solid #7db4e8; border-radius:0 8px 8px 0; padding:7px 11px; margin:6px 0 10px; line-height:1.85; }
+.kd b { color:#155a96; }
+body.hideans .blk { display: none; }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div class="row1">
+    <span class="ttl">📜 老师原文 · 技术篇</span>
+    <span class="prog" id="prog"></span>
+    <label><input type="checkbox" onchange="document.body.classList.toggle('hideans', this.checked)"> 遮住原文自测</label>
+    <button class="tts" id="ttsBtn" onclick="if(speaking){stopSpeak()}else{speakSection()}">🔊 朗读本节</button>
+    <a class="mini" href="老师原文-划重点.html">总览</a><a class="mini" href="原文-法规篇.html">📖法规</a><a class="mini" href="原文-管理篇.html">📗管理</a><a class="mini" style="color:#22303e;font-weight:800;text-decoration:underline" href="原文-技术篇.html">📘技术</a><a class="mini" href="原文-案例篇.html">📙案例</a><a class="mini" href="学习中心.html">← 学习中心</a>
+  </div>
+  <div id="nav"></div>
+</div>
+<div class="wrap">
+  <div class="intro">
+    <p><b style="color:#22303e">这是老师四天课「照PPT念」的原文整理</b>，按讲课顺序分块，做题遇到不确定的知识点就回这里查老师原话。<span class="hl">红色</span>=老师明说必考/重点/容易搞混；<span class="n">绿色数字</span>=时限金额比例人数；黄框=老师讲的一线真实案例。内容不删减，与提纯的「全书背诵」页互补。</p>
+  </div>
+  <div id="app"></div>
+  <div class="foot">督学学长 · 阿严 · 2026-09-09 · 依据四天课堂录音转写整理（修正口语与转写错误）<br>预习 → 听课 → 刷题 → 错题本 → 背诵/原文回顾</div>
+</div>
+<script>
+'use strict';
+const SECTIONS = [
+{ id:'t10', tab:'色标急救', grp:'📘 技术篇', day:'9/10 上午', title:'第十章 安全生产基础知识（安全色标＋现场救护）',
+  law:'题库34题 · 安全色标新国标2026-03-01实施＋九类事故急救',
+  quiz:'10第十章.html', html: `
+<h3>安全色标（2025年5月新强制性国标，2026-03-01实施）</h3>
+<div class="blk">定义：安全色标是<span class="hl">特定的表达安全信息含义的颜色和标志</span>，以形象而醒目的信息语言向人们提供四方面信息：<span class="hl">禁止、警告、指令、提示</span>。起源：二战期间国际交流多、语言不通，用色标解决辨识问题。我国现行标准是<span class="n">2025年5月</span>出台的新强制性国家标准《安全色和安全色标》，<span class="n">2026年3月1日</span>开始实施（老师说：所以咱们教材也是最新的）。安全色定义：表达安全信息的颜色，表示警告、提示、禁止、指令的意义——设置要求<span class="hl">容易辨认而且引人注目</span>，颜色选择结合人们日常习惯和心理效应。</div>
+<div class="blk"><b>四色</b>：<span class="hl">红色</span>＝禁止、停止、危险或提示<span class="hl">消防设施设备</span>——用于禁止标志、交通禁令标志、消防设备标志、<span class="hl">机械停止按钮</span>、刹车停车装置操作手柄、仪表刻度盘（看到红色：这么干是错的）；<span class="hl">蓝色</span>＝必须遵守规定的<span class="hl">指令</span>性信息——必须佩戴防毒面具/安全帽、道路交通标志标线（潜台词：必须按规矩做）；<span class="hl">黄色</span>＝注意<span class="hl">警告</span>——道路交通警告标志、危险机器及坑池周围警戒线、警告信号旗，<span class="hl">黄黑条纹是视认性最高的色彩</span>（潜台词：要小心）；<span class="hl">绿色</span>＝安全的<span class="hl">提示</span>性信息——车间安全通道、<span class="hl">太平门</span>、安全信号旗、<span class="hl">机器启动按钮</span>（看到绿色：照着它做就可以）。四色特点：红比较醒目；蓝的注目性和视认性不太好<span class="hl">但与白色相配效果好、太阳直射下更明显</span>；黄对眼睛能产生比红更高的明度、与黑组成条纹视认性最高；绿视认性注目性不高但产生和平久违安全的心理效应。<div class="kd">📌 考点：题库1~10题全在这张表里——红=禁止停止危险消防+停止按钮；绿=启动按钮/安全通道/应急避难场所；蓝=指令；黄=警告。「必须配戴安全帽」是指令标志用蓝色。启动绿/停止红成对记忆，别答反。</div></div>
+<div class="blk"><b>对比色</b>：使安全色更加醒目的反衬色，只有<span class="hl">黑、白两种</span>。<span class="hl">红、蓝、绿的对比色是白色，黄的对比色是黑色</span>。黑用于安全标志的文字、图形符号和警告标志的几何边框；白用于红蓝绿的背景色和标志文字图形。条纹：等宽度条纹、倾斜<span class="n">45°</span>；<span class="hl">红白条纹</span>＝禁止或提示消防设备（防护栏杆、隔离墩）；<span class="hl">黄黑条纹</span>＝危险位置标记（机械易碰撞部位、移动式起重机外伸腿、起重臂端部）；<span class="hl">蓝白条纹</span>＝指令标记（道路交通指示导向标志、固定指令标志杆色带）；<span class="hl">绿白条纹</span>＝安全环境标记（固定提示标志杆色带）。<div class="kd">📌 考点：题库11/12题——绿色对比色白色、黄色对比色黑色（明色配黑、深色配白）。</div></div>
+<div class="blk"><b>四类安全标志</b>（图形符号＋安全色＋几何形状＋文字构成）：<span class="hl">禁止标志</span>＝带斜杠的圆边框、白色背景、红圆环红斜杠、被禁止行为黑色图形（禁止烟火）；<span class="hl">警告标志</span>＝正三角形、黄色背景、黑边框、黑色图形（当心触电）——关键词注意/当心；<span class="hl">指令标志</span>＝圆形、蓝色背景、白色指令图形（必须戴防护手套）——关键词<span class="hl">必须</span>；<span class="hl">提示标志</span>＝正方形、绿色背景、白色图形文字（紧急出口）＋<span class="hl">方向辅助标志</span>（绿底白箭头长方形）。文字辅助标志：矩形边框、横写竖写两种；横写位置在标志下方（可连可分）；<span class="hl">禁止、指令标志的文字＝白色（衬底为标志色）</span>；<span class="hl">警告标志的文字＝黑色、衬底白色</span>。老师强调：安全标志设置再合理也<span class="hl">只是一种警示，不能消除任何危险、不能代替其他措施</span>（不能代替安全操作规程）。<div class="kd">📌 考点：题库17题四类标志（「操作标志」不存在）；文字辅助横写：禁止白字、指令白字、警告黑字白衬底；竖写「禁止通行」。</div></div>
+<h3>事故现场救护</h3>
+<div class="blk"><b>生命四大体征＋正常值</b>：<span class="hl">呼吸、体温、脉搏、血压</span>（口诀：呼温脉压）。呼吸<span class="n">14~18次/分</span>；体温<span class="n">36~37℃</span>（腋下）；脉率<span class="n">60~100次/分</span>（一般人70~80）；血压收缩压<span class="n">90~140</span>、舒张压<span class="n">60~90</span> mmHg。<b>应急电话</b>：火警<span class="n">119</span>、报警<span class="n">110</span>、交通事故<span class="n">122</span>、医疗急救<span class="n">120</span>——报警要讲清事故类型、简单情况、具体位置、报警人姓名电话；急救电话还要讲清受伤者单位姓名、伤情及已采取措施（让医护准备更充分）。<b>急救箱三类</b>：机械类（血压计体温计剪刀手电筒）＋消毒防护用品（口罩手套消毒纸巾医用酒精）＋常用药品（云南白药创可贴）。<b>急救步骤4步</b>：①调查事故现场（确保救护者伤病员其他人无危险）②初步检查伤病员状态（神志呼吸）③拨打120 ④救护人继续施救坚持到救护人员到场；未发现生命体征要再次检查防遗漏。<div class="kd">📌 考点：题库22~25题——四大体征、呼吸14~18（别和脉搏60~100互换）、舒张压120不正常（120是收缩压上限）；急救电话对应关系。</div></div>
+<div class="blk"><b>触电急救（最重要）</b>：第一步永远是<span class="hl">切断电源</span>；无法切断用<span class="hl">绝缘物体</span>快速将电线挑离身体；高压触电立即拉闸；<span class="hl">只有确认自己没有触电危险时才能救护</span>（先保自己再救人）。神志清醒呼吸心跳正常→抬到温暖地方<span class="hl">静卧，不要站立或走动</span>；呼吸停止脉搏存在→就地平躺<span class="hl">人工呼吸</span>；心跳停止呼吸存在→<span class="hl">胸外心脏按压</span>；呼吸心跳均停止→<span class="hl">人工呼吸＋胸外按压同时进行</span>（心肺复苏）；抢救中<span class="hl">不要随意移动伤员</span>，医务人员没到之前<span class="hl">不停止施救</span>；<span class="hl">严禁对触电者注射强心针</span>。通畅气道时<span class="hl">严禁用枕头等垫在头下</span>。<div class="kd">📌 考点：题库26~31题——创伤急救原则「先抢救后固定再搬运」；触电第一动作脱离电源；有呼吸无心跳=按压、无呼吸有心跳=人工呼吸、都停=两者同时；神志清醒者不能用CPR；判断题「垫枕头」是错的。</div></div>
+<div class="blk"><b>其他八类事故急救要点</b>：<span class="hl">高处坠落</span>——查看现场危险源＋迅速上报＋<span class="hl">尽量不搬动伤员</span>＋确认死亡立即保护现场＋昏迷立即联系120＋大出血止血包扎固定＋<span class="hl">怀疑脊柱受伤或骨折等专业救护人员</span>。<span class="hl">有害气体中毒</span>——立即停止作业控制现场＋报警拨打120（说明中毒症状反应地点）＋报告企业负责人＋<span class="hl">查明原因后将中毒人员移至通风良好空气新鲜处</span>＋保暖＋确保呼吸通畅（<span class="hl">头偏向一侧</span>）＋同时查找中毒原因。<span class="hl">机械伤害</span>——<span class="hl">先切断动力</span>（最重要）再按伤情处理，不盲目施救。<span class="hl">火灾爆炸</span>——立即报警＋启动应急预案按预案自救＋疏散人群＋先确保人身安全、切断电源。<span class="hl">溺水</span>——下水救人要<span class="hl">水性好心理素质强</span>＋<span class="hl">系好安全绳</span>＋携带救生圈漂浮物＋<span class="hl">从落水者背后靠近</span>（避免被抓住）＋前胸伸直对、将其头紧夹在自己胸前拉出水面另一只手划水＋清醒者告知不要挣扎听从指挥＋上岸后<span class="hl">有心跳但呼吸明显阻塞的先排水</span>（单腿跪地屈膝、溺水者腹部置于屈膝大腿上身体下垂）。<span class="hl">交通事故</span>——打急救电话告知交警＋组织自救队伍速送医院＋协助疏通道路。<span class="hl">食物中毒</span>——立即停止食用可疑食品＋<span class="hl">封存</span>＋催吐＋送医院＋排查同餐人员告知医生。<span class="hl">物体打击</span>——迅速上报＋检查、伤情不乱翻动＋昏迷骨折出血立即送医院＋<span class="hl">防止破伤风感染</span>（看起来不严重也要送医院）。<div class="kd">📌 考点：题库32/33题中毒急救判断题——正确做法「查明原因并采取有效安全防护措施后」再移至通风处；神志不清者「头偏向一侧」（脸向上平躺一旦呕吐极易窒息，两题就差四个字）；心肺复苏按压频率100~120次/分、深度5~6厘米（最新国际指南口径）。</div></div>
+` },
+
+{ id:'t11', tab:'消防用电', grp:'📘 技术篇', day:'9/10 全天', title:'第十一章 通用安全技术（防火防爆＋电气安全）',
+  law:'题库94题 · 全书最大失分章（56错/40.4%）· 纯数字记忆章',
+  quiz:'11第十一章.html', html: `
+<h3>防火防爆基础</h3>
+<div class="blk">通信工程常用安全防护措施九类：<span class="hl">防火、用电安全、机具仪表保护、通用设备网络安全、地下设施、低温或雨季施工、公路作业、高处作业、防毒和防坠落</span>。<b>四懂四会</b>：懂本岗位火灾危险性、懂预防火灾措施、懂扑救方法、懂逃生基本技能（懂危险懂预防懂扑火懂逃生）；会报警、会扑救<span class="hl">初起火灾</span>、会使用消防器材、会逃生（组织疏散）。<div class="kd">📌 考点：题库1题——「三懂」不含「懂消防器材的设置要求」（会用器材属三会），懂与会别混淆。</div></div>
+<div class="blk"><b>燃烧</b>：可燃物与氧化剂作用发生的<span class="hl">放热反应</span>，通常伴有火焰发光发烟。三特征＝<span class="hl">发光、发热、生成新物质</span>（区分燃烧和非燃烧的依据）。三要素＝<span class="hl">可燃物（气体液体固体，从易到难）＋氧化剂/助燃物（氧气、含氧化合物）＋引火源</span>（直接火源：明火、电火花、雷电火；间接：加热自燃、本身自燃）。充分条件：一定可燃物浓度＋一定氧气含量＋一定点火能量＋<span class="hl">不受抑制的连锁反应</span>——三要素齐备也不一定烧，充分条件都满足才烧。燃烧过程：气体直接氧化分解燃烧；液体先蒸发；固体熔化蒸发或分解。五种燃烧形式：<span class="hl">扩散燃烧</span>（可燃气体从喷口喷出边扩散边混合边燃烧，典型＝天然气井喷）、<span class="hl">混合燃烧</span>（燃烧前已混合形成一定浓度可燃混合气）、<span class="hl">蒸发燃烧</span>（汽油、乙醚、油脂受热蒸发氧化分解）、<span class="hl">分解燃烧</span>（木材、纸先分解出可燃气体再烧）、<span class="hl">表面燃烧</span>（木炭、焦炭、铁、铜表面直接吸附氧气，不分解）。<div class="kd">📌 考点：题库5~7题就考「哪些物质属于分解燃烧/表面燃烧」——判断关键是受热后先分解（木材纸）还是直接表面反应（木炭焦炭铜）。</div></div>
+<div class="blk"><b>火灾分类六类</b>（ABCDEF）：<span class="hl">A＝固体</span>（木材煤棉毛麻纸张，燃烧产生余烬）；<span class="hl">B＝液体或可熔化固体</span>（汽油乙醇＋<span class="hl">沥青石蜡</span>——可熔化固体算B不算A！）；<span class="hl">C＝气体</span>（煤气天然气氢气甲烷）；<span class="hl">D＝金属</span>（钾钠镁铝镁合金）；<span class="hl">E＝带电火灾</span>（电气）；<span class="hl">F＝烹饪器具内烹饪物</span>（动植物油脂）。<b>火灾分级</b>：与事故分级同口径（313151）——死亡<span class="n">3人以下/3~10/10~30/30以上</span>＝一般/较大/重大/<span class="hl">特别重大</span>；重伤<span class="n">10/50/100</span>三道线。<div class="kd">📌 考点：题库8~16题——石蜡B类、氢气C类、铝镁合金D类、动植物油脂F类；死亡30人＝特别重大（30含本档，最容易误选重大）；重伤50人＝重大（100以上才特大）。</div></div>
+<div class="blk"><b>火灾基本概念</b>：引燃能＝触发初始燃烧化学反应的能量（最小点火能）；诱导期＝可燃性物质和助燃气体混合物在高温下<span class="hl">从开始暴露到起火的时间</span>（着火延滞期，单位<span class="n">毫秒</span>）；<span class="hl">闪燃</span>＝一定温度下可燃液体表面产生足够可燃蒸汽遇火<span class="hl">一闪即灭</span>的燃烧现象；<span class="hl">闪点</span>＝发生闪燃的最低温度——<span class="hl">闪点越低火灾危险性越大</span>（易燃液体按闪点分低中高三类）；燃点＝发生持续燃烧的最低温度（燃点越低越危险）；自燃＝物理化学反应自行燃烧，自燃点＝不用辅助引燃能源自行燃烧的最低温度——<span class="hl">液体固体分解生成的可燃气体挥发物越多自燃点越低、固体粉碎越细自燃点越低</span>；阴燃＝<span class="hl">没有火焰和可见光</span>的燃烧现象（有烟和温度升高），<span class="hl">处于燃烧初期</span>。<b>火灾发展四阶段</b>：<span class="hl">初起期＝扑救火灾的最佳阶段</span>；发展期（火势由小到大，<span class="hl">轰燃发生在发展期</span>）；最盛期（燃烧速度加快面积扩大温度急升、气体对流最快辐射热最强、<span class="hl">火势大小由通风情况决定</span>）；减弱至熄灭期。<b>爆炸</b>＝物质由一种状态迅速转化成另一种状态、瞬间释放巨大能量；特征：过程快＋有声响＋<span class="hl">爆炸点及周围压力急剧升高（最主要特征）</span>＋温度急剧升高＋介质震动破坏；物理爆炸（水蒸气爆炸、液化气罐超压，<span class="hl">爆炸前后化学成分性质不变</span>）vs 化学爆炸（高速放热化学反应，成分性质都变，威力大）；燃烧和爆炸可互相转化。<div class="kd">📌 考点：题库17~19题——闪点越低越危险（判断对）；扑救最佳阶段＝初起期；水蒸气爆炸＝物理爆炸（无化学反应）。</div></div>
+<h3>防火灭火措施与消防设施</h3>
+<div class="blk"><b>灭火四法</b>（原理＝去掉三要素任一）：防火措施＝控制可燃物＋隔离助燃物＋消除引火源＋<span class="hl">阻止火势蔓延</span>（力争扑灭在初始阶段）。灭火方法：<span class="hl">冷却灭火</span>（水浇降温）、<span class="hl">隔离灭火</span>（燃烧物与可燃物分开）、<span class="hl">窒息灭火</span>（着火物与空气隔绝）——<span class="hl">前三种是物理过程</span>；<span class="hl">抑制灭火</span>（灭火剂参与化学反应中断链式反应）——<span class="hl">化学过程</span>；现实中常混合使用。<div class="kd">📌 考点：题库20题——「属于化学过程的灭火方法」＝抑制，误选窒息是把隔绝空气当化学作用。</div></div>
+<div class="blk"><b>灭火剂</b>：<span class="hl">水</span>＝冷却＋窒息，主要用于<span class="hl">A类</span>，缺点水渍损失污染＋<span class="hl">不能扑救带电火灾</span>。<span class="hl">泡沫</span>＝冷却＋窒息，适用<span class="hl">A、B类</span>，不适用<span class="hl">C、D类和带电</span>（抗溶性泡沫可扑水溶性易燃液体）；发泡倍数：低倍20以下/中倍21~200/高倍201~1000。<span class="hl">干粉</span>＝化学抑制＋窒息，适用石油可燃液体可燃气体，<span class="hl">有5万伏以上电绝缘性能可扑救带电设备火灾</span>（题：1000伏能不能用干粉？可以），磷酸铵盐干粉还可扑固体初起火灾，<span class="hl">不能扑救轻金属火灾</span>；缺点污染精密仪器。<span class="hl">二氧化碳</span>＝窒息为主（冷却为辅），适用A、B类＋<span class="n">600伏以下</span>低压带电；缺点救援人员可能窒息受害。<span class="hl">卤代烷</span>＝化学抑制＋稀释氧＋冷却，破坏臭氧层已被取代。<span class="hl">七氟丙烷</span>＝化学灭火为主，低浓度可靠扑BC类及电气火灾，替代1211/1301；全淹没方式扑电气、液体、可熔固体、固体表面火灾＋灭火前能切断气源的气体火灾。<span class="hl">烟雾灭火剂</span>＝硝酸钾木炭硫磺三聚氰铵碳酸氢钾粉状混合物，窒息灭火，适用缺水交通不便油罐少而分散的偏远地区＋柴油原油重油小型钢制油罐、直径3米以下储罐。<span class="hl">混合气体（IG-541）</span>＝<span class="hl">氮气＋氩气＋二氧化碳</span>混合，稀释氧浓度，可扑电气火灾，<span class="hl">不能扑D类活泼金属</span>。<div class="kd">📌 考点：题库21~28题——泡沫不能扑氢气（C类）；能扑1kV以上高压带电＝干粉；干粉不能扑轻金属；二氧化碳原理＝窒息；混合气体成分氮氩二氧化碳（不含氧气）。这是你56错的重灾区，对照这张表过两遍。</div></div>
+<div class="blk"><b>消防设施与器材</b>：消防设施＝火灾自动报警系统、自动灭火系统、消火栓系统、防烟排烟系统、应急广播、应急照明、安全疏散设施；消防器材＝灭火器等<span class="hl">移动</span>灭火器材和工具（两者定义不同）。火灾自动报警系统四部分＝<span class="hl">触发器件＋火灾报警装置＋火灾警报装置＋电源</span>（多选就选这4个）；报警装置＝接收显示传递火灾报警信号并发出控制信号（<span class="hl">火灾报警控制器是核心</span>）；警报装置＝声光音响方式向报警区域发信号；消防控制设备一般设在消防控制中心。自动灭火系统两类＝自动水灭火（室内外消火栓、自动喷水、水幕、水喷雾）＋自动气体灭火（平时液体/液化气体存储、灭火时气态喷射）。灭火器三组成＝<span class="hl">筒体、器头、喷嘴</span>，扑救<span class="hl">初起火灾</span>的重要器材。通信机房：常用<span class="hl">干粉＋二氧化碳</span>灭火器（七氟丙烷越来越多）＋网状自动灭火系统（启动方式三种：<span class="hl">自动、手动、机械应急</span>；按灭火剂分二氧化碳、七氟丙烷、混合气体三类）。机房封堵材料：柔性有机堵料（胶泥状）、阻火包（<span class="hl">较大孔洞或电缆桥架防火分隔</span>）、防火封堵板材（大型孔洞）、无机涂料、阻火模块、泡沫封堵（自行膨胀）、缝隙封堵、防火密封胶（液态）、阻火包袋（缠绕塑料管道）。<div class="kd">📌 考点：题库29~33题——报警系统四件套（自动灭火属联动不算）；核心＝火灾报警控制器；机房封堵常用＝柔性有机堵料＋阻火包＋防火封堵板材（泡沫不算）。</div></div>
+<h3>现场防火与气瓶</h3>
+<div class="blk"><b>现场防火措施</b>：光电缆室<span class="hl">严禁烟火</span>；施工车辆进入禁火区<span class="hl">加装排气管防火装置</span>；油漆作业保持通风；机房内严禁放置易燃易爆物品；机房<span class="hl">架空地板必须采用非燃烧材料</span>；建筑内管道井电缆井在<span class="hl">每层楼板处</span>用不低于楼板耐火极限的非燃烧体或防火封堵材料封堵；用电工具做好绝缘接地、严禁超负荷运转；易燃易爆场所用防爆式用电工具。<b>喷灯</b>：点燃或修理时与易燃可燃物保持安全距离；向高处传送<span class="hl">用绳子吊运</span>；用完及时关闭油门并放气；随用随点燃、不用立即关闭。<b>电气焊</b>：焊接现场有防火措施；<span class="hl">禁火区内严禁焊接切割</span>，非做不可把工件移到指定安全区域，必须在禁火区作业的要<span class="hl">报批（施工许可证）＋可靠防护措施</span>；<span class="n">5级以上大风</span>不得露天焊接切割；操作人员保证<span class="hl">气瓶距火源10米以上</span>（老师口径；题库按15米答）；焊接戴防护眼镜穿电焊服。<div class="kd">📌 考点（双口径）：气瓶距火源距离——老师课上说10米以上，题库34/38题按「15米」给分（气焊气割15米、氧气瓶与明火15米）。考前以题库15米做题，教材原文待你查证后我统一改。</div></div>
+<div class="blk"><b>氧气瓶</b>：组成＝瓶体、瓶箍、瓶阀、瓶帽4部分＋外部两个防震胶圈；<span class="hl">瓶体天蓝色、「氧气」两字黑漆</span>。安全要求：定期检验；运输佩戴防护帽；<span class="hl">严禁与乙炔瓶同时存放、同时运输</span>；<span class="hl">直立放置、禁止倒置</span>；开启时操作者站在<span class="hl">出气口侧面</span>；气体经减压阀减压；专用减压阀、螺扣上紧、开阀缓慢；<span class="hl">严禁与油类接触</span>（附近不得有油）；避免暴晒远离火源，与明火距离<span class="hl">不小于10米</span>、移动困难时不得小于5米且加可靠隔热防护措施；检查漏气<span class="hl">严禁用明火</span>；<span class="hl">瓶内气体不能用完要留余气</span>（防外界空气进入）。<b>乙炔瓶</b>：优质碳素钢或低合金钢压制的圆柱形无缝瓶体；<span class="hl">瓶体白色、「乙炔」两字红色</span>（口诀：氧蓝黑、炔白红）。安全要求：按规定期检验、严禁超期使用；运输<span class="hl">直立固定</span>；严禁与氧气瓶同车运输；与明火距离至少<span class="n">10米</span>；环境超<span class="n">40℃</span>采取降温措施；<span class="hl">5米之内严禁存放易燃易爆物质</span>；装专用减压器；开启时操作者站<span class="hl">瓶口侧后方</span>（与氧气瓶的「侧面」有差别）；拧开瓶阀<span class="hl">不超过15转</span>；严禁用火烤漏；瓶内留余压。<div class="kd">📌 考点：题库36~41题——氧瓶天蓝黑字、炔瓶白体红字（两题连考瓶色+字色）；乙炔瓶与易燃易爆≥10米；「瓶内气体全部用完再灌装」是错的（要留余压防倒灌）。</div></div>
+<h3>电气安全技术</h3>
+<div class="blk"><b>电气事故</b>：由<span class="hl">电流、电磁场、雷电、静电</span>和某些电路故障直接或间接造成建筑设施电气设备毁坏、人动物伤亡、火灾爆炸的事件。五种分类口径：按灾害形式＝<span class="hl">人身事故、设备事故、电气火灾、爆炸事故</span>；按伤亡程度＝死/重伤/轻伤；按严重性＝特大/重大/一般；按电路状况＝短路、断线、接地、漏电；按基本原因＝触电、射频伤害、电路故障、雷电和静电。<span class="hl">最常见＝触电事故</span>；无论哪种，本质都是<span class="hl">电流电荷电磁场能量不适当释放或转移</span>；射频伤害→中枢神经系统功能失调（神经衰弱、头痛头晕睡眠失调）。<div class="kd">📌 考点：题库43/44题——「接地漏电事故」是按电路状况分的不属按灾害形式；「能量不适当释放或转移」判断题是对的。</div></div>
+<div class="blk"><b>电流对人体的作用</b>：伤害程度与<span class="hl">电流大小、频率、持续时间、流经途径、健康状况</span>五因素有关。<span class="hl">50Hz工频最危险</span>（最容易诱发室颤）；<span class="hl">直流比交流容易摆脱</span>（判断题「交流更容易摆脱」是错的）。时间长→能量积累＋<span class="hl">与易损期重合可能性增大</span>（心脏收缩扩张周期中约<span class="n">0.1~0.2秒</span>为易损期）＋人体电阻下降。途径：<span class="hl">左手到前胸最危险</span>（过心脏）；通过心脏可致死、通过中枢神经严重失调致死、通过脊髓致肢体瘫痪；<span class="hl">没有不危险的途径</span>。<span class="hl">儿童比大人敏感、女性比男性敏感、心脏病患者死亡率高</span>。关键数字：感知电流工频男<span class="n">1.1mA</span>/女<span class="n">0.7mA</span>；直流感觉阈值<span class="n">2mA</span>；摆脱电流（50%概率）男<span class="n">16mA</span>/女<span class="n">10.5mA</span>；（99.5%概率）男<span class="n">10.5mA</span>/女<span class="n">9mA</span>；室颤电流——持续时间<span class="hl">超过心脏跳动周期约50mA</span>、<span class="hl">短于周期约500mA</span>；20~300Hz交流伤害最严重；直流300mA以上无确定摆脱阈值；持续时间小于200ms时直流室颤阈值与交流大致相同；人体电阻越小越危险、<span class="hl">皮肤电阻最大</span>。<div class="kd">📌 考点：题库45~54题全是这张数字表（你错过最多的一段）——记法：感知1.1/0.7、摆脱16/10.5（50%）、10.5/9（99.5%）、室颤50（超周期）/500（短于周期）、直流感觉2mA。</div></div>
+<div class="blk"><b>电击与电伤</b>：电击＝电流通过人体内部（损害心脏肺中枢神经），<span class="hl">绝大部分触电死亡事故是电击造成</span>，通常说的触电就是指电击；电伤＝体表局部伤害（较轻微），包括<span class="hl">电烧伤、皮肤金属化、电烙印、机械性损伤、电光眼</span>。常见触电方式：单相触电、两相触电、跨步电压触电、接触电压触电、人体接近高压触电、停电设备上工作突然来电（<span class="hl">没有「三相触电」的提法</span>）。跨步电压：安全工作规程要求<span class="hl">户外不要走近高压电线落地点8米以内、户内4米以内</span>（老师口径；题库58题按「户内10米」给分——双口径见页尾汇总）。触电原因：缺乏用电常识＋违规作业（雨天露天使用电动工具）＋设备线路安装不合格＋维修不善＋偶然因素。触电事故规律：<span class="hl">夏秋两季多</span>（季节性）；<span class="hl">低压设备触电多</span>（1kV以下低压、重视程度低）；移动式设备多；<span class="hl">触头和连接部位</span>多；临时性施工工地多；农村多（防电意识弱乱接多）；中青年人和非专业电工多；错误操作多。<div class="kd">📌 考点：题库55~59题——绝大部分死亡＝电击；电伤三典型＝电烧伤电烙印电光眼（间接接触电击不算电伤形式）；1kV＝高低压分界。</div></div>
+<div class="blk"><b>触电防护技术三大类</b>：<span class="hl">绝缘、屏护、间距＝防止直接接触电击最基本最重要</span>的技术措施；<span class="hl">保护接地、保护接零＝防止间接接触电击最基本</span>的措施；安全电压、漏电保护、加强绝缘、电气隔离、不导电环境＝直接间接都防。绝缘三种：气体、液体、固体——气液绝缘<span class="hl">击穿后可恢复</span>、固体击穿<span class="hl">不能恢复</span>且易老化，但气液需容器使用不便所以多用固体；绝缘性能衡量指标＝绝缘电阻（最基本，<span class="hl">摇表测量</span>）、耐压强度、泄漏电流、介质损耗。<b>屏护</b>：遮栏、护罩、护盖、闸等把带电体与外界隔开；屏护装置不直接与带电体接触、对材料电气性能无严格严格要求；网眼屏护装置网眼<span class="n">20×20~40×40mm</span>；<span class="hl">室外地上变压器及车间公共场所变配电装置均需装设遮栏或栅栏</span>；遮栏高度<span class="hl">不低于1.7米、下部边缘离地不超0.1米</span>；临时栅栏<span class="hl">户内不低于1.2米、户外不低于1.5米</span>（内低外高）；低压设备栅栏与裸导体距离不小于<span class="n">0.8米</span>、栏条间距不超<span class="n">0.2米</span>；户外变电装置围墙不低于<span class="n">2.5米</span>；屏护装置不能与带电体接触；金属屏护装置要接地或接零。<b>间距</b>：安全距离大小取决于电压高低、设备类型、安装方式，必须符合国家标准。<div class="kd">📌 考点：题库60~63题——绝缘屏护间距＝直接接触最基本（接地接零是间接的）；气液击穿可恢复判断题；栅栏内1.2外1.5。</div></div>
+<div class="blk"><b>保护接地与保护接零</b>：<span class="hl">IT系统</span>＝电源带电部分不接地或通过阻抗接地＋设备外露导电部分接地（最古老、应用最广泛；交直流高低压都适用；原理＝给人并联小电阻减少人体电流电压）；低压不接地配电网（380V）一般要求接地电阻<span class="hl">小于4欧姆</span>，变压器发电机容量不超过100kVA时可放宽到<span class="n">10欧姆</span>。<span class="hl">TT系统</span>＝中性点直接接地的三相四线＋设备外露导电部分经PE线接<span class="hl">独立接地体</span>；单相触电时人体承受电压接近相电压、危险性大，所以一般不用（除非其他防间接接触措施困难＋土壤电阻率低＋配快速切除故障的漏保）；适用＝未装配电变压器、从外面引进低压电源的小型用户。<span class="hl">TN系统</span>＝设备外露金属部分与电网保护零线紧密连接；<span class="hl">工作零线N（中性线）与保护零线PE要区分</span>：TN-S＝N与PE<span class="hl">完全分开</span>（用于爆炸危险、火灾危险性大、安全要求高场所＋独立附设变压器的车间）；TN-C-S＝前段共用后段分开（总变电站厂区内高压配电＋居民楼）；TN-C＝完全共用（无爆炸危险、火灾危险不大、设备少线路简单）。注意事项：同一低压电网（同一台变压器或发电机供电）<span class="hl">不允许保护接地和保护接零混用</span>；工作接地零线不能断开、<span class="hl">三相四线零线上不能装熔断器和开关</span>；零线截面一般不小于相线<span class="hl">1/2</span>＋机械强度：铜线不小于<span class="n">1.5mm²</span>、铝线<span class="n">2.5mm²</span>、裸线加大到<span class="n">4/6mm²</span>；保护零线最好不用铝线；<span class="hl">单相负荷线路保护零线不得借用工作零线</span>；保护接零非万无一失——只能消除外壳与火线连接的严重故障、不能排除外壳漏电，所以要<span class="hl">加装电流型漏电保护器</span>。<div class="kd">📌 考点：题库64题——TN系统错误做法＝单相负荷保护零线借用工作零线。</div></div>
+<div class="blk"><b>双重绝缘与安全电压</b>：基本绝缘＋附加绝缘＝双重绝缘（二类工具采用）；加强绝缘＝单一绝缘达到双重防护程度。双重绝缘优点：基本绝缘破坏后仍有附加绝缘不触电＋不依赖接地使用方便。<span class="hl">安全电压</span>＝50V以下特定电源供电的电压系列，额定值5档：<span class="n">42、36、24、12、6伏</span>；采用24V以上时必须另加防直接接触电击的措施。<span class="n">42V</span>＝特别危险环境手持电动工具；<span class="n">36V和24V</span>＝有电击危险环境的手持照明灯和局部照明灯；<span class="n">12V</span>＝金属容器内、隧道内、水井内及周围有大面积接地导体等狭窄行动不便环境＋特别潮湿环境（老师口径）；潮湿沟坑内12V及以下；<span class="n">6V</span>＝水下作业。<div class="kd">📌 考点（双口径）：题库65题「金属容器内…应采用（24V）」——老师课上说这些场所「只能用12伏」。题库按24V给分；教材表格待你查证（可能与有限空间照明≤24V的表混了）。</div></div>
+<div class="blk"><b>漏电保护装置</b>（剩余电流保护装置）：主要用于<span class="hl">1kV以下低压系统</span>（高压系统只作检测漏电用）。两类：电压型（简单，<span class="hl">只能防间接接触</span>）；电流型（复杂，<span class="hl">直接间接都能防</span>）。额定动作电流分级：<span class="hl">高灵敏度30mA及以下</span>＝防人身触电；中灵敏度<span class="n">30~1000mA</span>（50/75/100/200/300/500/1000）＝防触电＋漏电火灾；低灵敏度<span class="n">1000mA以上</span>（3000/5000/10000/20000）＝防漏电火灾＋监视一相接地。<span class="hl">额定不动作电流不得低于额定动作电流的1/2</span>（防误动作）。选用：手握式用电设备<span class="n">15mA</span>；环境恶劣潮湿<span class="n">6~10mA</span>；医疗电器<span class="n">6mA</span>；建筑施工工地<span class="n">15~30mA</span>；家用电器<span class="n">30mA</span>；成套开关柜分配电盘100mA以上；防止电气火灾选<span class="n">300mA</span>。<div class="kd">📌 考点：题库66~71题——电流型漏保直接间接都防（「只能防间接」说错）；高灵敏度档6/15/30；防人身触电选高灵敏度；监视一相接地选低灵敏度；不动作电流≥动作电流1/2。</div></div>
+<div class="blk"><b>三级配电两级保护</b>：施工现场临时用电专用电源（中性点直接接地的220/380V三相四线→<span class="hl">三相五线</span>）必须：<span class="hl">三级配电系统（总配电箱→分配电箱→开关箱）＋TN-S接零保护系统＋二级漏电保护系统</span>（三大强制）。每台用电设备<span class="hl">专用开关箱、一机一箱</span>，严禁同一开关箱直接控制两台及以上设备（插座也算用电设备）。配电箱开关箱<span class="hl">底部距地面不小于1.3米</span>；开关箱与固定式用电设备水平距离不超过<span class="hl">3米</span>（老师口径；题库77题按4米给分）；分配电箱与开关箱之间不超过<span class="n">30米</span>；总配电箱设在靠近电源区域、分配电箱设在用电设备或负荷相对集中区域；照明配电与动力配电<span class="hl">分别设置自成独立系统</span>（动力停电不影响照明）。二级漏保配合：开关箱内装一级（末级）＋上一级分配电箱或总配电箱再装一级；开关箱漏保额定动作电流<span class="hl">不大于30mA、动作时间不大于0.1秒</span>；潮湿有腐蚀介质场所用防溅型、不大于<span class="n">15mA</span>/0.1s；总配电箱漏保<span class="hl">大于30mA、大于0.1秒、且电流×时间乘积不大于30mA·s</span>（与开关箱刚好相反）。<b>相色</b>：<span class="hl">A相黄、B相绿、C相红、工作零线淡蓝、专用保护零线黄绿双色</span>。<b>插座</b>：两孔<span class="hl">左零右火</span>；三孔左零右火上接地；四孔上孔接保护零线＋ABC三相；接地孔（较粗）<span class="hl">必须在顶部不得倒置</span>；两孔插座<span class="hl">水平并列安装、不得垂直并列</span>；插头插座配套、严禁导线直接插入插座孔。<b>照明</b>：一般220V；<span class="hl">照明相线必须经过开关才能进入灯具</span>；<span class="n">150瓦以上</span>灯泡不得用胶木灯具；人孔内天花板竖井内行灯≤<span class="n">36伏</span>；潮湿沟坑<span class="n">12伏</span>；水下<span class="n">6伏</span>；台灯移动式照明避免碰碎。<b>低压带电作业</b>断开导线：先断<span class="hl">相线</span>后断零线（恢复相反）。<div class="kd">📌 考点：题库74~81题——三级配电+TN-S+两级漏保三大强制（判断题全对）；开关箱与设备距离题库口径4米；配电箱底1.3米；人孔行灯36伏；照明开关串在相线上；先相线后零线。</div></div>
+<div class="blk"><b>用电工具与雷电</b>：使用前检查（手柄破损导线老化不用）；电源线不随意接长拆换；插头不随意拆除；雨水潮湿场所禁止使用电动工具；锋刃工具运输存放<span class="hl">平放、刃口朝下向内</span>；千斤顶不得超负荷、旋升最大行程不得超过丝杠总长<span class="hl">3/5</span>。雷电事故特点：<span class="hl">时间很短、电流强度很大</span>、破坏力强（伤人畜、引起火灾），通信设施必须有防雷措施。<div class="kd">📌 考点：题库82~85题——锋刃工具「刃口朝上或向外」是错的；千斤顶行程3/5（不是2/3）；工具传递先断电；仪表使用：金属外壳接地、激光不对眼、耐压测试先放电且测试前断开电缆与设备。</div></div>
+<div class="kd">📌 <b>本章双口径汇总（做题按题库，教材待查证）</b>：①气瓶距火源——老师10米/题库15米；②开关箱与设备距离——老师3米/题库4米；③户内电线落地点——老师4米/题库10米；④金属容器安全电压——老师12伏/题库24伏。查完书告诉我正确口径，我统一改题库和本页。</div>
+` },
+
+{ id:'t12', tab:'有限空间高处', grp:'📘 技术篇', day:'9/10 下午', title:'第十二章 防护用品＋有限空间＋高处作业',
+  law:'题库45题 · 气体限值数字表＋高处作业分级',
+  quiz:'12第十二章.html', html: `
+<h3>有限空间作业</h3>
+<div class="blk"><b>气体浓度限值（下井前逐项对照）</b>：氧气<span class="hl">19.5%~23.5%</span>为正常；硫化氢低于<span class="n">10mg/m³</span>；一氧化碳小于<span class="n">30mg/m³</span>；甲烷浓度限值（老师口播数值转写存疑，见页尾双口径）；二氧化碳低于<span class="n">2%</span>。<b>气体分布</b>（密度不同位置不同）：氧气<span class="hl">中下部</span>（密度比空气略大）；硫化氢<span class="hl">下部</span>；一氧化碳<span class="hl">中部</span>（与空气比重差不多）；甲烷<span class="hl">上部</span>；二氧化碳<span class="hl">下部</span>——中毒或窒息发生的位置也有差异。<div class="kd">📌 考点：题库29题判断能否下井——氧20%（≥19.5达标）、CO 28mg/m³（<30达标）、CH₄不超限可下井；CO 3%、H₂S 12mg/m³（超10）严重超标。题库31题「人孔下部的气体」＝硫化氢（重气沉底）。</div></div>
+<div class="blk"><b>氧气浓度与人体反应</b>（题库会反过来给浓度问反应）：<span class="n">19.5~23.5</span>正常呼吸；<span class="n">15~19</span>疲惫、能力降低；<span class="n">12~14</span>呼吸急促脉搏加快；<span class="n">10~12</span>呼吸减弱；<span class="n">8~10</span>神志不清；<span class="n">6~8</span>——老师：超过8分钟基本没救，<span class="hl">6分钟以内50%死亡率、4~5分钟可能恢复</span>；<span class="n">4~6</span>浓度只要<span class="n">40秒</span>就昏迷抽搐呼吸停止死亡。<b>硫化氢浓度反应</b>：0.012~0.03只有嗅觉（闻到臭味）；<span class="n">10mg</span>可停留8小时；<span class="n">70~150mg</span>呼吸道眼刺激、几分钟嗅觉疲劳、最多停留1~2小时；<span class="hl">大于1000mg/m³瞬间死亡</span>（剧毒——低浓度臭鸡蛋味、高浓度麻痹嗅神经反而闻不到）。<b>一氧化碳</b>：低于30mg较长时间工作；<span class="n">30~50</span>连续工作不超1小时；<span class="n">100~200</span>连续工作不超20分钟；每次工作时间间隔<span class="hl">大于2小时</span>。</div>
+<div class="blk"><b>气体检测仪</b>：固定式（工业装置生产过程、安装在特定检测点）＋便携式（连续实时监测显示浓度、达报警值实时报警、操作方便体积小）。便携式按传感器数量分<span class="hl">单一式</span>（一个传感器一种气体）和<span class="hl">复合式</span>（多种）——<span class="hl">有限空间主要用复合式</span>（里面气体多，单一式测不全）。便携式要求：符合<span class="n">2024年</span>发布标准；<span class="hl">每年至少检定或校准一次</span>；外观检查合格后洁净空气下开机、<span class="hl">确认零点正常</span>再检测；数据异常手动置零；泵吸式确保采样棒采样管完好；<span class="hl">使用后让数据回归零点再关机</span>。<b>检测方法</b>：从<span class="hl">入口开始沿人员进入方向</span>进行；垂直方向<span class="hl">由上至下、检测点不少于3个</span>；水平方向<span class="hl">由近至远、不少于2个</span>。可燃气体比重轻多分布于人孔<span class="hl">上部</span>、一氧化碳<span class="hl">中部</span>、硫化氢<span class="hl">下部</span>。完整的人孔气体检测仪五功能＝<span class="hl">内置泵吸＋停泵警报＋多气体检测＋氧检测（防缺氧负氧）＋体积小巧</span>。通信工程人孔作业选用<span class="hl">复合式、泵吸式</span>气体检测报警器。<div class="kd">📌 考点：题库30题垂直方向至少3个点（只测2个是错的）；32题五功能多选；「固定式」不适合流动巡检人孔。</div></div>
+<div class="blk"><b>危害与特点</b>：危害四类＝<span class="hl">中毒（硫化氢、一氧化碳）＋缺氧（二氧化碳、甲烷）＋燃爆＋其他（坠落溺水物体打击）</span>。特点：可以导致死亡（<span class="hl">高风险作业</span>）＋<span class="hl">大多数情况下可以预防</span>（教育培训＋制度＋防护用品）＋发生地点多样化＋隐蔽并难以探测＋多种危害共同存在（硫化氢中毒＋缺氧同时存在）＋突发性（检测时没问题、作业中突然涌出大量有毒气体）。事故特点（老师讲得动情）：①作业人员对有限空间概念陌生、威胁意识不足（有限空间作业证目前只有北京上海有）→事故高发 ②监护救援人员知识匮乏→<span class="hl">多名救援人员营救时死亡</span>（施工队多是乡亲，一个跳下去救人一个个都中毒）③救援设备缺失导致高死亡率。<div class="case">老师案例：农村自建房窗户旁的废弃电缆与网络线碰线，两三岁小孩碰窗户触电身亡——事后连是电缆漏电还是网络线造成都无法查清。「说起来都是很伤心的事情」。</span></div>
+<div class="blk"><b>防护用品与安全器具</b>：呼吸防护用品＝<span class="hl">隔绝式＋过滤式</span>两种；防坠落防护用品＝<span class="hl">全身式安全带＋自控器＋安全绳＋三脚架</span>（有限空间用全身式，救援提拉受力分布全身不易滑脱）；其他个体防护＝安全帽、防护服、防护手套、防护镜、防护鞋。安全器具五类＝<span class="hl">通风设备、照明设备、通信设备、围挡设备、警示设施</span>；移动式风机对有限空间强制通风，有<span class="hl">送风和排风</span>两种方式；照明常用头灯手电，电压<span class="hl">不大于24伏</span>、积水结露潮湿环境<span class="hl">不大于12伏</span>（与第十一章安全电压表对照记）。<b>通信工程有限空间作业五要求</b>（51号规定）：①<span class="hl">作业审批制度，严禁擅自进入</span> ②<span class="hl">先通风、再检测、后作业</span>——严禁检测不合格作业、严禁把顺序反过来（选择题判断题高频）③配备<span class="hl">个人防中毒窒息防护装备</span>＋设置安全警示标志＋监护措施（监护全程不得离开、不得进入参与作业、<span class="hl">严禁盲目施救</span>）④安全培训 ⑤制定应急措施。<div class="kd">📌 考点：题库23题「架空交接箱平台」不属于有限空间（露天通风）；24/25题缺氧红线＝氧含量低于19.5%；26题硫化氢超10mg/m³严禁长时间作业；27题硫化氢剧毒（甲烷二氧化碳是窒息不是毒）。</div></div>
+<h3>高处作业</h3>
+<div class="blk"><b>定义</b>：凡在<span class="hl">坠落高度基准面2米以上（含2米）</span>有可能坠落的高处进行的作业（所以要登高证——只要基准面2米以上有可能坠落都算）。坠落高度基准面＝<span class="hl">通过可能坠落范围内最低处的水平面</span>；建筑物内作业时在2米以上的架子上操作也是高处作业；可能坠落范围半径＝以作业位置为中心、可能坠落范围半径为半径的柱形空间；基础高度＝以作业位置为中心、<span class="n">6米</span>为半径划出的柱形空间内最低处与作业位置之间的高度。<b>五种基本类型</b>：<span class="hl">临边、洞口、攀登、悬空、交叉</span>。临边作业＝工作边<span class="hl">无防护或防护设施高度低于800mm</span>的高处作业（楼板边、楼梯段边）；洞口作业＝地面楼面墙面等可能使人和物料坠落、<span class="hl">坠落高度大于等于2米</span>的洞口处作业。</div>
+<div class="blk"><b>直接引起坠落的客观危险因素</b>（GB3608，老师逐条念的）：①<span class="hl">阵风风力五级（风速8.0m/s以上）</span> ②高温作业<span class="hl">二级或以上</span>（参照职业病危害作业分级）③低温——<span class="hl">平均气温等于或低于5℃</span> ④接触冷水温度等于或低于<span class="n">12℃</span>（老师口径；题库按10℃给分——双口径见页尾）⑤作业场地有<span class="hl">冰雪、霜、水、油</span>等光滑物 ⑥<span class="hl">光线不足、能见度差</span> ⑦作业范围与危险电压带电体距离小于规定距离 ⑧立足面不是平面或只有很小的平面（任意一边小于<span class="n">500mm</span>的矩形、直径小于500mm的圆形或类似）⑨<span class="hl">三级或三级以上</span>体力劳动强度 ⑩存在有毒气体或空气中<span class="hl">含氧量低于19.5%</span>的作业环境。<b>作业区与危险电压带电体距离</b>（GB3608口径）：<span class="n">10kV以下1.7米｜30kV 2米｜63~110kV 2.5米｜220kV 4米｜330kV 5米｜500kV以上6米</span>（老师说通信实际工作推荐不低于2.5米和4米，考试以书为准）。<div class="kd">📌 考点：题库34题——四级风未达标准不算、距380V电力线2米满足安全要求不算；「接触水温10℃」是题库口径（老师课上说12℃）。</div></div>
+<div class="blk"><b>高处作业分级</b>：按作业高度分四级——<span class="hl">2~5米一级｜5~15米二级｜15~30米三级｜30米以上特级（四级）</span>。老师举例：线路绑扎到5.5米高作业＝5~15米档＝<span class="hl">二级</span>。<span class="hl">存在客观危险因素→作业等级提升1级</span>（最高还是四级）：比如人站在10米高度（本应二级）同时存在低温3℃环境→答<span class="hl">三级</span>。可能坠落范围半径（基础高度2~5米→半径3米；5~15米→<span class="n">4米</span>；15~20米→5米；20米以上→<span class="n">6米</span>）。<b>高处作业规矩</b>（题库口径，老师录音未及展开）：坠落的主观原因＝<span class="hl">作业中接听手机等注意力分散</span>（风力大地面不平是客观）；安全三宝＝<span class="hl">安全帽、安全带、安全网</span>（安全鞋不算）；高低温环境作业时间<span class="hl">「不宜」</span>过长（不是禁止/严禁）；五级风禁塔上作业、<span class="hl">六级风停吊装</span>；上下塔两人间距<span class="n">3米</span>以上；<span class="hl">严禁无防护立体交叉作业</span>；梯子架设在吊线上<span class="hl">高出吊线30厘米</span>；人字梯两梯夹角<span class="n">40°</span>＋防张开拉链；楼顶无围栏时<span class="hl">距边沿1.5米处围1米高警戒线</span>。<div class="kd">📌 考点：题库35~37、39~45题——5.5米＝二级；基础高度10米→坠落半径4米；20米→6米；高低温「不宜」；梯子30cm、人字梯40°、楼顶1.5米+1米、吊装六级风。</div></div>
+<h3>个体防护用品（题库补充，等老师录音补原文）</h3>
+<div class="blk">安全帽：通信施工不属「一般作业」，<span class="hl">不能选Y类一般作业帽</span>；塑料安全帽有效期<span class="n">3年</span>（植物枝条编织2年、玻璃钢3年半）；戴帽后头顶与帽体内顶部保留<span class="n">35mm</span>垂直缓冲空间。安全带：铁塔上＝<span class="hl">通用悬挂双背带式（有腿带）</span>；攀登独杆塔＝<span class="hl">自锁式</span>（无平台挂点）；人孔作业＝<span class="hl">全身式</span>；后备保护绳超过<span class="n">3米</span>加缓冲器；使用<span class="n">2年</span>后按批量抽检一次；挂点<span class="hl">高挂低用</span>（低挂高用坠落冲击成倍增加）。绝缘防护：耐压5kV的电绝缘鞋用于<span class="hl">1kV及以下</span>环境（1kV以上穿电绝缘胶靴或聚合材料靴）。器材搬运：木杆最多<span class="n">2层</span>（库房垫木掩牢可8层）、水泥杆<span class="n">2层</span>；装卸跳板无木结坚实木板厚度最小<span class="n">60mm</span>；人工搬运男工≤<span class="n">40公斤</span>、女工≤<span class="n">20公斤</span>；光缆盘按盘绕方向滚动。文明施工围挡：市区主路段、市容景观道路及机场码头车站广场不低于<span class="n">1.8米</span>，一般路段不低于<span class="n">1.2米</span>。高速公路作业：警示标志按<span class="hl">警告区—上游过渡区—缓冲区—作业区—下游过渡区—终止区</span>顺序摆放（各区规格不同）。<div class="kd">📌 考点：这批数字题（1/3/4/5/6/7/8/9/10/13/14/16~21题）都在这块——安全帽3年/35mm、铁塔双背带、独杆塔自锁、人孔全身式、3米缓冲器、高挂低用、5kV绝缘鞋→1kV、木杆水泥杆2层、跳板60mm、男40女20、围挡1.8/1.2、高速六区。</div></div>
+<div class="kd">📌 <b>本章双口径（做题按题库口径）</b>：①接触冷水温度——老师12℃/题库10℃；②甲烷浓度限值——老师口播「低于52%」转写明显存疑（疑为5%或5.2%），题库29题按「甲烷10%不超限」判可下井；教材表格待你查证。</div>
+` },
+
+{ id:'t13', tab:'⑬待补', grp:'📘 技术篇', day:'9/10 下午 · 录音待发', title:'第十三章 通信工程施工技术（等老师下午场录音）',
+  law:'题库66题 · 管道/架空/设备安装/铁塔/拆除',
+  quiz:'13第十三章.html', html: `
+<div class="blk">老师9/10下午场讲施工技术＋案例的录音还没发我，发来后这里补原文。先给你<strong>本章判分结果</strong>：66题对34题（<span class="hl">51.5%，32错</span>），已全部注入错题本＋速记卡9张。你这次错得集中的四块：</div>
+<div class="blk">①<span class="hl">安全距离三连</span>：10kV附近架空作业2.5米（你选D）｜电信电缆与电力线合杆净距2.5米且电信在下方（你选B）｜光缆与低压电力线交越绝缘延伸1.5米（你选C）。口诀「施工2.5、合杆2.5、交越1.5」。②<span class="hl">吊线紧线类5题</span>：终端拉线钢绞线比吊线大一级｜扳紧线器两人为限站左后或右前｜卡挂处理站后侧｜吊板过接头改用梯子｜电杆与墙壁之间禁吊板。③<span class="hl">多选7道</span>：铁件钻孔ABCD全对、去锈喷漆只戴口罩手套（戴多也错）、电源柜ABE、发现电力线落地要「停止作业＋保护现场＋报告」（漏保护现场）。④<span class="hl">铁塔接地</span>：施工区半径塔高1.05倍｜馈线三点接地（塔顶/离塔/机房外侧）｜室内外走线架不得连通｜塔高60米中部加接地点。</div>
+<div class="kd">📌 考点全表已进错题本「十三章」速记卡9张，考前把那9张卡背两遍比刷题有效。</div>
+` },
+];
+
+const LSKEY = 'yuanwen_v1';
+let st = { read:{}, last:'x0' };
+try { const s = JSON.parse(localStorage.getItem(LSKEY)); if (s && s.read) st = s; } catch(e){}
+function save(){ try { localStorage.setItem(LSKEY, JSON.stringify(st)); } catch(e){} }
+
+function renderNav(){
+  const nav = document.getElementById('nav');
+  let h = ''; let lastGrp = '';
+  SECTIONS.forEach(s => {
+    if(s.grp !== lastGrp){ h += '<span class="grp">' + s.grp + '</span>'; lastGrp = s.grp; }
+    const d = st.read[s.id] ? '<span style="color:#b8f0cd;font-weight:800">✓</span>' : '';
+    h += '<button data-s="' + s.id + '" class="' + (s.id === st.last ? 'on' : '') + '">' + d + s.tab + '</button>';
+  });
+  nav.innerHTML = h;
+  nav.querySelectorAll('button').forEach(b => b.addEventListener('click', () => go(b.dataset.s)));
+}
+function go(id){ stopSpeak(); st.last = id; save(); renderNav(); renderSec(); window.scrollTo({ top: 0 }); }
+function renderSec(){
+  const s = SECTIONS.find(x => x.id === st.last) || SECTIONS[0];
+  const idx = SECTIONS.indexOf(s);
+  const r = !!st.read[s.id];
+  let links = s.quiz ? '<div class="golinks"><a href="刷题/精讲-' + s.quiz + '">✍️ 去刷对应章节题</a></div>' : '';
+  let h = '<div class="card"><h2>' + s.title + '<span class="day">' + s.day + '</span></h2><div class="idline">' + s.law + '</div>' + links + s.html;
+  h += '<div class="navrow"><button ' + (idx <= 0 ? 'disabled' : '') + ' onclick="go(SECTIONS[' + (idx-1) + '].id)">← 上一节</button><button ' + (idx >= SECTIONS.length-1 ? 'disabled' : '') + ' onclick="go(SECTIONS[' + (idx+1) + '].id)">下一节 →</button></div>';
+  h += '<div class="donebar"><button class="' + (r ? 'off' : '') + '" onclick="toggleRead(\'' + s.id + '\')">' + (r ? '↩ 取消已读' : '✅ 回顾完成，标记已读') + '</button></div></div>';
+  document.getElementById('app').innerHTML = h;
+}
+function toggleRead(id){ st.read[id] = !st.read[id]; save(); renderNav(); renderSec(); }
+function renderProg(){
+  const n = SECTIONS.filter(s => st.read[s.id]).length;
+  document.getElementById('prog').innerHTML = '已读 <b>' + n + '</b> / ' + SECTIONS.length + ' 节';
+}
+let speaking = false;
+function stopSpeak(){ speaking = false; try { speechSynthesis.cancel(); } catch(e){} const b = document.getElementById('ttsBtn'); if (b) b.textContent = '🔊 朗读本节'; }
+function speakSection(){
+  const app = document.getElementById('app');
+  const text = app.innerText;
+  const parts = text.split(/(?<=[。；！？])/);
+  const chunks = [];
+  let cur = '';
+  parts.forEach(p => { p = p.trim(); if (!p) return; if ((cur + p).length > 180) { if (cur) chunks.push(cur); cur = p; } else { cur += p; } });
+  if (cur) chunks.push(cur);
+  if (!chunks.length) return;
+  speaking = true;
+  const b = document.getElementById('ttsBtn'); if (b) b.textContent = '⏹ 停止朗读';
+  const u = new SpeechSynthesisUtterance();
+  u.lang = 'zh-CN'; u.rate = 1.05;
+  let i = 0;
+  u.onend = function(){ if (speaking && i < chunks.length) { u.text = chunks[i++]; speechSynthesis.speak(u); } else { stopSpeak(); } };
+  u.onerror = function(){ stopSpeak(); };
+  u.text = chunks[i++];
+  speechSynthesis.speak(u);
+}
+renderNav(); renderSec(); renderProg();
+</script>
+</body>
+</html>
