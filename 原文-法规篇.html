@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>老师原文 · 法规篇</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #eef2f6; color: #22303e; padding: 0 0 60px; }
+#topbar { position: sticky; top: 0; z-index: 20; background: #ffffffee; backdrop-filter: blur(8px); border-bottom: 1px solid #e0e6ec; padding: 10px 16px 8px; }
+#topbar .row1 { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; max-width: 940px; margin: 0 auto; }
+#topbar .ttl { font-size: 15.5px; font-weight: 800; color: #1a66d6; }
+#topbar .prog { font-size: 13px; color: #5a6572; font-weight: 700; }
+#topbar .prog b { color: #2e9e5b; }
+#topbar label { font-size: 13.5px; color: #4a5560; cursor: pointer; }
+#topbar a.mini { font-size: 13px; color: #1a66d6; text-decoration: none; font-weight: 600; }
+#topbar button.tts { font-size: 13px; font-weight: 700; color: #fff; background: #2e9e5b; border: none; border-radius: 16px; padding: 6px 14px; cursor: pointer; font-family: inherit; }
+#nav { display: flex; gap: 7px; overflow-x: auto; padding: 10px 16px 2px; max-width: 940px; margin: 0 auto; }
+#nav .grp { flex: 0 0 auto; font-size: 11px; font-weight: 800; color: #8a95a1; align-self: center; padding: 0 2px 0 6px; }
+#nav button { flex: 0 0 auto; padding: 7px 13px; border: 1.5px solid #d3dce4; border-radius: 18px; background: #fff; cursor: pointer; font-size: 13px; color: #4a5560; font-family: inherit; white-space: nowrap; }
+#nav button.on { background: #1a66d6; color: #fff; border-color: #1a66d6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 16px 14px 0; }
+.intro { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 16px 20px; margin-bottom: 14px; }
+.intro p { font-size: 13.6px; color: #5a6572; line-height: 1.9; }
+.card { background: #fff; border-radius: 14px; box-shadow: 0 1px 8px #0000000e; padding: 20px 22px; margin-bottom: 14px; }
+h2 { font-size: 19px; }
+.day { display: inline-block; font-size: 12px; font-weight: 800; background: #e3edfb; color: #1a66d6; border-radius: 6px; padding: 2px 9px; margin-left: 8px; }
+.idline { font-size: 13px; color: #7a8694; margin: 4px 0 6px; line-height: 1.8; }
+h3 { font-size: 15px; color: #17427e; margin: 18px 0 6px; border-left: 4px solid #1a66d6; padding-left: 9px; }
+.blk { background: #fbfcfe; border: 1.5px solid #dbe6f2; border-radius: 10px; padding: 11px 14px; margin-bottom: 7px; font-size: 14.2px; line-height: 1.9; }
+.blk b { color: #0f4c9c; }
+.hl { color: #c0392b; font-weight: 800; }
+.n { display: inline-block; background: #e9f7ef; color: #217a45; font-weight: 800; border-radius: 7px; padding: 0 7px; }
+.case { background: #fff8e6; border: 1px solid #eee0ae; border-radius: 10px; padding: 9px 13px; margin: 7px 0; font-size: 13.2px; line-height: 1.8; color: #6b5416; }
+.case b { color: #8a6d1a; }
+.tip { font-size: 12px; color: #8a95a1; margin: 4px 0 0; }
+.golinks { margin: 12px 0 4px; }
+.golinks a { font-size: 13.5px; font-weight: 700; text-decoration: none; background: #1a66d6; color: #fff; border-radius: 9px; padding: 7px 16px; margin-right: 10px; }
+.navrow { display: flex; justify-content: space-between; margin-top: 14px; }
+.navrow button { font-size: 14px; font-weight: 700; padding: 10px 18px; border: 1.5px solid #cfe0f7; border-radius: 10px; background: #fff; color: #1a66d6; cursor: pointer; font-family: inherit; }
+.navrow button:disabled { color: #b9c6d4; border-color: #e4eaf0; cursor: default; }
+.donebar { text-align: center; margin: 10px 0 2px; }
+.donebar button { font-size: 14px; font-weight: 700; padding: 10px 26px; border: none; border-radius: 10px; background: #2e9e5b; color: #fff; cursor: pointer; font-family: inherit; }
+.donebar button.off { background: #b9c6d4; }
+.foot { text-align: center; color: #a8b2bd; font-size: 12.5px; margin-top: 26px; line-height: 1.9; }
+.kd { font-size:12.6px; color:#1a5fa8; background:#eef5fd; border-left:3px solid #7db4e8; border-radius:0 8px 8px 0; padding:7px 11px; margin:6px 0 10px; line-height:1.85; }
+.kd b { color:#155a96; }
+body.hideans .blk { display: none; }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div class="row1">
+    <span class="ttl">📜 老师原文 · 法规篇</span>
+    <span class="prog" id="prog"></span>
+    <label><input type="checkbox" onchange="document.body.classList.toggle('hideans', this.checked)"> 遮住原文自测</label>
+    <button class="tts" id="ttsBtn" onclick="if(speaking){stopSpeak()}else{speakSection()}">🔊 朗读本节</button>
+    <a class="mini" href="老师原文-划重点.html">总览</a><a class="mini" style="color:#22303e;font-weight:800;text-decoration:underline" href="原文-法规篇.html">📖法规</a><a class="mini" href="原文-管理篇.html">📗管理</a><a class="mini" href="原文-技术篇.html">📘技术</a><a class="mini" href="原文-案例篇.html">📙案例</a><a class="mini" href="学习中心.html">← 学习中心</a>
+  </div>
+  <div id="nav"></div>
+</div>
+<div class="wrap">
+  <div class="intro">
+    <p><b style="color:#22303e">这是老师四天课「照PPT念」的原文整理</b>，按讲课顺序分块，做题遇到不确定的知识点就回这里查老师原话。<span class="hl">红色</span>=老师明说必考/重点/容易搞混；<span class="n">绿色数字</span>=时限金额比例人数；黄框=老师讲的一线真实案例。内容不删减，与提纯的「全书背诵」页互补。</p>
+  </div>
+  <div id="app"></div>
+  <div class="foot">督学学长 · 阿严 · 2026-09-09 · 依据四天课堂录音转写整理（修正口语与转写错误）<br>预习 → 听课 → 刷题 → 错题本 → 背诵/原文回顾</div>
+</div>
+<script>
+'use strict';
+const SECTIONS = [
+{ id:'x0', tab:'绪论', grp:'绪论', day:'9/6 上午', title:'绪论 · 安全生产领域改革发展意见',
+  law:'国务院2016年《关于推进安全生产领域改革发展的意见》· 六节：总体要求/责任制/监察体制/依法治理/防控体系/保障能力',
+  quiz:'00绪论.html', html: `
+<h3>总体要求</h3>
+<div class="blk">总指导思想：<span class="hl">坚持安全发展、坚守发展绝不能以牺牲安全为代价</span>——这条红线，也是防范遏制重特大事故的重点。方针=<span class="n">安全第一、预防为主、综合治理</span>（四天课反复出现）。「加强领导、改革创新、协调联动、齐抓共管，着力强化企业安全生产责任主体、着力堵塞监督管理漏洞、着力解决不遵守法律法规的问题」——多选题点。目标：<span class="hl">到2030年实现安全生产治理体系和治理能力现代化</span>。</div>
+<div class="blk"><b>五个基本原则</b>：①坚持<b>安全发展</b>（以人民为中心、生命安全放首位）②坚持<b>改革创新</b>（理论/制度/体制机制/科技/文化五个创新）③坚持<b>依法监管</b> ④坚持<b>源头防范</b>（严格安全准入，贯穿规划设计建设管理生产经营全过程）⑤坚持<b>系统治理</b>（层级+行业+政府+社会治理相结合、社会共治）。<span class="tip">题库坑：「过程防范」「重点治理」都是错的。</span></div>
+<h3>责任制（五项）</h3>
+<div class="blk">①<b>地方党委政府领导责任</b>：<span class="hl">党政同责、一岗双责、齐抓共管、失职追责</span>；党政主要领导人=本地区安全生产<span class="hl">第一责任人</span>；班子其他成员对分管范围负责。②<b>监管责任</b>。③<b>企业主体责任</b>：<span class="hl">全员安全生产责任制</span>；<span class="hl">法定代表人和实际控制人同为第一责任人</span>；决策指挥权在主要技术负责人；<b>五到位</b>=安全责任管理、投入、培训、应急救援<span class="n">五到位</span>。④<b>考核机制</b>。⑤<b>追究制度</b>：<span class="hl">问责和整改并重</span>（追责不是目的，防止再犯才是）。</div>
+<h3>监察体制（四项）</h3>
+<div class="blk">①完善监督管理体制：各级<b>安委会</b>统筹协调。②重点行业体制改革：<span class="n">煤矿</span>依托煤监机制、非煤矿山移交地方监管；<span class="n">危化品</span>立项到废弃全流程监管；<span class="n">海洋石油</span>政企分开；<span class="n">民航铁路电力</span>理顺跨区域监管。③地方监管执法体制：安监部门=政府工作部门和<span class="hl">行政执法机构</span>；开发区、工业园完善监管体制。④应急救援管理体制。</div>
+<h3>依法治理（七项）</h3>
+<div class="blk">健全法律法规→完善标准体系→严格安全准入→规范监管执法→完善执法监督→健全执法保障→完善事故调查处理机制。老师：内容多不用全背，<span class="hl">记大纲标题</span>。</div>
+<h3>防控体系</h3>
+<div class="blk">加强风险管控+企业预防措施：<span class="hl">定期风险评估和危害识别</span>、高危工艺设备分级管控、隐患排查治理制度；<span class="hl">重大隐患治理「双报告」＝报监管部门＋报企业职代会</span>。隐患整改不到位可<span class="n">停产停业、停止施工、停止供电、查封</span>＋经济处罚。+城市运行安全+重点工程治理+职业病防治体系。</div>
+<h3>保障能力（六项）</h3>
+<div class="blk">安全投入长效机制/科技支撑/服务体系/市场机制/宣传教育体系/国际合作。教育体系考点：安监纳入<span class="hl">党政领导干部培训</span>；安全知识纳入<span class="hl">国民教育</span>；安全生产纳入<span class="hl">农民工技能培训</span>；<span class="hl">先培训后上岗</span>；<span class="n">12350</span>安全生产举报专线（社会公共管理局统一接报分类处置）。</div>
+<h3>法的效力层级（讲法规前铺垫）</h3>
+<div class="blk">宪法至上 → <span class="hl">上位法优于下位法</span> → 特别法优于一般法 → 新法优于旧法。法律=全国人大；行政法规=国务院；地方性法规=省市自治区；部门规章=各部委。</div>
+` },
+
+{ id:'f1', tab:'安法119条', grp:'📖 法规篇 · 法律', day:'9/8 全天', title:'《安全生产法》逐条精讲',
+  law:'2002-11-01首部施行 · 现行版 <span class="n">2021-09-01</span> · 119条＝总则19/单位保障32/从业权利义务10/监督管理17/应急救援调查11/法律责任27/附则3',
+  quiz:'01第一章.html', html: `
+<h3>总则（1~19条）</h3>
+<div class="blk"><b>第1条</b>立法目的四层：加强安全生产→防止减少事故→保障生命财产→促进经济社会持续健康发展。<b>第2条</b>适用：境内从事生产经营活动的<b>所有单位</b>；<span class="hl">7个特殊行业另有规定从其规定：消防、道路交通、民用航空、铁路交通、水上交通、核与辐射、特种设备</span>。<b>第3条</b>理念=以人为本、<span class="hl">人民至上、生命至上</span>；方针十二字；<span class="hl">三必须</span>；机制五条=单位负责+职工参与+政府监管+行业自律+社会监督。<b>第4条</b>单位六必须+<span class="hl">双重预防机制（风险分级管控+隐患排查治理）</span>+平台经济等新兴行业。<b>第5条</b><span class="hl">主要负责人＝第一责任人，全面负责</span>；主要负责人定义=主要决策人+实际领导指挥日常经营+能承担全面领导责任。<b>第7条</b>工会：民主管理民主监督+制定规章制度听取工会意见。<b>第8条</b>政府规划衔接+安全生产经费<span class="hl">列入本级预算</span>+风险评估论证机制。<b>第9条</b>协调机制+乡镇街道开发区明确机构职责。<b>第10条</b><span class="hl">综合监督管理＝四级应急管理部门（国家/省/市/县），乡镇没有综合监管权</span>；行业主管部门=监督管理；新兴行业按<span class="hl">业务相近</span>原则定；统称「负有安全生产监督管理职责的部门」。<b>第11条</b>国标行标必须执行无选择。<b>第12条</b>强制性国标：应急部门统筹提出立项计划，标准化行政主管部门立项编号对外发布。<b>第13条</b>协会：依法依规+提供服务+自律。<b>第15条</b>服务机构受委托提供技术管理服务，<span class="hl">责任仍由生产经营单位承担</span>。<b>第17条</b>权力责任清单公开。<b>第19条</b>显著成绩奖励。</div>
+<h3>单位保障（20~52条）</h3>
+<div class="blk"><b>第21条</b>主要负责人<span class="hl">七项职责</span>：①全员责任制+标准化 ②规章制度操作规程 ③教育培训计划 ④保证投入 ⑤双重预防机制 ⑥应急预案 ⑦如实报告事故。<b>第22条</b>责任制三要素（责任人员/范围/考核标准）+监督考核。<b>第23条</b>资金投入保证人：股份制/合资=董事会、国企=厂长经理、个体=投资人；<span class="hl">投入不足的后果由保证人担责</span>。<b>第24条</b><span class="hl">高危行业必须设机构或配专职</span>；其他单位<span class="n">超100人</span>必须设机构或专职、以下可兼职；<span class="hl">淘汰目录国务院制定、省市只能增不能减</span>。<b>第37条</b>危险物品容器运输工具和特种设备：专业单位生产+有资质机构检测合格+<span class="hl">安全使用证或安全标志</span>。<b>第39条</b>危险物品专门安全管理制度。<b>第40条</b>重大危险源：<span class="hl">登记建档+定期检测评估监控+预案+告知+备案</span>。<b>第41条</b>风险分级管控+隐患排查治理（<span class="hl">如实记录+向从业人员通报</span>）。<b>第42条</b><span class="hl">车间商店仓库不得与员工宿舍同一建筑物</span>并保持安全距离。<b>第43条</b><span class="hl">四类危险作业安排专人现场管理：爆破、吊装、动火、临时用电</span>。<b>第44条</b>如实告知危险因素/防范措施/应急措施。<b>第45条</b>防护用品国标行标+<span class="hl">监督教育按规定佩戴使用</span>（老师案例：安全帽绳子不绑——配了不等于会保护你）。<b>第46条</b>安管人员检查：立即处理→不能处理报负责人→<span class="hl">负责人不处理可越级向监管部门报告</span>。<b>第48条</b>同一作业区域两单位以上：签协议+明确职责措施+<span class="hl">指定专职安管员检查协调</span>。<b>第49条</b>发包出租给有资质单位+专门协议或合同约定+统一协调定期检查；<span class="hl">不得倒卖出租出借挂靠转让施工资质、不得转包、不得肢解分包</span>。<b>第51条</b>工伤强制；安责险国家鼓励、<span class="hl">八大高危强制</span>（矿山/危化/烟花爆竹/交通运输/建筑施工/民爆/金属冶炼/渔业）。<b>第52条</b>劳动合同载明安全事项；<span class="hl">免责协议无效</span>。</div>
+<h3>从业权利义务与工会（53~61条）</h3>
+<div class="blk"><span class="hl">六权利</span>：知情权/建议权/<b>索赔权</b>（工伤之外还可要求赔偿——所以企业配意外险+雇主险）/批评检举控告权/拒绝权（违章指挥强令冒险）/停止作业权（撤离前<span class="hl">先采取可能的应急措施</span>，「直接撤离」是错的）。<b>三义务</b>：遵章佩戴用品/接受培训/发现隐患立即报告。单位不得因履职降低待遇解雇。<b>第60条</b>工会：三同时监督、要求纠正、建议撤离、<span class="hl">建议撤离危险场所</span>。<b>第61条</b>被派遣劳动者<span class="hl">等同从业人员</span>。</div>
+<h3>监督管理（62~78条）</h3>
+<div class="blk"><b>第62条</b>政府年度监督检查计划+分类分级监管。<b>第63条</b>审批：不符合条件不得批准；未批擅自经营取缔；取得后不再具备条件撤销。<b>第65条</b>检查职权：调查了解/当场纠正/行政处罚/扣押查封/责令停产停业——<span class="hl">前提：不得影响被检查单位正常生产经营</span>（不能要求停产配合检查）。<b>第67条</b>出示证件+保密（技术秘密业务秘密）+<span class="hl">书面记录双方签字</span>，拒签记录在案报告。<b>第70条</b>责令停产停业拒不执行+有现实危险→经<span class="hl">本部门主要负责人批准</span>可停止供电/停供民爆物品强制履行；<span class="hl">提前24小时书面通知</span>（紧急情形除外），隐患消除及时解除。<b>第72条</b>安评认证检测机构：资质+<span class="hl">对结果合法真实性负责</span>+不得租借资质挂靠出虚假报告。<b>第73条</b>举报移送；<span class="hl">涉及死亡的举报由县级以上政府核查处理</span>。<b>第74条</b><span class="hl">检察院可提公益诉讼</span>。<b>第78条</b>违法行为信息库：严重违法向社会公告+通报投资/自然资源/生态环境/证监/金融机构。</div>
+<h3>应急救援与调查（79~89条）</h3>
+<div class="blk"><b>第79条</b>重点行业建救援基地队伍+国家应急救援机构统一协调指挥+信息系统互联互通。<b>第81条</b>单位预案与所在地县级以上政府预案<span class="hl">相衔接</span>+定期演练。<b>第82条</b>高危建应急救援组织；<span class="hl">规模较小可不建但指定兼职应急救援人员</span>。<b>第83/84条</b>报告链：现场人员<span class="hl">立即</span>→单位负责人（迅速组织抢救）→<span class="n">1小时内</span>报负有安监职责的部门→逐级上报；<span class="hl">不得隐瞒谎报迟报、不得破坏现场毁灭证据</span>。<b>第85条</b>政府负责人立即赶赴现场+统一指挥+避免环境危害。<b>第86条</b>调查原则=<span class="hl">科学严谨、依法依规、实事求是、注重实效</span>；批复后<span class="n">1年内</span>整改后评估并向社会公告。<b>第87条</b>审查审批监督部门失职渎职同追责。</div>
+<h3>法律责任（90~116条，对照汇总表记）</h3>
+<div class="blk">老师方法：<span class="hl">按「责任主体×违法行为×后果」逻辑记</span>，对个人主要是撤职+资格罚，对企业限期整改/停产/吊销，严重加刑。<b>90条</b>监管部门违规→降级撤职。<b>92条</b>机构：失实报告<span class="n">3万~10万</span>停业整顿；租借挂靠虚假→没收+<b>2~5倍</b>（不足10万的罚<span class="n">10万~20万</span>）+主管<span class="n">5万~10万</span>+吊销+<span class="hl">5年内不得从事、严重终身</span>。<b>93条</b>资金不足：未出事故限期整改停产整顿；出事故撤职+个体投资人<span class="n">2万~20万</span>。<b>94条</b>主要负责人未履职：未出事故<span class="n">2万~5万</span>→逾期<span class="n">5万~10万</span>+停产整顿；出事故撤职+<span class="hl">5年内不得担任任何单位主要负责人；重大特大事故终身不得担任本行业主要负责人</span>（注意限「本行业」）。<b>95条</b>出事故按上年收入：<span class="hl">一般40%、较大60%、重大80%、特大100%（四六八一百）</span>。<b>96条</b>其他负责人和安管人员：未出事故<span class="n">1万~3万</span>；出事故暂停或吊销资格+<span class="n">20%~50%</span>。<b>97条</b>七情形（未设机构/未考核上岗/未培训派遣实习/无培训档案/隐患未通报/未预案演练/特种无证）：责令改正<span class="n">10万以下</span>→逾期<span class="n">10万~20万</span>+主管<span class="n">2万~5万</span>。<b>98条</b>高危建设项目（矿山/金属冶炼/危险物品）无安全评价/设计未审/不按设计施工/未验收：<span class="n">10万~50万</span>+主管2~5万+逾期<span class="n">50万~100万</span>。<b>99条</b>无警示标志等。<b>101条</b>危险物品无制度/重大危险源未建档/四类作业无专人/无分级管控：<span class="n">10万以下</span>→停产+<span class="n">10万~20万</span>+主管2~5万。<b>103条</b>违法发包出租：没收+2~5倍或<span class="n">10万~20万</span>+承包方承租方<span class="hl">连带责任</span>；未签协议<span class="n">5万以下</span>+主管1万以下。<b>105条</b>宿舍同建筑物：<span class="n">5万以下</span>+1万以下。<b>106条</b>签免责协议：<span class="n">2万~10万</span>。<b>108条</b>拒绝阻挠监督检查：<span class="n">2万~20万</span>+主管1~2万。<b>109条</b>高危未投安责险：限期改→<span class="n">5万~10万</span>→逾期<span class="n">10万~20万</span>。<b>113条</b><span class="hl">按日连续处罚</span>（责令改正次日起按原数额按日计）。<b>114条</b>吊销四情形：<span class="hl">重大隐患180日内3次或1年内4次受罚</span>/停产整顿仍不达标/不具备条件导致重大特大事故/拒不执行停产决定；吊销+5年禁任+严重终身禁本行业。<b>115条</b>事故罚款四档：<span class="n">一般30万~100万｜较大100万~200万｜重大200万~1000万｜特大1000万~2000万</span>；<span class="hl">情节特别恶劣、影响特别恶劣→2倍以上5倍以下</span>；予以关闭→<span class="hl">报县级以上政府决定</span>；拘留→<span class="hl">公安机关决定</span>。<b>116条</b>拒不赔偿→法院强制执行，仍不足的继续履行。<b>第117条</b>重大危险源定义（单元内危险物品数量等于或超过临界量）。` },
+
+{ id:'f2', tab:'建筑法', grp:'📖 法规篇 · 法律', day:'9/8', title:'《建筑法》选讲条款',
+  law:'2019-04-23修正 · 37/38/40~45/47/49条+法律责任', quiz:'02第二章.html', html: `
+<div class="blk"><b>第37条</b>设计符合建筑安全规程和技术规范，保证工程安全性能。<b>第38条</b>编制施工组织设计时<span class="hl">制定安全技术措施</span>；专业性较强的项目<span class="hl">编制专项安全施工组织设计</span>。<b>第42条</b><span class="hl">施工前须办批准手续的四类情形</span>：需要临时占用规划批准以外场地/可能损坏道路管线电力通讯等设施/需要临时停水停电/需要爆破作业——<span class="hl">由建设单位办理</span>。<b>第40条</b>建设单位向施工企业提供地下管线资料，施工企业采取措施保护。<b>第41-43条</b>粉尘废气废水处理+毗邻防护+有条件封闭管理。<b>第44条</b>企业依法加强建筑安全生产管理，执行安全生产责任制度；<span class="hl">建筑施工企业的法定代表人对本企业安全生产负责（第一责任人）</span>。<b>第45条</b>施工现场安全由<b>施工企业负责</b>；实行总承包的<span class="hl">由总承包单位负责</span>，分包单位向总包负责、服从总包管理。<b>第47条</b>作业人员：<span class="hl">对影响人身健康的作业程序和条件有权提出改进意见（建议权）</span>；有权获得安全生产所需防护用品；对危及安全的行为有<b>批评、检举、控告权</b>。企业依法为职工缴工伤保险；<span class="hl">鼓励</span>为危险作业人员办意外伤害保险。<b>第49条</b>涉及<span class="hl">建筑主体和承重结构变动</span>的装修工程：施工前由<span class="hl">原设计单位或具有相应资质的设计单位</span>提出设计方案——<span class="hl">没有设计方案不得施工</span>。<b>法律责任</b>：施工企业责令改正罚款、严重停业整顿降资质吊销；建设单位罚款；设计单位罚款/降资质/没收+赔偿。</div>
+` },
+
+{ id:'f3', tab:'消防法', grp:'📖 法规篇 · 法律', day:'9/6 + 9/8', title:'《消防法》选讲条款',
+  law:'2021-04-29修正 · 单位职责/动火持证/产品材料/火灾认定', quiz:'01第一章.html', html: `
+<div class="blk"><b>第16条</b><span class="hl">单位的主要负责人是本单位的消防安全责任人</span>；单位消防职责六项：落实责任制+制定消防制度和<span class="hl">灭火应急疏散预案</span>/按标准配设施器材并定期检查/<span class="hl">每年至少一次全面检查+记录存档备查</span>/保障通道出口畅通/防火检查/有针对性演练。<b>第18条</b>同一建筑物两个以上单位管理使用：明确各方责任+<span class="hl">确定责任人对共用部位统一管理</span>；物业维护共用消防设施。<b>第19-21条</b><span class="hl">生产储存经营易燃易爆危险品场所不得与居住场所同一建筑物</span>+安全距离；动火作业<span class="hl">办审批手续</span>+消防措施；<span class="hl">电焊气焊等具有火灾危险作业的人员和自动消防系统操作人员必须持证上岗</span>。<b>第23条</b>禁止非法携带易燃易爆危险品进入公共场所或乘坐公共交通工具。<b>第24-26条</b>消防产品符合国标行标+强制性产品认证目录；新研制无标准产品须<span class="hl">技术界定</span>；<span class="hl">人员密集场所使用不燃、难燃材料</span>。<b>第28条</b>四个不得：不得<span class="hl">损坏挪用擅自拆除</span>消防设施器材；不得<span class="hl">埋压圈占遮挡消火栓</span>；不得占用<span class="hl">防火间距</span>。<b>程序（9/6上午尾）</b>：消防救援机构出具<span class="hl">火灾事故认定书</span>（定责证据）；检查发现火灾隐患<span class="hl">立即通知消除</span>，不及时消除严重威胁公共安全的→<span class="hl">临时查封</span>；责令停产停业整改→向<span class="hl">做出决定的部门</span>报告、检查合格才可复工；<span class="hl">逾期不执行可强制执行</span>。</div>
+` },
+
+{ id:'f4', tab:'道交法', grp:'📖 法规篇 · 法律', day:'9/7 上午', title:'《道路交通安全法》选讲条款',
+  law:'2021-04-29修正 · 特殊车辆/占道施工三步', quiz:'01第一章.html', html: `
+<div class="blk"><b>第15条</b><span class="hl">四类特殊车：警车、消防车、救护车、工程救险车</span>——按规定喷涂标志图案、安装警报器标志灯具；<span class="hl">其他机动车不得喷涂安装使用类似标志图案</span>；按规定的用途和条件使用。<b>通行规定</b>：执行<span class="hl">紧急任务</span>时可用警报器、不受行驶路线方向速度和信号灯限制、其他车辆行人<b>让行</b>；<span class="hl">非执行紧急任务不得使用警报器</span>、不享优先权。<b>通行条件</b>：任何单位个人不得<span class="hl">擅自设置移动占用损毁</span>交通信号灯、标志标线；道路两侧树木广告牌不得遮挡信号灯标志、不得妨碍<span class="hl">安全视距</span>。<b>第32条·占道施工三步（必考）</b>：①事先征得<span class="hl">道路主管部门同意</span>，影响交通安全的还须征得<span class="hl">公安机关交通管理部门同意</span> ②在<span class="hl">批准的路段和时间</span>内施工，<span class="hl">来车方向</span>安全距离处设明显警示标志 ③完毕<span class="hl">迅速清除障碍物</span>，经<span class="hl">道路主管部门和公安交管部门验收合格</span>后恢复通行。口诀「占道先找路政，碍事再加交警；完工两家验收，来车方向摆牌」。<b>第54条</b>道路养护车工程作业车：不影响通行时不受分道限制，但<span class="hl">不得逆向行驶</span>（区别于四类特殊车）。<b>第104条</b>未经批准占道施工：影响道路通行的由<b>道路主管部门</b>责令停止+恢复原状+罚款；影响交通安全活动的由<b>公安机关交通管理部门</b>责令停止+修复；造成损失依法赔偿。</div>
+` },
+
+{ id:'f5', tab:'劳动法', grp:'📖 法规篇 · 法律', day:'9/7 上午', title:'《劳动法》选讲条款',
+  law:'工时加班/安全卫生/女职工未成年工', quiz:'01第一章.html', html: `
+<div class="blk"><b>工时</b>：每日≤<span class="n">8小时</span>、周均≤<span class="n">44小时</span>；<span class="hl">每周至少休息一日</span>（996违法）。<b>第39条</b>特殊工时须<span class="hl">劳动行政部门批准</span>。<b>第41条加班</b>：与工会和劳动者协商，一般每日≤<span class="n">1小时</span>；特殊原因保障健康下每日≤<span class="n">3小时</span>、每月≤<span class="n">36小时</span>——口诀「<span class="hl">一、三、三十六</span>」（抢险抢修例外）。<b>第44条加班工资</b>：工作日<span class="hl">不低于150%</span>；休息日不能补休<span class="hl">不低于200%</span>；法定休假日<span class="hl">不低于300%</span>。<b>第52-54条安全卫生</b>：建劳动安全卫生制度+教育；设施符合国家规定标准，新建改建扩建<span class="hl">「三同时」＝同时设计、同时施工、同时投产</span>；提供符合国家规定的卫生条件和必要防护用品；<span class="hl">职业危害作业人员定期健康检查</span>。<b>女职工</b>：<span class="hl">禁止矿山井下+第四级体力劳动强度</span>（常规）；<span class="hl">经期</span>禁高处、低温、冷水作业和第三级体力劳动；<span class="hl">孕期</span>禁第三级体力劳动，怀孕<span class="n">7个月以上</span>不得延长工时和安排夜班；<span class="hl">哺乳期（婴儿未满1周岁）</span>同孕期禁第三级+延时+夜班。<b>未成年工＝年满16周岁未满18周岁</b>：禁矿山井下、有毒有害、第四级体力劳动；<span class="hl">定期健康检查</span>。<b>法律责任</b>：劳动行政部门责令改正+罚款；情节严重停产整顿；造成重大事故危害生命的<span class="hl">追究刑事责任</span>。</div>
+` },
+
+{ id:'f6', tab:'刑法', grp:'📖 法规篇 · 法律', day:'9/7 上午', title:'《刑法》涉安全生产罪名（现行版2024-03-01施行）',
+  law:'九罪名+刑期一表流', quiz:'01第一章.html', html: `
+<div class="blk">①<b>重大责任事故罪</b>（134条）：生产作业中违反安全管理规定致重大伤亡——<span class="n">3年以下</span>/情节特别恶劣<span class="n">3~7年</span>。②<b>强令、组织他人违章冒险作业罪</b>（134条）：<span class="hl">明知存在重大事故隐患仍强令/组织作业</span>——<span class="n">5年以下</span>/情节特别恶劣<span class="n">5年以上</span>。③<b>危险作业罪</b>（134条之一）三型：<span class="hl">破坏安全系统型</span>（关闭破坏监控报警防护设备、篡改数据）/<span class="hl">拒不整改型</span>（有重大隐患被责令整改仍不整改继续作业）/<span class="hl">无证擅产型</span>（无安全生产许可证擅开矿山等）——有现实危险的处<span class="n">1年以下</span>拘役或管制。④<b>重大劳动安全事故罪</b>（135条）：安全生产设施或条件不符合国家规定——3年以下/特别恶劣3~7年。⑤<b>大型群众性活动重大安全事故罪</b>（135条之一）——3年以下/3~7年。⑥<b>危险物品肇事罪</b>（136条）违反危险品管理规定致事故——3年以下/3~7年。⑦<b>工程重大安全事故罪</b>（137条）：<span class="hl">主体是建设单位、设计单位、施工单位、监理单位</span>，降低工程质量标准致重大事故——<span class="n">5年以下</span>+罚金/特别严重<span class="n">5~10年</span>。⑧<b>消防责任事故罪</b>（139条）：<span class="hl">经消防监督机构通知采取改正措施而拒绝执行</span>致严重后果——3年以下/3~7年。⑨<b>不报、谎报安全事故罪</b>（139条之一）：负有报告职责的人员事故后不报或谎报贻误抢救——3年以下/3~7年。</div>
+<div class="case"><b>老师小结：</b>强令、工程两罪<span class="hl">5年起跳</span>（工程5-10封顶）；危险作业罪<span class="hl">1年以下</span>；其余都是3年以下、加重档3-7年。</div>
+` },
+
+{ id:'f7', tab:'393号条例', grp:'📖 法规篇 · 法规', day:'9/7 全天', title:'《建设工程安全生产管理条例》（393号）逐条',
+  law:'8章71条 · 2004-02-01施行 · 教材全文引用', quiz:'02第二章.html', html: `
+<h3>总则+建设单位（1~11条）</h3>
+<div class="blk"><b>第2条</b>适用新建扩建改建<span class="hl">拆除</span>（老师：一线最容易忽视拆除工程！）；建设工程=土木+建筑+<span class="hl">线路管道和设备安装</span>+装修。<b>第3条</b>方针八字「<span class="hl">安全第一、预防为主</span>」（当年没有综合治理）。<b>第6条</b>建设单位提供地下管线/气象水文/毗邻建筑资料+<span class="hl">真实准确完整</span>。<b>第7条</b>两不得：不得提出违反强标的要求+<span class="hl">不得压缩合同工期</span>。<b>第8条</b>概算确定安全作业环境及安全施工措施费用。<b>第10条</b>申领施工许可证提供安全措施资料；批准开工报告的<span class="n">15日内</span>备案；拆除工程发包给有资质单位+施工<span class="n">15日前</span>报备案（四样：资质证明/危及毗邻说明/拆除施组方案/废弃物堆清措施）；爆破遵守民爆规定。</div>
+<h3>勘察设计监理（12~19条）</h3>
+<div class="blk"><b>勘察</b>：按强标勘察+文件<span class="hl">真实准确</span>+作业保证管线设施周边建筑物安全。<b>设计</b>：按强标设计+重点部位环节<span class="hl">在设计文件中注明</span>+防范事故指导意见+<span class="hl">四新和特殊结构提出两个建议（保障作业人员安全+预防事故）</span>+对设计负责。<b>监理（14条）</b>：审查施组安全措施/专项方案是否符合<span class="hl">工程建设强制性标准</span>→一般隐患要求整改→严重要求<span class="hl">暂停施工并及时报告建设单位</span>→拒不整改不停工<span class="hl">及时向主管部门报告</span>——老师：监理四步递进。<b>15~19条设备</b>：提供单位配保险限位；出租单位<span class="hl">两证</span>（生产制造许可证+产品合格证）+租赁协议出具<span class="hl">检测合格证明</span>+禁租不合格；安拆须有资质+<span class="hl">拆装方案+安全措施+专业技术人员现场监督</span>+自检合格证明+安全使用说明+验收签字；到期经有资质机构检测；检测机构对结果负责。</div>
+<h3>施工单位（20~38条，19条最多）</h3>
+<div class="blk"><b>20条</b>四条件（注册资本/专业技术人员/技术装备/安全生产条件）+资质范围承揽。<b>21条</b><span class="hl">主要负责人全面负责</span>；项目负责人须<span class="hl">执业资格</span>。<b>22条</b>安全费三用途（防护用具设施采购更新/措施落实/条件改善）不得挪用。<b>23条</b>设机构配专职安全员：现场监督检查+隐患报项目负责人和安管机构+<span class="hl">违章立即制止</span>。<b>24条</b><span class="hl">总包负总责+自行完成主体结构</span>+分包合同明确权责+<span class="hl">连带责任</span>+分包服从管理、不服从致事故分包主责。<b>25条</b>特种作业人员持<span class="hl">特种作业操作资格证书</span>。<b>26条</b>施组编安全技术措施+临时用电方案；<span class="hl">危大七类编专项方案附安全验算结果，经施工单位技术负责人+总监理工程师双签字实施，专职安全员现场监督</span>；深基坑/地下暗挖/高大模板加<span class="hl">专家论证</span>。<b>27条</b>施工前<span class="hl">负责项目管理的技术人员</span>向班组作业人员交底+双方签字。<b>28条</b>警示标志符合国标，部位清单（入口/通道口/楼梯口/电梯井口/孔洞口/桥梁口/隧道口/基坑边沿/爆破物有害气体存放处/起重机械/临电/脚手架）+季节气候防护+停工防护费用责任方。<b>29条</b><span class="hl">办公生活区与作业区分开+安全距离</span>；膳食饮水休息卫生达标；<span class="hl">不得在未竣工建筑物内设集体宿舍</span>；装配式活动房有合格证。<b>30条</b>毗邻专项防护+环保+<span class="hl">市区封闭围挡</span>。<b>31条</b>消防责任制+责任人+制度规程+通道水源器材+入口标志。<b>32条</b>书面告知危险岗位+防护用品+<span class="hl">三权（批评检举控告/拒绝违章指挥强令冒险/紧急停止作业或采取应急措施后撤离）</span>。<b>34条</b>两证+<span class="hl">进场前查验</span>+专人管理定期检修保养+档案+及时报废。<b>35条</b>自升式架设设施使用前组织验收；<span class="hl">承租设备由总包+分包+出租+安装四方共同验收</span>；特种设备验收前监督检验；<span class="n">30日内</span>登记+标志置显著位置。<b>36条</b>三类人考核合格任职；<span class="hl">每年至少一次教育培训</span>不合格不上岗。<b>37条</b>新岗位新现场前培训；<span class="hl">四新</span>时培训。<b>38条</b>意外伤害保险：施工单位付（总包时总包付），期限<span class="hl">开工之日起至竣工验收合格止</span>。</div>
+<h3>监督管理+应急（39~51条）</h3>
+<div class="blk"><b>39/40条</b>应急部门综合监管+建设部门行业监管（铁路交通水利归口）。<b>42条</b>发施工许可审查安全措施，<span class="hl">没有不发</span>+<span class="hl">不得收费</span>。<b>43条</b>四权：调资料/进现场/纠正违章/责令排除隐患；重大隐患无法保证安全→<span class="hl">撤出作业人员或暂时停止施工</span>。<b>45条</b>工艺设备材料淘汰制度。<b>47~49条</b>建设部门特大预案；单位预案+演练；<span class="hl">现场预案由总承包单位统一组织编制</span>，总分包各自建组织配器材定期演练。<b>50条</b>及时如实报告；<span class="hl">总承包负责上报</span>。<b>51条</b>防止扩大保护现场；移动物品<span class="hl">做标记+书面记录</span>。</div>
+<h3>法律责任罚款表（53~67条）</h3>
+<div class="blk">政府工作人员违规发证不查处→<span class="n">降级撤职</span>；建设单位未提供费用→停工；建设单位三情形（违标要求/压缩工期/拆除发包无资质）→<span class="n">20万~50万</span>；勘察设计→<span class="n">10万~30万</span>+降资质吊销；监理四情形→<span class="n">10万~30万</span>；注册执业未执行强标→停止执业<span class="n">3个月~1年</span>/吊销<span class="hl">5年不予注册</span>/重大事故<span class="hl">终身不予注册</span>；设备提供→<span class="hl">合同价款1~3倍</span>；出租未检测→<span class="n">5万~10万</span>；安拆四情形→<span class="n">5万~10万</span>；施工单位未交底/未围挡/宿舍/临建/无专项防护→<span class="n">5万~10万</span>；未查验/委托无资质/未编方案→<span class="n">10万~30万</span>；<span class="hl">挪用安全费→挪用额20%~50%</span>；负责人未履职→<span class="n">2万~20万</span>+<span class="hl">5年内禁任</span>；降低安全条件→停业整顿降资质直至吊销。罚款口诀：「建设50设计监30，出租拆装5-10，设备1-3倍，挪用两到五成」。</div>
+` },
+
+{ id:'f8', tab:'708号应急条例', grp:'📖 法规篇 · 法规', day:'9/7 下午', title:'《生产安全事故应急条例》（708号）',
+  law:'2019-04-01施行 · 应急准备+应急救援两篇', quiz:'08第八章.html', html: `
+<div class="blk"><b>第3~4条</b>政府统一领导（跨区域由共同上一级负责）；<span class="hl">生产经营单位主要负责人对本单位应急工作全面负责</span>。<b>第5条</b>都从<span class="hl">风险辨识和评估</span>做起；政府预案<span class="hl">向社会公布</span>、单位预案<span class="hl">向从业人员公布</span>。<b>第6条</b>预案要<span class="hl">科学性、针对性、可操作性</span>；<span class="hl">修订五情形</span>：法规标准重大变化/指挥机构及职责调整/风险重大变化/重要应急资源重大变化/演练或救援中发现重大问题。<b>第7条</b>高危单位预案报县级以上安监部门<span class="hl">备案</span>。<b>第8条演练频次</b>：政府及部门+乡镇街道<span class="hl">至少每2年1次</span>；<span class="hl">高危单位（含建筑施工）至少每半年1次</span>+<span class="hl">报送</span>县级以上安监部门，部门<span class="hl">抽查</span>不合格责令限期改正。<b>第10~11条</b>高危建救援队伍；小微企业可不建但<span class="hl">指定兼职应急救援人员</span>+可签救援协议；园区可联合建；救援人员<span class="hl">培训合格</span>方可参加救援。<b>第13条</b>配灭火/排水/通风/稀释掩埋收集等器材+<span class="hl">经常性维护保养</span>。<b>第14条</b>应急值班制度三类单位（政府及部门/危险物品矿山冶炼城轨建筑施工单位/救援队伍）；<span class="hl">规模较大危险性较高的危险物品单位成立应急处置技术组、24小时应急值班</span>。<b>第15条</b>从业人员应急教育培训。<b>第17条</b>事故后<span class="hl">立即启动预案</span>并报告+七措施：控源救人/组织撤离/<span class="hl">通知可能受影响单位和人员</span>/防次生衍生/请求邻近队伍支援+提供技术资料/维护秩序保护现场证据/其他。<b>第19条</b>救援费用由<span class="hl">事故责任单位承担</span>，无力承担政府协调。<b>第20~21条</b>政府可设现场指挥部+<span class="hl">总指挥负责制</span>+参加救援一律服从统一指挥。<b>罚则</b>：没预案没演练没培训→按<span class="hl">安法</span>追究；器材没维护致严重后果→按<span class="hl">突发事件应对法</span>；<span class="hl">未备案、未建值班制度→限期改，逾期单位3万~5万、责任人1万~2万</span>。</div>
+` },
+
+{ id:'f9', tab:'493号报告条例', grp:'📖 法规篇 · 法规', day:'9/7 下午', title:'《生产安全事故报告和调查处理条例》（493号）',
+  law:'2007-06-01施行 · 数字最密集', quiz:'03第三章.html', html: `
+<div class="blk"><b>第3条分级（必考）</b>：一般＜3死/＜10重伤/＜1000万；较大3~10死/10~50重伤/1000万~5000万；重大10~30死/50~100重伤/5000万~1亿；特大≥30死/≥100重伤/≥1亿。<span class="hl">「以上」含本数、「以下」不含本数</span>；急性工业中毒算重伤；三线取最重。老师记法「313、151、151」三行往右翻倍涨。<b>第4条</b>报告<span class="hl">及时准确完整</span>，不得<span class="hl">迟报漏报谎报瞒报</span>；调查<span class="hl">实事求是、尊重科学</span>。<b>第9~11条报告链</b>：现场人员<span class="hl">立即</span>→负责人<span class="n">1小时内</span>报县级以上安监+有关部门；<span class="hl">情况紧急可越级直报</span>；逐级上报<span class="hl">每级≤2小时</span>。<b>第12条报告六内容</b>：单位概况/时间地点现场/简要经过/伤亡人数（含下落不明）+初步估计直接经济损失/已采取措施/其他。<b>第13条</b>伤亡变化<span class="n">30日内</span>补报（道路交通火灾<span class="n">7日</span>）。<b>第14条</b>负责人接报<span class="hl">立即启动预案</span>组织抢救。<b>第16条</b>保护现场；移动物件<span class="hl">做标志+绘现场简图+书面记录</span>+保存痕迹物证。<b>第19条调查分工</b>：特国→国务院或授权；重大→<span class="hl">省级</span>；较大→<span class="hl">设区的市级</span>；一般→<span class="hl">县级</span>；<span class="hl">无伤亡一般事故县级可委托事故单位自查</span>。<b>第20条</b>上级可调查下级的事故；等级变化上级另行组织调查组。<b>第21条</b>跨区域：<span class="hl">事故发生地负责调查、单位所在地派人参加</span>。<b>第26条</b>调查期间负责人和有关人员<span class="hl">不得擅离职守</span>；涉嫌犯罪移交司法机关。<b>第29条</b>调查报告<span class="n">60日内</span>提交，延长最长60日，技术鉴定不计入。<b>第32条批复</b>：重大较大一般<span class="n">15日内</span>；特大<span class="n">30日内</span>可延30日。<b>第35条</b>主要负责人不抢救/迟报漏报/擅离职守→上年收入<span class="n">40%~80%</span>。<b>第36条</b>谎报瞒报/破坏现场/转移资金销毁证据/拒查/伪证/逃匿→单位<span class="n">100万~500万</span>+个人<span class="n">60%~100%</span>。<b>第37条单位罚款</b>：一般<span class="n">10万~20万</span>/较大<span class="n">20万~50万</span>/重大<span class="n">50万~200万</span>/特大<span class="n">200万~500万</span>。<b>第38条</b>主要负责人未履职致事故：一般<span class="n">30%</span>、较大<span class="n">40%</span>、重大<span class="n">60%</span>、特大<span class="n">80%</span>。<b>第40条</b>刑责或撤职→<span class="hl">5年内禁任任何生产经营单位主要负责人</span>。</div>
+` },
+
+{ id:'f10', tab:'处罚+罚款规定', grp:'📖 法规篇 · 规章', day:'9/8 上午', title:'《行政处罚办法》+《事故罚款处罚规定》（新教材最新版）',
+  law:'处罚办法2026-02-01施行 · 罚款规定2024-03-01施行', quiz:'03第三章.html', html: `
+<h3>行政处罚办法（程序法）</h3>
+<div class="blk">处罚主体=<span class="hl">县级以上应急管理部门</span>。当事人三权=陈述/申辩/<span class="hl">听证</span>+复议诉讼+国家赔偿；<span class="hl">不得因申辩加重处罚</span>。种类：警告通报批评/罚款/没收违法所得/暂扣吊销证照撤销资格/责令停产停业/行政拘留。执法须<span class="hl">两名以上</span>有资格人员+<span class="hl">回避</span>（决定前不停止调查）。<span class="hl">收到处罚告知书5日内</span>陈述申辩或要求听证。证据八类：书证/物证/视听资料/电子数据/证人证言/当事人陈述/鉴定意见/勘验笔录。重大隐患排除后须<span class="hl">审查同意</span>才复产；责令停产停业一般<span class="n">≤6个月</span>。<span class="hl">查封扣押≤30日</span>，经批准延长30日（<span class="hl">最长60日</span>），延长书面告知。停电停水等强制：本部门<span class="hl">主要负责人批准</span>+<span class="hl">提前24小时</span>书面通知（紧急除外）+及时解除。限期整改：边整改边申请，<span class="hl">期限届满前10日内</span>申请延期，部门<span class="n">5日内</span>书面答复；届满或收到申请<span class="n">10日内</span>复查，复查意见书双方签名归档。保密：国家秘密/商业秘密/个人隐私。<span class="hl">简易程序：个人200元以下、单位3000元以下</span>罚款或警告可当场处罚——出示证件+预定格式编号决定书+签名盖章+<span class="n">5日内</span>报备。<span class="hl">立案5日内</span>决定，复杂延≤5日；事故类行政处罚收到批复<span class="n">5日内</span>立案。不出示执法证件当事人<span class="hl">有权拒绝</span>。笔录双方签名，拒签注明。听证：告知后<span class="n">5日内</span>提出→<span class="n">15日内</span>举行→举行<span class="n">7日前</span>通知；<span class="hl">只能延期一次</span>；缺席视为放弃；公开举行。<span class="hl">送达回证签收日期=送达日期</span>；确认书可传真电子邮件（到达特定系统日期为准）；当场交付、不在场<span class="n">7日内</span>送达；公民不在可交同住成年家属；拒收→见证人+留置+拍照录像；下落不明公告送达<span class="n">满30日</span>视为送达。适用<span class="hl">违法行为发生时</span>的法规，新规处罚较轻适用新规（从旧兼从轻）；<span class="hl">同一违法行为不得两次以上罚款</span>，违反多部法规按数额高的罚。逾期不缴罚款<span class="hl">每日3%加处、不超本金</span>；复议诉讼期间不停止执行但加罚不计；当场收缴<span class="n">2日内</span>交部门、部门<span class="n">2日内</span>缴银行。</div>
+<h3>罚款处罚规定（2024新线！）</h3>
+<div class="blk"><b>第5条四报定义</b>：迟报=超时限；<span class="hl">漏报=过失遗漏内容</span>；<span class="hl">谎报=故意不如实</span>；瞒报=已发生超时限未报查证属实。跨区域由<span class="hl">事故发生地</span>部门处罚。<b>主要负责人罚款（新线）</b>：不立即组织抢救/擅离职守/瞒报谎报迟报/逃匿→<span class="n">60%~80%</span>；<span class="hl">贻误抢救或扩大→80%~100%</span>；<span class="hl">漏报→40%~60%</span>（贻误→60%~80%）；伪造破坏现场转移资金伪证→60%~80%（严重80%~100%）。<b>直接责任人员</b>→60%~80%（严重80%~100%）。<span class="tip">⚠ 双口径：第三章题库87题答80%~100%是旧规定；考试以2024新线60%~80%为准。</span><b>单位罚款四档再分三小档（按死亡/重伤/损失细分）</b>：一般<span class="n">30~50/50~70/70~100万</span>；较大<span class="n">100~120/120~150/150~200万</span>；重大<span class="n">200~400/400~600/600~1000万</span>；特大<span class="n">1000~1200/1200~1500/1500~2000万</span>。<b>情节特别恶劣</b>（关闭破坏安全设施/拒不执行停产停业/擅自高危作业/拒绝阻碍执法/明知重大隐患仍冒险组织作业）→单位罚款<span class="hl">2倍以上5倍以下</span>。<b>个人三张线</b>：主要负责人未履职=<span class="hl">四六八一百</span>；其他负责人和安管=<span class="n">20%~30%/30%~40%/40%~50%/最高50%</span>；个人经营投资人=<span class="n">2~5/5~10/10~15/15~20万</span>（五万一个台阶）。` },
+
+{ id:'f11', tab:'51号通信新规', grp:'📖 法规篇 · 规章', day:'9/7 下午', title:'《通信建设工程安全生产管理规定》（2025年51号）',
+  law:'2025-05-01施行 · 教材全文引用 · 新教材核心', quiz:'03第三章.html', html: `
+<div class="blk"><b>总纲</b>：人民至上、生命至上+12字方针+<span class="hl">三必须</span>+从源头防范。适用：境内<span class="hl">公用电信网</span>新建扩建改建及配套设施+机房钢塔桅专业建设和拆除。责任制三要素。建设单位：制度+预案定期演练+<span class="hl">安全费不得打折、单独计列</span>+合同明确支付方式数额时限+特殊要求增加要单列+<span class="hl">开工前明确各方责任</span>+不压工期。勘察设计：真实准确+<span class="hl">设计交底环节详细说明安全风险防范措施</span>+四新两保障+概预算<span class="hl">全额</span>计列。</div>
+<div class="blk"><b>施工单位（🔥新增多）</b>：机构专职+制度规范+<span class="hl">现场处置方案</span>+项目负责人对安全施工负责+<span class="hl">年训+档案（时间内容人员考核）</span>+两新四新+<span class="hl">被派遣劳动者纳入统一管理</span>+三类人通信主管部门考核持证+<span class="hl">特种作业100%持证</span>+🔥<span class="hl">关键岗位人员与约定不一致→建设单位书面同意</span>（关键岗位=项目负责人/技术负责人/质量管理人员/安全管理人员/施工管理负责人/特种作业和危险作业人员）+🔥与分包签<span class="hl">安全生产协议</span>+强标施工+🔥<span class="hl">项目负责人组织安全技术交底</span>（对象全体班组作业人员+重点部位环节技术要求措施+双方签字）+定期专项检查+🔥项目专职安全员<span class="hl">每天</span>现场检查+隐患报告+违章制止+资金费用制度+🔥防护装备<span class="hl">进场前查验</span>+监督佩戴+书面告知+有限空间动火高处带电配<span class="hl">报警仪、消防器材、防护绳、防触电</span>器具+专人管理档案+警示标志+消防责任制+🔥<span class="hl">有限空间：审批、先通风再检测后作业、防中毒窒息装备、监护全程不得离开或进入、严禁盲目施救</span>+🔥动火审批+消防器材+应急措施+危险作业专人现场管理+🔥风险分级管控+隐患排查治理（记录+向从业人员通报；<span class="hl">重大隐患排查治理报工程所在地省通管局和本单位职工大会/职代会</span>）+预案<span class="hl">每半年至少演练一次</span>+🔥未办保险不得从事危险作业+作业人员三权。</div>
+<div class="blk"><b>总分包与监理</b>：总包负总责+🔥<span class="hl">总包项目负责人定期考核分包安全管理</span>+分包服从+协作机制+分包主要责任（总包连带）；监理：培训制度（负责人/总监/专业监理/监理员/安全监理人员考试合格）+含安全内容的<span class="hl">监理规划和实施细则</span>+配安全监理人员+审查措施方案+<span class="hl">核验作业人员上岗资格（人证匹配）</span>+巡视+隐患立即整改+严重暂停施工+<span class="hl">信息化或书面报建设单位</span>+拒不整改<span class="hl">书面报通管局</span>。</div>
+<div class="blk"><b>通信事故报告链（必背）</b>：现场立即→负责人<span class="n">1小时内</span>报县级以上安监部门+<span class="hl">省通管局</span>；特殊情况越级；🔥现场<span class="hl">无建设单位人员</span>→施工单位立刻告知建设单位→<span class="hl">由建设单位报通管局</span>；接报立即启动预案；较大及以上通管局<span class="n">2小时内</span>报工信部；一般事故按月汇总<span class="hl">每月初5个工作日内</span>书面报；通管局配合抢救参加调查监督落实报工信部；公布举报电话信箱；<span class="hl">涉死亡举报转县级以上政府</span>。<b>通管局检查</b>：安全费足额计列支付提取使用+隐患台账+持证上岗等；职权=调资料/进现场拍照录像/询问/当场纠正/责令排除隐患/重大隐患撤人。</div>
+<div class="blk"><b>安全生产费专题（2022新规）</b>：定义（规定标准提取+成本列支+专门用于改善安全生产条件）；提取标准<span class="n">2%</span>（2012旧版1.5%）；管理原则<span class="hl">筹措有章、支出有据、管理有序、监督有效</span>；专项核算+<span class="hl">年度赤字年末补齐</span>；<span class="hl">招标不得竞争性报价</span>；投标<span class="hl">包含并单列</span>；🔥建设单位<span class="hl">开工日1个月内付≥50%</span>；总包对分包同样<span class="hl">1个月内付≥50%直接支付+监督使用</span>+<span class="hl">分包不重复提取</span>+<span class="hl">结算结余退回建设单位</span>；使用范围2022新增：风险分级管控和隐患排查整改/信息化建设运维网络安全/隐患报告奖励/安责险支出。</div>
+` },
+
+{ id:'f12', tab:'255号安管考核', grp:'📖 法规篇 · 规章', day:'9/7 下午', title:'《安管人员安全生产考核管理规定》（2016年255号）',
+  law:'2016-09-05施行 · 替代2005年398号', quiz:'03第三章.html', html: `
+<div class="blk"><b>三类定义</b>：企业主要负责人（<span class="hl">有决策权的领导人员</span>=法定代表人/总经理/分管安全副总/分管经营副总/技术负责人/安全总监）；项目负责人（<span class="hl">法定代表人授权</span>）；专职安全员（企业安管机构人员+项目专职人员）。<b>考核条件</b>：<span class="hl">60岁以内（企业主要负责人除外不限龄）</span>+正式劳动关系+<span class="hl">A/B证大专或中级职称+3年</span>、<span class="hl">C证中专或初级+2年</span>+年度培训合格+<span class="hl">申请前1年内无一般及以上事故责任记录</span>。考核不收费；<span class="n">20个工作日</span>发证；证书<span class="hl">3年有效、全国有效</span>、统一编号。<b>延续</b>：届满<span class="hl">前3个月内</span>申请→20个工作日内办结再延3年；三条件=无行政处罚+信用档案无不良记录+继续教育质量测试合格（结果1年有效）；不办延续自动失效。<b>变更</b>：换企业先解约；跨省向变更后所在地申请+原所在地同意+变更后办理；<span class="hl">换类别重新考核、原证注销、一人一类</span>；遗失声明作废补办；不得涂改倒卖出租出借转让。<b>安全责任</b>：企业年训建档；重点部位关键环节专职安全员现场监督；主要负责人全面负责+<span class="hl">安全生产责任书（考核目标+奖惩措施+企业保障措施）</span>+总包与分包签<span class="hl">安全生产协议</span>+检查项目考核项目负责人（不胜任就调整）；项目负责人对项目全面负责+<span class="hl">确保安全费有效使用</span>+监控危大工程+隐患记项目档案+事故报告救援+<span class="hl">总包项目负责人定期考核分包</span>；企业机构专职安全员<span class="hl">查项目负责人和项目专职安全员履职→记企业档案</span>；项目专职安全员<span class="hl">每天现场检查+监督危大方案实施→记项目档案</span>。<b>监督与罚</b>：检查<span class="hl">至少两名</span>人员；信用档案不良行为<span class="hl">向社会公开</span>；未履职致事故按安法93条<span class="hl">暂扣或撤销</span>证书；<span class="hl">隐瞒虚假材料→1年内不得再申请</span>；涂改倒卖出租出借→限期改，逾期<span class="hl">收回证书+行业通报</span>；企业五情形（未培训未记录/未设机构/未配员/危大现场无监督/未考核上岗未办变更）→限期改正逾期通报。</div>
+` },
+
+{ id:'f13', tab:'128号许可证', grp:'📖 法规篇 · 规章', day:'9/7 下午', title:'《建筑施工企业安全生产许可证管理规定》（128号）',
+  law:'2004-07-05发布 · 2015-01-22住建部令23号修正', quiz:'03第三章.html', html: `
+<div class="blk"><span class="hl">安全生产许可制度：未取得安全生产许可证不得从事建筑施工活动</span>；建筑施工企业<span class="hl">含线路管道设备安装（通信施工企业在内，必须取证）</span>。<b>取证12条件</b>：责任制+规章制度规程/资金投入/机构+专职安全员/<span class="hl">三类人考核合格</span>/特种持证/<span class="hl">每年至少一次培训考核合格</span>/工伤+意外伤害保险（费用企业出）/临设符合要求/防护用品国标行标/危大预防监控措施和应急预案/<span class="hl">救援预案+组织或人员+器材（总包分包分别配）</span>/其他。<b>申请与发证</b>：向住房城乡建设主管部门申请（申请表+营业执照+相关文件）；受理起<span class="n">45日内</span>审查完毕；不颁发书面通知说明理由；整改后可再申请。<b>有效期</b><span class="n">3年</span>；期满<span class="hl">前3个月</span>申请延续；<span class="hl">有效期内无死亡事故</span>且原机关同意→<span class="hl">直接延期不再审查</span>；变更名称地址法定代表人→<span class="n">10日内</span>办手续；破产倒闭交回注销；遗失补办。<b>撤销暂扣吊销对比（必考）</b>：<span class="hl">撤销（发证环节违法4种）</span>=工作人员滥用职权玩忽职守颁发/超越法定职权/违反法定程序/对不具备条件的企业颁发→撤销+企业受损依法<span class="hl">赔偿</span>；<span class="hl">取证后发生重大安全事故→暂扣</span>+限期整改；不再具备安全生产条件→暂扣，<span class="hl">情节严重→吊销</span>；<span class="hl">隐瞒虚假材料申请→1年内不得再申请</span>；<span class="hl">欺骗贿赂取得→撤销+3年内不得再申请</span>。老师理解：撤销=出生错误（发证机关的错所以赔偿）；暂扣=临时犯错；吊销=不可饶恕。</div>
+` },
+
+{ id:'f14', tab:'预案办法', grp:'📖 法规篇 · 规章', day:'9/7 尾 + 9/8', title:'《生产安全事故应急预案管理办法》（88号令，2019年2号令修正）',
+  law:'修正版2019-09-01施行 · 原则：属地为主分级负责分类指导综合协调动态管理', quiz:'03第三章.html', html: `
+<div class="blk"><b>第5条</b><span class="hl">主要负责人组织编制和实施+对真实性和实用性负责</span>；各分管负责人按分工落实；签发也是主要负责人（题干写「技术负责人负责编制」必错）。<b>第6条三类</b>：综合（应对各种事故+总体程序措施体系总纲）/专项（某一种或多种类型+重要设施重大危险源重大活动）/现场处置方案（具体场所装置设施）。<b>第10条</b>编制前<span class="hl">事故风险辨识评估+应急资源调查</span>（资源=本单位第一时间可调用+合作区域可请求援助）——评审演练是编完之后的事，<span class="hl">顺序颠倒就是坑</span>。<b>第13~15条选择</b>：风险种类多→综合；某一类风险→专项（可并入综合）；危大场所装置设施→现场处置方案；<span class="hl">风险单一危险性小→可只编现场处置方案</span>。<b>第16~19条</b>附件（向上级报告内容+组织机构人员联系方式+应急物资储备清单）变化及时更新；征求救援队伍公民法人意见；各类预案相互衔接（含政府部门救援队伍）；<span class="hl">应急处置卡=针对工作场所岗位特点、简明实用有效、重点岗位处置程序措施+联络方式、便于携带</span>。<b>第21~24条</b>必须评审+书面纪要的单位=矿山/金属冶炼/危化品生产经营储存运输/达量化工/烟花爆竹/<span class="hl">中型规模以上的其他单位</span>；其他可论证；评审五性=<span class="hl">完整性/合理性/针对性/可行性/衔接性</span>（多选全选）；<span class="hl">主要负责人签署</span>→向从业人员公布→发放部门岗位救援队伍；可能影响周边→<span class="hl">告知周边单位人员</span>。<b>第26~28条备案</b>：高危单位（含建筑施工）公布之日起<span class="hl">20个工作日内</span>（老师口播20日，原文20个工作日）按分级属地备案+向社会公布；材料四样=申报表/评审意见/电子文档/<span class="hl">风险评估结果和应急资源调查清单</span>；受理<span class="n">5个工作日</span>核对，齐全备案发登记表，不齐一次性告知，<span class="hl">逾期不回复视为已备案</span>；已备案的申请安全生产许可证<span class="hl">只交备案登记表</span>；央企总部报国务院主管部门+抄送应急管理部，所属单位报省市。<b>第32~33条演练</b>：政府应急管理部门<span class="hl">每2年至少1次</span>；单位综合或专项<span class="hl">每年至少1次</span>、现场处置方案<span class="hl">每半年至少1次</span>；高危单位<span class="hl">每半年至少1次</span>+报送+抽查。<b>第34~35条</b>演练评估报告+修订意见；<span class="hl">高危企业每3年至少一次预案评估</span>（可邀专家有经验人员，必要时委托安全生产技术服务机构）。<b>罚则</b>：未编制/未演练→限期改可罚<span class="n">5万以下</span>→逾期停产整顿+<span class="n">5万~10万</span>+责任人1~2万；未调查评估评审告知修订物资→<span class="n">1万~3万</span>；未备案→限期改<span class="n">3万~5万</span>+责任人1~2万。</div>
+` },
+];
+
+const LSKEY = 'yuanwen_v1';
+let st = { read:{}, last:'x0' };
+try { const s = JSON.parse(localStorage.getItem(LSKEY)); if (s && s.read) st = s; } catch(e){}
+function save(){ try { localStorage.setItem(LSKEY, JSON.stringify(st)); } catch(e){} }
+
+function renderNav(){
+  const nav = document.getElementById('nav');
+  let h = ''; let lastGrp = '';
+  SECTIONS.forEach(s => {
+    if(s.grp !== lastGrp){ h += '<span class="grp">' + s.grp + '</span>'; lastGrp = s.grp; }
+    const d = st.read[s.id] ? '<span style="color:#b8f0cd;font-weight:800">✓</span>' : '';
+    h += '<button data-s="' + s.id + '" class="' + (s.id === st.last ? 'on' : '') + '">' + d + s.tab + '</button>';
+  });
+  nav.innerHTML = h;
+  nav.querySelectorAll('button').forEach(b => b.addEventListener('click', () => go(b.dataset.s)));
+}
+function go(id){ stopSpeak(); st.last = id; save(); renderNav(); renderSec(); window.scrollTo({ top: 0 }); }
+function renderSec(){
+  const s = SECTIONS.find(x => x.id === st.last) || SECTIONS[0];
+  const idx = SECTIONS.indexOf(s);
+  const r = !!st.read[s.id];
+  let links = s.quiz ? '<div class="golinks"><a href="刷题/精讲-' + s.quiz + '">✍️ 去刷对应章节题</a></div>' : '';
+  let h = '<div class="card"><h2>' + s.title + '<span class="day">' + s.day + '</span></h2><div class="idline">' + s.law + '</div>' + links + s.html;
+  h += '<div class="navrow"><button ' + (idx <= 0 ? 'disabled' : '') + ' onclick="go(SECTIONS[' + (idx-1) + '].id)">← 上一节</button><button ' + (idx >= SECTIONS.length-1 ? 'disabled' : '') + ' onclick="go(SECTIONS[' + (idx+1) + '].id)">下一节 →</button></div>';
+  h += '<div class="donebar"><button class="' + (r ? 'off' : '') + '" onclick="toggleRead(\'' + s.id + '\')">' + (r ? '↩ 取消已读' : '✅ 回顾完成，标记已读') + '</button></div></div>';
+  document.getElementById('app').innerHTML = h;
+}
+function toggleRead(id){ st.read[id] = !st.read[id]; save(); renderNav(); renderSec(); }
+function renderProg(){
+  const n = SECTIONS.filter(s => st.read[s.id]).length;
+  document.getElementById('prog').innerHTML = '已读 <b>' + n + '</b> / ' + SECTIONS.length + ' 节';
+}
+let speaking = false;
+function stopSpeak(){ speaking = false; try { speechSynthesis.cancel(); } catch(e){} const b = document.getElementById('ttsBtn'); if (b) b.textContent = '🔊 朗读本节'; }
+function speakSection(){
+  const app = document.getElementById('app');
+  const text = app.innerText;
+  const parts = text.split(/(?<=[。；！？])/);
+  const chunks = [];
+  let cur = '';
+  parts.forEach(p => { p = p.trim(); if (!p) return; if ((cur + p).length > 180) { if (cur) chunks.push(cur); cur = p; } else { cur += p; } });
+  if (cur) chunks.push(cur);
+  if (!chunks.length) return;
+  speaking = true;
+  const b = document.getElementById('ttsBtn'); if (b) b.textContent = '⏹ 停止朗读';
+  const u = new SpeechSynthesisUtterance();
+  u.lang = 'zh-CN'; u.rate = 1.05;
+  let i = 0;
+  u.onend = function(){ if (speaking && i < chunks.length) { u.text = chunks[i++]; speechSynthesis.speak(u); } else { stopSpeak(); } };
+  u.onerror = function(){ stopSpeak(); };
+  u.text = chunks[i++];
+  speechSynthesis.speak(u);
+}
+renderNav(); renderSec(); renderProg();
+</script>
+</body>
+</html>
